@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="google-site-verification" content="-NSLjRHN4aR0Ftyo2GD9ioKwK6gMGT8hYYdWE9Brpno">
+  <meta name="google-site-verification" content="Qi2RjUTDmxSGwjfoJp7XfErj_QocebCdEqvBuN7N2i4">
+  <meta name="description" content="Amit Gaur — Software Engineer, Cloud Architect, Madrid.">
+  <title>Amit Gaur — Software Engineer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { navy: '#0f2744' },
+          gridTemplateColumns: { sidebar: '1fr 280px' }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-slate-50 text-slate-800 text-[15px] leading-relaxed">
+
+<!-- ── Header ── -->
+<header class="bg-navy text-white text-center px-4 py-10">
+  <h1 class="text-3xl sm:text-4xl font-bold tracking-tight mb-1">Amit Gaur</h1>
+  <p class="text-slate-400 text-sm sm:text-base mt-1">
+    Software Engineer &middot; .NET Core &middot; AWS &middot; Cloud-Native &middot;
+    <span id="exp-years"></span>+ yrs
+  </p>
+  <p class="text-slate-500 text-xs sm:text-sm mt-1 mb-5">Madrid, Spain</p>
+  <div class="flex flex-wrap justify-center gap-2 print:hidden">
+    <a href="https://www.linkedin.com/in/amit2210/" target="_blank" rel="noopener"
+       class="text-slate-300 border border-slate-600 rounded-full px-4 py-1.5 text-sm hover:bg-slate-700 transition no-underline">LinkedIn</a>
+    <a href="https://github.com/agaur2210" target="_blank" rel="noopener"
+       class="text-slate-300 border border-slate-600 rounded-full px-4 py-1.5 text-sm hover:bg-slate-700 transition no-underline">GitHub</a>
+    <a href="mailto:gamit@outlook.com"
+       class="text-slate-300 border border-slate-600 rounded-full px-4 py-1.5 text-sm hover:bg-slate-700 transition no-underline">Email</a>
+  </div>
+</header>
+
+<!-- ── Fixed top-right utilities ── -->
+<div class="fixed top-3 right-3 z-30 flex items-center gap-2 print:hidden">
+  <button onclick="window.print()" data-i18n="download_pdf"
+          class="bg-white/90 backdrop-blur-sm text-slate-600 border border-slate-200 rounded-full px-3 py-1.5 text-xs font-medium shadow-sm hover:bg-white hover:shadow transition cursor-pointer">↓ Download PDF</button>
+  <div class="relative" id="lang-switcher">
+    <button onclick="document.getElementById('lang-menu').classList.toggle('hidden')"
+            class="flex items-center gap-1.5 bg-white/90 backdrop-blur-sm text-slate-600 border border-slate-200 rounded-full px-3 py-1.5 text-xs font-medium shadow-sm hover:bg-white hover:shadow transition">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+      </svg>
+      <span id="lang-label">EN</span>
+    </button>
+    <div id="lang-menu" class="hidden absolute right-0 mt-1 bg-white rounded-lg shadow-lg border border-slate-200 overflow-hidden z-40 min-w-max">
+      <button onclick="setLang('en')" class="flex items-center gap-2 w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-50">🇬🇧 English</button>
+      <button onclick="setLang('es')" class="flex items-center gap-2 w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-50">🇪🇸 Español</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Main grid ── -->
+<div class="max-w-5xl mx-auto px-4 py-6 grid grid-cols-1 lg:grid-cols-sidebar gap-5 lg:items-stretch">
+
+  <!-- Left column -->
+  <div class="flex flex-col gap-4">
+
+    <!-- About -->
+    <div class="bg-white border border-slate-200 rounded-xl p-5">
+      <h2 class="text-[0.65rem] font-bold uppercase tracking-widest text-blue-700 border-b border-slate-100 pb-2 mb-3" data-i18n="about_title">About</h2>
+      <p class="text-slate-600 text-sm leading-relaxed" data-i18n-html="about_text">
+        Software Engineer with over <span class="exp-years-inline"></span>+ years of experience designing scalable cloud-native applications using .NET Core and AWS. Proven expertise leading cross-functional teams, architecting microservices, optimizing performance, and driving CI/CD pipelines. Deep experience in design patterns, agile delivery, and enterprise Salesforce integration.
+      </p>
+    </div>
+
+    <!-- Experience -->
+    <div class="bg-white border border-slate-200 rounded-xl p-5 flex-1">
+      <h2 class="text-[0.65rem] font-bold uppercase tracking-widest text-blue-700 border-b border-slate-100 pb-2 mb-3" data-i18n="exp_title">Experience</h2>
+
+      <!-- Staff SE -->
+      <div class="py-3 border-b border-slate-100">
+        <p class="text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">Wizeline</p>
+        <div class="pl-3 border-l-2 border-blue-200">
+          <div class="flex flex-wrap justify-between items-baseline gap-1">
+            <h3 class="font-semibold text-slate-900 text-sm" data-i18n="job_staff_se">Staff Software Engineer</h3>
+            <span class="text-xs text-slate-400">Nov 2025 &ndash; Present</span>
+          </div>
+          <p class="text-xs text-blue-600 font-medium mt-0.5 mb-2" data-i18n="loc_madrid">Madrid, Spain</p>
+          <ul class="list-disc list-inside space-y-1 text-xs text-slate-600" data-i18n-html="wiz_bullets">
+            <li>Designing platform to host multiple microservices for SaaS.</li>
+            <li>Optimizing SQL and application performance across large-scale datasets.</li>
+            <li>Designing microservice architecture template used across multiple services.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Principal SE — Cornerstone (split by location) -->
+      <div class="py-3 border-b border-slate-100">
+        <!-- Company header -->
+        <p class="text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">Cornerstone OnDemand</p>
+
+        <!-- Madrid -->
+        <div class="pl-3 border-l-2 border-blue-200 mb-3">
+          <div class="flex flex-wrap justify-between items-baseline gap-1">
+            <h3 class="font-semibold text-slate-900 text-sm" data-i18n="job_sr_principal_se">Senior Principal Software Engineer</h3>
+            <span class="text-xs text-slate-400">Mar 2024 &ndash; Nov 2025</span>
+          </div>
+          <p class="text-xs text-blue-600 font-medium mt-0.5 mb-2" data-i18n="loc_madrid">Madrid, Spain</p>
+          <ul class="list-disc list-inside space-y-1 text-xs text-slate-600" data-i18n-html="cs_sp_bullets">
+            <li>Led team of 8: requirements, JIRA sprints, design docs, code reviews &amp; CI/CD.</li>
+            <li>Optimized multi-stage CI/CD pipelines; reduced deployment time and cadence.</li>
+            <li>Architected zero-downtime scaling strategy for multi-tenant SaaS platform.</li>
+            <li>Decomposed monolith into microservices for scalability and independent deployability.</li>
+          </ul>
+        </div>
+
+        <!-- Madrid — Principal -->
+        <div class="pl-3 border-l-2 border-blue-200 mb-3">
+          <div class="flex flex-wrap justify-between items-baseline gap-1">
+            <h3 class="font-semibold text-slate-900 text-sm" data-i18n="job_principal_se">Principal Software Engineer</h3>
+            <span class="text-xs text-slate-400">Oct 2023 &ndash; Mar 2024</span>
+          </div>
+          <p class="text-xs text-blue-600 font-medium mt-0.5 mb-2" data-i18n="loc_madrid">Madrid, Spain</p>
+        </div>
+
+        <!-- Pune -->
+        <div class="pl-3 border-l-2 border-blue-200 mb-2">
+          <div class="flex flex-wrap justify-between items-baseline gap-1">
+            <h3 class="font-semibold text-slate-900 text-sm" data-i18n="job_principal_se">Principal Software Engineer</h3>
+            <span class="text-xs text-slate-400">Feb 2021 &ndash; Oct 2023</span>
+          </div>
+          <p class="text-xs text-blue-600 font-medium mt-0.5 mb-2" data-i18n="loc_pune">Pune, India</p>
+          <ul class="list-disc list-inside space-y-1 text-xs text-slate-600" data-i18n-html="cs_p_bullets">
+            <li>Created integration module with custom CMS, eliminating manual intervention.</li>
+            <li>Developed video encoding framework improving UX across devices and network speeds by 50%.</li>
+            <li>Implemented point-to-point integration increasing workflow efficiency.</li>
+            <li>Optimized stored procedures — 60% faster query execution on large datasets.</li>
+          </ul>
+          <p class="text-xs text-slate-400 italic mt-2" data-i18n-html="cs_p_note">Course creation time ↓50% · Provider onboarding 15d → &lt;5d · Error rate ↓30%</p>
+        </div>
+      </div>
+
+      <!-- ZS Associates -->
+      <div class="py-3 border-b border-slate-100">
+        <p class="text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">ZS Associates &middot; Pune, India</p>
+
+        <div class="pl-3 border-l-2 border-blue-200 mb-3">
+          <div class="flex flex-wrap justify-between items-baseline gap-1">
+            <h3 class="font-semibold text-slate-900 text-sm" data-i18n="job_assoc_arch">Associate Architect</h3>
+            <span class="text-xs text-slate-400">Jul 2020 &ndash; Feb 2021</span>
+          </div>
+          <ul class="list-disc list-inside space-y-1 text-xs text-slate-600 mt-1.5" data-i18n-html="zs_aa_bullets">
+            <li>Managed 20+ engineers; guided reusable component design and root cause analysis.</li>
+            <li>Designed data model and framework for data versioning and ingestion (producer/consumer).</li>
+            <li>Salesforce Change Data Capture integration; performance improvements via async execution.</li>
+          </ul>
+          <p class="text-xs text-slate-400 italic mt-2" data-i18n-html="zs_aa_note">ZS workflow library at 50+ customers · ARR grew 25M → 50M+ USD</p>
+        </div>
+
+        <div class="pl-3 border-l-2 border-blue-200 mb-3">
+          <div class="flex flex-wrap justify-between items-baseline gap-1">
+            <h3 class="font-semibold text-slate-900 text-sm" data-i18n="job_se_lead">Software Engineer Lead</h3>
+            <span class="text-xs text-slate-400">Jan 2019 &ndash; Jun 2020</span>
+          </div>
+        </div>
+
+        <div class="pl-3 border-l-2 border-blue-200 mb-3">
+          <div class="flex flex-wrap justify-between items-baseline gap-1">
+            <h3 class="font-semibold text-slate-900 text-sm" data-i18n="job_sr_se">Senior Software Engineer</h3>
+            <span class="text-xs text-slate-400">Jan 2017 &ndash; Dec 2018</span>
+          </div>
+        </div>
+
+        <div class="pl-3 border-l-2 border-blue-200">
+          <div class="flex flex-wrap justify-between items-baseline gap-1">
+            <h3 class="font-semibold text-slate-900 text-sm" data-i18n="job_se">Software Engineer</h3>
+            <span class="text-xs text-slate-400">Jul 2015 &ndash; Dec 2016</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cybage -->
+      <div class="py-3">
+        <p class="text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">Cybage Software</p>
+        <div class="pl-3 border-l-2 border-blue-200">
+          <div class="flex flex-wrap justify-between items-baseline gap-1">
+            <h3 class="font-semibold text-slate-900 text-sm" data-i18n="job_se">Software Engineer</h3>
+            <span class="text-xs text-slate-400">Mar 2013 &ndash; Jul 2015</span>
+          </div>
+          <p class="text-xs text-blue-600 font-medium mt-0.5 mb-2" data-i18n="loc_pune">Pune, India</p>
+          <ul class="list-disc list-inside space-y-1 text-xs text-slate-600" data-i18n-html="cyb_bullets">
+            <li>Backend APIs for HP Ecommerce, KIA Ecommerce, and social networking platforms.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Right column (sidebar) -->
+  <div class="flex flex-col gap-4">
+
+    <!-- Skills -->
+    <div class="bg-white border border-slate-200 rounded-xl p-5 flex-1">
+      <h2 class="text-[0.65rem] font-bold uppercase tracking-widest text-blue-700 border-b border-slate-100 pb-2 mb-4" data-i18n="skills_title">Skills</h2>
+      <div class="space-y-3.5">
+
+        <div>
+          <p class="text-[0.6rem] font-bold uppercase tracking-widest text-slate-400 mb-1.5" data-i18n="skill_languages">Languages</p>
+          <div class="flex flex-wrap gap-1">
+            <span class="bg-slate-100 text-slate-700 border border-slate-200 rounded-md px-2 py-0.5 text-[0.65rem] font-medium">C#</span>
+            <span class="bg-slate-100 text-slate-700 border border-slate-200 rounded-md px-2 py-0.5 text-[0.65rem] font-medium">Java</span>
+            <span class="bg-slate-100 text-slate-700 border border-slate-200 rounded-md px-2 py-0.5 text-[0.65rem] font-medium">Python</span>
+          </div>
+        </div>
+
+        <div>
+          <p class="text-[0.6rem] font-bold uppercase tracking-widest text-slate-400 mb-1.5" data-i18n="skill_cloud">Cloud / AWS</p>
+          <div class="flex flex-wrap gap-1">
+            <span class="bg-slate-100 text-slate-700 border border-slate-200 rounded-md px-2 py-0.5 text-[0.65rem] font-medium">Lambda</span>
+            <span class="bg-slate-100 text-slate-700 border border-slate-200 rounded-md px-2 py-0.5 text-[0.65rem] font-medium">API GW</span>
+            <span class="bg-slate-100 text-slate-700 border border-slate-200 rounded-md px-2 py-0.5 text-[0.65rem] font-medium">SNS</span>
+            <span class="bg-slate-100 text-slate-700 border border-slate-200 rounded-md px-2 py-0.5 text-[0.65rem] font-medium">SQS</span>
+            <span class="bg-slate-100 text-slate-700 border border-slate-200 rounded-md px-2 py-0.5 text-[0.65rem] font-medium">RDS</span>
+            <span class="bg-slate-100 text-slate-700 border border-slate-200 rounded-md px-2 py-0.5 text-[0.65rem] font-medium">EC2</span>
+            <span class="bg-slate-100 text-slate-700 border border-slate-200 rounded-md px-2 py-0.5 text-[0.65rem] font-medium">S3</span>
+            <span class="bg-slate-100 text-slate-700 border border-slate-200 rounded-md px-2 py-0.5 text-[0.65rem] font-medium">ECS</span>
+            <span class="bg-slate-100 text-slate-700 border border-slate-200 rounded-md px-2 py-0.5 text-[0.65rem] font-medium">Step Functions</span>
+            <span class="bg-slate-100 text-slate-700 border border-slate-200 rounded-md px-2 py-0.5 text-[0.65rem] font-medium">CloudFormation</span>
+            <span class="bg-slate-100 text-slate-700 border border-slate-200 rounded-md px-2 py-0.5 text-[0.65rem] font-medium">CodePipeline</span>
+          </div>
+        </div>
+
+        <div>
+          <p class="text-[0.6rem] font-bold uppercase tracking-widest text-slate-400 mb-1.5" data-i18n="skill_databases">Databases</p>
+          <div class="flex flex-wrap gap-1">
+            <span class="bg-slate-100 text-slate-700 border border-slate-200 rounded-md px-2 py-0.5 text-[0.65rem] font-medium">MS-SQL</span>
+            <span class="bg-slate-100 text-slate-700 border border-slate-200 rounded-md px-2 py-0.5 text-[0.65rem] font-medium">PostgreSQL</span>
+            <span class="bg-slate-100 text-slate-700 border border-slate-200 rounded-md px-2 py-0.5 text-[0.65rem] font-medium">DynamoDB</span>
+            <span class="bg-slate-100 text-slate-700 border border-slate-200 rounded-md px-2 py-0.5 text-[0.65rem] font-medium">MongoDB</span>
+            <span class="bg-slate-100 text-slate-700 border border-slate-200 rounded-md px-2 py-0.5 text-[0.65rem] font-medium">DocumentDB</span>
+          </div>
+        </div>
+
+        <div>
+          <p class="text-[0.6rem] font-bold uppercase tracking-widest text-slate-400 mb-1.5" data-i18n="skill_frameworks">Frameworks</p>
+          <div class="flex flex-wrap gap-1">
+            <span class="bg-slate-100 text-slate-700 border border-slate-200 rounded-md px-2 py-0.5 text-[0.65rem] font-medium">.NET Core</span>
+            <span class="bg-slate-100 text-slate-700 border border-slate-200 rounded-md px-2 py-0.5 text-[0.65rem] font-medium">Docker</span>
+            <span class="bg-slate-100 text-slate-700 border border-slate-200 rounded-md px-2 py-0.5 text-[0.65rem] font-medium">REST API</span>
+            <span class="bg-slate-100 text-slate-700 border border-slate-200 rounded-md px-2 py-0.5 text-[0.65rem] font-medium">Angular 8</span>
+            <span class="bg-slate-100 text-slate-700 border border-slate-200 rounded-md px-2 py-0.5 text-[0.65rem] font-medium">LINQ</span>
+            <span class="bg-slate-100 text-slate-700 border border-slate-200 rounded-md px-2 py-0.5 text-[0.65rem] font-medium">MVC</span>
+          </div>
+        </div>
+
+        <div>
+          <p class="text-[0.6rem] font-bold uppercase tracking-widest text-slate-400 mb-1.5" data-i18n="skill_ai">AI / LLM</p>
+          <div class="flex flex-wrap gap-1">
+            <span class="bg-slate-100 text-slate-700 border border-slate-200 rounded-md px-2 py-0.5 text-[0.65rem] font-medium">Prompt Design</span>
+            <span class="bg-slate-100 text-slate-700 border border-slate-200 rounded-md px-2 py-0.5 text-[0.65rem] font-medium">Claude API</span>
+            <span class="bg-slate-100 text-slate-700 border border-slate-200 rounded-md px-2 py-0.5 text-[0.65rem] font-medium">Claude Code</span>
+            <span class="bg-slate-100 text-slate-700 border border-slate-200 rounded-md px-2 py-0.5 text-[0.65rem] font-medium">MCP</span>
+            <span class="bg-slate-100 text-slate-700 border border-slate-200 rounded-md px-2 py-0.5 text-[0.65rem] font-medium">GPT-4</span>
+            <span class="bg-slate-100 text-slate-700 border border-slate-200 rounded-md px-2 py-0.5 text-[0.65rem] font-medium">LLM Integration</span>
+          </div>
+        </div>
+
+        <div>
+          <p class="text-[0.6rem] font-bold uppercase tracking-widest text-slate-400 mb-1.5" data-i18n="skill_arch">Architecture</p>
+          <div class="flex flex-wrap gap-1">
+            <span class="bg-slate-100 text-slate-700 border border-slate-200 rounded-md px-2 py-0.5 text-[0.65rem] font-medium">Microservices</span>
+            <span class="bg-slate-100 text-slate-700 border border-slate-200 rounded-md px-2 py-0.5 text-[0.65rem] font-medium">CQRS</span>
+            <span class="bg-slate-100 text-slate-700 border border-slate-200 rounded-md px-2 py-0.5 text-[0.65rem] font-medium">Pub/Sub</span>
+            <span class="bg-slate-100 text-slate-700 border border-slate-200 rounded-md px-2 py-0.5 text-[0.65rem] font-medium">Factory</span>
+            <span class="bg-slate-100 text-slate-700 border border-slate-200 rounded-md px-2 py-0.5 text-[0.65rem] font-medium">Adapter</span>
+            <span class="bg-slate-100 text-slate-700 border border-slate-200 rounded-md px-2 py-0.5 text-[0.65rem] font-medium">Strategy</span>
+            <span class="bg-slate-100 text-slate-700 border border-slate-200 rounded-md px-2 py-0.5 text-[0.65rem] font-medium">TOGAF</span>
+          </div>
+        </div>
+
+        <div>
+          <p class="text-[0.6rem] font-bold uppercase tracking-widest text-slate-400 mb-1.5" data-i18n="skill_devops">DevOps</p>
+          <div class="flex flex-wrap gap-1">
+            <span class="bg-slate-100 text-slate-700 border border-slate-200 rounded-md px-2 py-0.5 text-[0.65rem] font-medium">GitHub</span>
+            <span class="bg-slate-100 text-slate-700 border border-slate-200 rounded-md px-2 py-0.5 text-[0.65rem] font-medium">Jenkins</span>
+            <span class="bg-slate-100 text-slate-700 border border-slate-200 rounded-md px-2 py-0.5 text-[0.65rem] font-medium">TeamCity</span>
+            <span class="bg-slate-100 text-slate-700 border border-slate-200 rounded-md px-2 py-0.5 text-[0.65rem] font-medium">Jira</span>
+            <span class="bg-slate-100 text-slate-700 border border-slate-200 rounded-md px-2 py-0.5 text-[0.65rem] font-medium">Agile-Scrum</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Apps -->
+    <a href="https://apps.agaur.dev/apps/calendar-sync/" class="block bg-white border border-slate-200 rounded-xl p-5 hover:border-blue-300 hover:shadow-sm transition no-underline">
+      <h2 class="text-[0.65rem] font-bold uppercase tracking-widest text-blue-700 border-b border-slate-100 pb-2 mb-3" data-i18n="apps_title">Apps</h2>
+      <div class="flex gap-3 items-start">
+        <img src="https://apps.agaur.dev/apps/calendar-sync/images/calendar_sync_icon_96x96.png"
+             alt="Calendar Sync" class="w-10 h-10 rounded-lg shrink-0">
+        <div>
+          <h3 class="font-semibold text-sm text-slate-900 mb-1">Calendar Sync</h3>
+          <p class="text-xs text-slate-500 mb-2" data-i18n="app_cs_desc">Google Workspace Add-on — mirrors free/busy time across multiple calendars without sharing event details.</p>
+          <span class="text-xs font-medium text-blue-600" data-i18n="view_details">View details →</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- Education -->
+    <div class="bg-white border border-slate-200 rounded-xl p-5">
+      <h2 class="text-[0.65rem] font-bold uppercase tracking-widest text-blue-700 border-b border-slate-100 pb-2 mb-3" data-i18n="edu_title">Education</h2>
+      <div class="space-y-3">
+        <div>
+          <h3 class="font-semibold text-sm text-slate-900">Masters in ML &amp; AI</h3>
+          <p class="text-xs text-slate-500">Illinois Tech &middot; 2018&ndash;2019 &middot; Grade A</p>
+        </div>
+        <div>
+          <h3 class="font-semibold text-sm text-slate-900">PG Diploma in Advanced Computing</h3>
+          <p class="text-xs text-slate-500">CDAC &middot; 2012&ndash;2013</p>
+        </div>
+        <div>
+          <h3 class="font-semibold text-sm text-slate-900">Bachelor of Technology &mdash; Computer Science Engineering</h3>
+          <p class="text-xs text-slate-500">UPTU &middot; 2008&ndash;2012</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── Certifications — full width ── -->
+<div class="max-w-5xl mx-auto px-4 pb-8">
+  <div class="bg-white border border-slate-200 rounded-xl p-5">
+    <h2 class="text-[0.65rem] font-bold uppercase tracking-widest text-blue-700 border-b border-slate-100 pb-2 mb-4" data-i18n="certs_title">Certifications</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+
+      <!-- Anthropic -->
+      <div class="flex gap-2.5 items-start p-3 bg-slate-50 rounded-lg">
+        <div class="w-8 h-8 rounded bg-slate-200 text-slate-700 flex items-center justify-center text-[0.6rem] font-black shrink-0">A\</div>
+        <div class="min-w-0">
+          <p class="text-xs font-semibold text-slate-900 leading-snug">Claude Code in Action</p>
+          <p class="text-[0.68rem] text-slate-400 mt-0.5">Anthropic &middot; Aug 2026</p>
+          <p class="text-[0.62rem] text-slate-300">ID: 59vpajuukyw4</p>
+          <a href="https://verify.skilljar.com/c/59vpajuukyw4" target="_blank" rel="noopener" class="text-[0.68rem] text-blue-600 font-medium hover:underline" data-i18n="show_credential">Show credential ↗</a>
+        </div>
+      </div>
+
+      <div class="flex gap-2.5 items-start p-3 bg-slate-50 rounded-lg">
+        <div class="w-8 h-8 rounded bg-slate-200 text-slate-700 flex items-center justify-center text-[0.6rem] font-black shrink-0">A\</div>
+        <div class="min-w-0">
+          <p class="text-xs font-semibold text-slate-900 leading-snug">Intro to Model Context Protocol</p>
+          <p class="text-[0.68rem] text-slate-400 mt-0.5">Anthropic &middot; Aug 2026</p>
+          <p class="text-[0.62rem] text-slate-300">ID: r52ysmhvx8vj</p>
+          <a href="https://verify.skilljar.com/c/r52ysmhvx8vj" target="_blank" rel="noopener" class="text-[0.68rem] text-blue-600 font-medium hover:underline" data-i18n="show_credential">Show credential ↗</a>
+        </div>
+      </div>
+
+      <div class="flex gap-2.5 items-start p-3 bg-slate-50 rounded-lg">
+        <div class="w-8 h-8 rounded bg-slate-200 text-slate-700 flex items-center justify-center text-[0.6rem] font-black shrink-0">A\</div>
+        <div class="min-w-0">
+          <p class="text-xs font-semibold text-slate-900 leading-snug">Building with the Claude API</p>
+          <p class="text-[0.68rem] text-slate-400 mt-0.5">Anthropic &middot; Aug 2026</p>
+          <p class="text-[0.62rem] text-slate-300">ID: wtpoi78iwnry</p>
+          <a href="https://verify.skilljar.com/c/wtpoi78iwnry" target="_blank" rel="noopener" class="text-[0.68rem] text-blue-600 font-medium hover:underline" data-i18n="show_credential">Show credential ↗</a>
+        </div>
+      </div>
+
+      <div class="flex gap-2.5 items-start p-3 bg-slate-50 rounded-lg">
+        <div class="w-8 h-8 rounded bg-slate-200 text-slate-700 flex items-center justify-center text-[0.6rem] font-black shrink-0">A\</div>
+        <div class="min-w-0">
+          <p class="text-xs font-semibold text-slate-900 leading-snug">AI Fluency Framework &amp; Foundations</p>
+          <p class="text-[0.68rem] text-slate-400 mt-0.5">Anthropic &middot; Jul 2026</p>
+          <p class="text-[0.62rem] text-slate-300">ID: opmnh3c2cfcn</p>
+          <a href="https://verify.skilljar.com/c/opmnh3c2cfcn" target="_blank" rel="noopener" class="text-[0.68rem] text-blue-600 font-medium hover:underline" data-i18n="show_credential">Show credential ↗</a>
+        </div>
+      </div>
+
+      <div class="flex gap-2.5 items-start p-3 bg-slate-50 rounded-lg">
+        <div class="w-8 h-8 rounded bg-slate-200 text-slate-700 flex items-center justify-center text-[0.6rem] font-black shrink-0">A\</div>
+        <div class="min-w-0">
+          <p class="text-xs font-semibold text-slate-900 leading-snug">Claude 101</p>
+          <p class="text-[0.68rem] text-slate-400 mt-0.5">Anthropic &middot; Jul 2026</p>
+          <p class="text-[0.62rem] text-slate-300">ID: hb2rckpuwy8b</p>
+          <a href="https://verify.skilljar.com/c/hb2rckpuwy8b" target="_blank" rel="noopener" class="text-[0.68rem] text-blue-600 font-medium hover:underline" data-i18n="show_credential">Show credential ↗</a>
+        </div>
+      </div>
+
+      <div class="flex gap-2.5 items-start p-3 bg-slate-50 rounded-lg">
+        <div class="w-8 h-8 rounded bg-slate-200 text-slate-700 flex items-center justify-center text-[0.6rem] font-black shrink-0">U</div>
+        <div class="min-w-0">
+          <p class="text-xs font-semibold text-slate-900 leading-snug">Microservice Pattern &amp; Architecture</p>
+          <p class="text-[0.68rem] text-slate-400 mt-0.5">Udemy &middot; Jan 2021</p>
+        </div>
+      </div>
+
+      <div class="flex gap-2.5 items-start p-3 bg-slate-50 rounded-lg">
+        <div class="w-8 h-8 rounded bg-slate-200 text-slate-700 flex items-center justify-center text-[0.6rem] font-black shrink-0">U</div>
+        <div class="min-w-0">
+          <p class="text-xs font-semibold text-slate-900 leading-snug">AWS Associate Developer</p>
+          <p class="text-[0.68rem] text-slate-400 mt-0.5">Udemy &middot; Jun 2019</p>
+        </div>
+      </div>
+
+      <div class="flex gap-2.5 items-start p-3 bg-slate-50 rounded-lg">
+        <div class="w-8 h-8 rounded bg-slate-200 text-slate-700 flex items-center justify-center text-[0.6rem] font-black shrink-0">U</div>
+        <div class="min-w-0">
+          <p class="text-xs font-semibold text-slate-900 leading-snug">Angular 8</p>
+          <p class="text-[0.68rem] text-slate-400 mt-0.5">Udemy &middot; Mar 2020</p>
+        </div>
+      </div>
+
+      <div class="flex gap-2.5 items-start p-3 bg-slate-50 rounded-lg">
+        <div class="w-8 h-8 rounded bg-slate-200 text-slate-700 flex items-center justify-center text-[0.6rem] font-black shrink-0">U</div>
+        <div class="min-w-0">
+          <p class="text-xs font-semibold text-slate-900 leading-snug">Progressive Web App</p>
+          <p class="text-[0.68rem] text-slate-400 mt-0.5">Udemy &middot; Mar 2020</p>
+        </div>
+      </div>
+
+      <div class="flex gap-2.5 items-start p-3 bg-slate-50 rounded-lg">
+        <div class="w-8 h-8 rounded bg-slate-200 text-slate-700 flex items-center justify-center text-[0.6rem] font-black shrink-0 text-[0.55rem]">IBM</div>
+        <div class="min-w-0">
+          <p class="text-xs font-semibold text-slate-900 leading-snug">Big Data Fundamentals</p>
+          <p class="text-[0.68rem] text-slate-400 mt-0.5">IBM &middot; Oct 2015</p>
+        </div>
+      </div>
+
+      <div class="flex gap-2.5 items-start p-3 bg-slate-50 rounded-lg">
+        <div class="w-8 h-8 rounded bg-slate-200 text-slate-700 flex items-center justify-center text-[0.6rem] font-black shrink-0">AM</div>
+        <div class="min-w-0">
+          <p class="text-xs font-semibold text-slate-900 leading-snug">AMCAT Certified SE &mdash; IT Services</p>
+          <p class="text-[0.68rem] text-slate-400 mt-0.5">Aspiring Minds &middot; Sep 2014</p>
+        </div>
+      </div>
+
+      <div class="flex gap-2.5 items-start p-3 bg-slate-50 rounded-lg">
+        <div class="w-8 h-8 rounded bg-slate-200 text-slate-700 flex items-center justify-center text-[0.6rem] font-black shrink-0">AM</div>
+        <div class="min-w-0">
+          <p class="text-xs font-semibold text-slate-900 leading-snug">AMCAT Certified SE &mdash; Product</p>
+          <p class="text-[0.68rem] text-slate-400 mt-0.5">Aspiring Minds &middot; Sep 2014</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<footer class="text-center py-5 text-xs text-slate-400 print:hidden">
+  Amit Gaur &mdash; <a href="mailto:gamit@outlook.com" class="hover:underline text-slate-400">gamit@outlook.com</a> &mdash; Madrid, Spain
+</footer>
+
+<script src="js/i18n/en.js"></script>
+<script src="js/i18n/es.js"></script>
+<script src="js/translations.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

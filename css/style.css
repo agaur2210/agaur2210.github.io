@@ -1,0 +1,5 @@
+@media print {
+  @page { margin: 12mm; }
+  body { background: white !important; font-size: 11px; }
+  header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
