@@ -55,6 +55,7 @@ var lang_es = {
 
   // Apps
   app_cs_desc:  'Complemento de Google Workspace — sincroniza disponibilidad entre calendarios sin compartir detalles de eventos.',
+  app_adgh_desc: 'Extensión de Chrome — añade atajos y ayudantes de git directamente en la interfaz de Azure DevOps.',
   view_details: 'Ver detalles →',
 
   // Certs

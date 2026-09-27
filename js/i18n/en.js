@@ -55,6 +55,7 @@ var lang_en = {
 
   // Apps
   app_cs_desc:  'Google Workspace Add-on — mirrors free/busy time across multiple calendars without sharing event details.',
+  app_adgh_desc: 'Chrome extension — adds git helpers and shortcuts directly into the Azure DevOps UI.',
   view_details: 'View details →',
 
   // Certs
