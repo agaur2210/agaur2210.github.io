@@ -3,7 +3,7 @@ var lang_es = {
   about_title:      'Sobre mí',
   exp_title:        'Experiencia',
   skills_title:     'Habilidades',
-  apps_title:       'Aplicaciones',
+  apps_title:       'Apps Desarrolladas',
   edu_title:        'Educación',
   certs_title:      'Certificaciones',
 
