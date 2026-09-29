@@ -56,6 +56,7 @@ var lang_es = {
   // Apps
   app_cs_desc:  'Complemento de Google Workspace — sincroniza disponibilidad entre calendarios sin compartir detalles de eventos.',
   app_adgh_desc: 'Extensión de Chrome — añade atajos y ayudantes de git directamente en la interfaz de Azure DevOps.',
+  app_btaf_desc: 'Extensión de Chrome — rellena automáticamente las entradas de tiempo en BambooHR desde un horario semanal guardado con un solo clic.',
   view_details: 'Ver detalles →',
 
   // Certs
