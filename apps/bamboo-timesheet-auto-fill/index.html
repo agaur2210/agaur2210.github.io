@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timesheet Auto-Fill for BambooHR | Chrome Extension</title>
+  <meta name="description" content="A third-party Chrome extension that auto-fills BambooHR time-clock entries from your saved schedule. Not affiliated with or endorsed by BambooHR LLC.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://apps.agaur.dev/apps/bamboo-timesheet-auto-fill/">
+  <meta name="author" content="Amit Gaur">
+  <link rel="icon" type="image/png" href="icons/timesheet-autofill-128x128.png">
+  <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://apps.agaur.dev/apps/bamboo-timesheet-auto-fill/">
+  <meta property="og:title" content="Timesheet Auto-Fill for BambooHR | Chrome Extension">
+  <meta property="og:description" content="A third-party Chrome extension that auto-fills BambooHR time-clock entries from your saved schedule. Not affiliated with or endorsed by BambooHR LLC.">
+  <meta property="og:image" content="https://apps.agaur.dev/apps/bamboo-timesheet-auto-fill/icons/timesheet-autofill-128x128.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Timesheet Auto-Fill for BambooHR | Chrome Extension">
+  <meta name="twitter:description" content="A third-party Chrome extension that auto-fills BambooHR time-clock entries from your saved schedule. Not affiliated with or endorsed by BambooHR LLC.">
+  <meta name="twitter:image" content="https://apps.agaur.dev/apps/bamboo-timesheet-auto-fill/icons/timesheet-autofill-128x128.png">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:site_name" content="Apps by Amit Gaur">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Timesheet Auto-Fill for BambooHR",
+    "description": "A third-party Chrome extension that auto-fills BambooHR time-clock entries from your saved schedule. Not affiliated with or endorsed by BambooHR LLC.",
+    "operatingSystem": "Chrome",
+    "applicationCategory": "BusinessApplication",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "url": "https://chromewebstore.google.com/detail/timesheet-auto-fill-for-b/adcckjgpebcdfpmfglnhmkielplipjmo",
+    "image": "https://apps.agaur.dev/apps/bamboo-timesheet-auto-fill/icons/timesheet-autofill-128x128.png"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://apps.agaur.dev/"},
+      {"@type": "ListItem", "position": 2, "name": "Apps", "item": "https://apps.agaur.dev/apps/"},
+      {"@type": "ListItem", "position": 3, "name": "Timesheet Auto-Fill for BambooHR", "item": "https://apps.agaur.dev/apps/bamboo-timesheet-auto-fill/"}
+    ]
+  }
+  </script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #202124; background: #fff; line-height: 1.6; }
+    a { color: #2d7c12; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    header { background: linear-gradient(135deg, #2a6b10, #4aaa1f); color: #fff; padding: 48px 24px; text-align: center; }
+    header img { width: 96px; height: 96px; border-radius: 20px; margin-bottom: 16px; display: block; margin-left: auto; margin-right: auto; }
+    header h1 { font-size: 2rem; font-weight: 700; margin-bottom: 8px; }
+    header p { font-size: 1.1rem; opacity: 0.9; max-width: 580px; margin: 0 auto; }
+
+    .disclaimer-banner {
+      background: #fef9e7; border-top: 4px solid #f59e0b;
+      padding: 14px 24px; text-align: center;
+      font-size: 0.88rem; color: #7c4f00;
+    }
+
+    nav { background: #f8f9fa; border-bottom: 1px solid #e0e0e0; padding: 12px 24px; text-align: center; position: sticky; top: 0; z-index: 100; }
+    nav a { margin: 0 16px; font-size: 0.95rem; color: #2d7c12; font-weight: 500; }
+
+    .container { max-width: 800px; margin: 0 auto; padding: 40px 24px; }
+
+    .section { margin-bottom: 64px; }
+    .section h2 { font-size: 1.5rem; font-weight: 600; color: #2a6b10; border-bottom: 2px solid #d9f0d0; padding-bottom: 8px; margin-bottom: 24px; }
+    .section h3 { font-size: 1.05rem; font-weight: 600; margin: 24px 0 8px; color: #202124; }
+    .section p { margin-bottom: 12px; color: #3c4043; }
+    .section ul, .section ol { margin: 8px 0 12px 20px; color: #3c4043; }
+    .section ul li, .section ol li { margin-bottom: 4px; }
+    .section code { background: #f1f3f4; padding: 1px 5px; border-radius: 4px; font-size: 0.88rem; font-family: "SF Mono", Consolas, monospace; }
+
+    .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 24px 0; }
+    .feature { background: #f3f4f6; border-radius: 14px; padding: 24px; }
+    .feature h3 { font-size: 0.9rem; font-weight: 700; margin-bottom: 6px; color: #111; margin-top: 0; }
+    .feature p { font-size: 0.88rem; color: #555; margin: 0; line-height: 1.6; }
+
+    .meta { font-size: 0.85rem; color: #80868b; margin-bottom: 20px; }
+
+    .notice { background: #ecfdf5; border-left: 4px solid #2d7c12; padding: 16px 20px; margin: 16px 0; border-radius: 0 8px 8px 0; }
+    .notice strong { display: block; margin-bottom: 4px; }
+
+    .warning { background: #fef9e7; border-left: 4px solid #f59e0b; padding: 16px 20px; margin: 16px 0; border-radius: 0 8px 8px 0; }
+
+    table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+    thead tr { background: #f8f9fa; }
+    th { text-align: left; padding: 8px 10px; border: 1px solid #e0e0e0; font-size: 0.9rem; }
+    td { padding: 8px 10px; border: 1px solid #e0e0e0; font-size: 0.9rem; color: #3c4043; vertical-align: top; }
+    td code { background: #f1f3f4; padding: 1px 5px; border-radius: 4px; font-size: 0.82rem; }
+
+    .cws-btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 14px 28px;
+      background: #2d7c12; color: #fff;
+      border-radius: 50px;
+      font-size: 1.05rem; font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 2px 8px rgba(45,124,18,0.25);
+      transition: background 0.15s, box-shadow 0.15s, transform 0.1s;
+      margin: 20px 0 8px;
+    }
+    .cws-btn:hover { background: #256210; box-shadow: 0 4px 14px rgba(45,124,18,0.35); transform: translateY(-1px); text-decoration: none; }
+    .cws-btn:active { background: #1e5009; transform: scale(0.98); }
+    .cws-btn svg { flex-shrink: 0; }
+    .cws-note { font-size: 0.82rem; color: #80868b; margin-bottom: 20px; }
+
+    footer { background: #f8f9fa; border-top: 1px solid #e0e0e0; text-align: center; padding: 24px; font-size: 0.85rem; color: #5f6368; }
+  </style>
+</head>
+<body>
+
+<header>
+  <img src="icons/timesheet-autofill-128x128.png" alt="Timesheet Auto-Fill icon">
+  <h1>Timesheet Auto-Fill for BambooHR</h1>
+  <p>A third-party Chrome extension that auto-fills your BambooHR time-clock entries from a saved weekly schedule — with a single click.</p>
+</header>
+
+<div class="disclaimer-banner">
+  <strong>Third-Party Tool — Not affiliated with BambooHR LLC.</strong>
+  "BambooHR" is a registered trademark of Bamboo HR LLC. This extension is an independent tool developed by a third party and is not created, endorsed, sponsored, or approved by Bamboo HR LLC in any way.
+</div>
+
+<nav>
+  <a href="/apps/">← All Apps</a>
+  <a href="#about">About</a>
+  <a href="#installation">Installation</a>
+  <a href="#permissions">Permissions</a>
+  <a href="#support">Support</a>
+  <a href="#privacy-policy">Privacy Policy</a>
+  <a href="#terms-of-service">Terms of Service</a>
+</nav>
+
+<div class="container">
+
+  <!-- ABOUT -->
+  <section id="about" class="section">
+    <h2>About Timesheet Auto-Fill</h2>
+
+    <div class="warning">
+      <strong>Independent third-party tool.</strong>
+      This extension is not affiliated with, endorsed by, or sponsored by Bamboo HR LLC. All interactions with BambooHR are made directly from your browser using your existing authenticated session — no data passes through any server other than BambooHR's own servers.
+    </div>
+
+    <p>Timesheet Auto-Fill saves your standard weekly work schedule (morning/afternoon blocks, Friday half-day, skip dates) and lets you populate a full pay period with a single click — either from the extension popup or directly from the "Auto-Fill" button injected into the BambooHR timesheet header.</p>
+
+    <div class="features">
+      <div class="feature">
+        <h3>Saved schedule</h3>
+        <p>Define your Mon–Thu and Friday time blocks once. The extension remembers them and generates entries for any date range.</p>
+      </div>
+      <div class="feature">
+        <h3>Skip dates</h3>
+        <p>Tag individual dates to skip (bank holidays, days off) using a tag-chip calendar picker. Weekends are excluded automatically.</p>
+      </div>
+      <div class="feature">
+        <h3>Preview before submit</h3>
+        <p>A preview modal shows every entry — days, total hours — before anything is submitted. You can cancel at any time.</p>
+      </div>
+      <div class="feature">
+        <h3>Header button</h3>
+        <p>An "Auto-Fill" button is injected directly into BambooHR's timesheet header, so you never have to open the popup.</p>
+      </div>
+      <div class="feature">
+        <h3>No external servers</h3>
+        <p>All requests go directly from your browser to BambooHR using your authenticated session. Nothing passes through any third-party server.</p>
+      </div>
+      <div class="feature">
+        <h3>Conflict detection</h3>
+        <p>If entries already exist for a date, the extension reports a 409 conflict instead of silently duplicating data.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- INSTALLATION -->
+  <section id="installation" class="section">
+    <h2>Installation &amp; Setup</h2>
+
+    <a class="cws-btn" href="https://chromewebstore.google.com/detail/timesheet-auto-fill-for-b/adcckjgpebcdfpmfglnhmkielplipjmo" target="_blank" rel="noopener">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 16L7 11l1.4-1.45 2.6 2.6V4h2v8.15l2.6-2.6L17 11l-5 5z" fill="currentColor"/>
+        <path d="M5 20v-2h14v2H5z" fill="currentColor"/>
+      </svg>
+      Add to Chrome (free)
+    </a>
+    <p class="cws-note">Opens Chrome Web Store &mdash; no account required to install</p>
+
+    <h3>Step 1: Install from the Chrome Web Store</h3>
+    <p>Search for <strong>Timesheet Auto-Fill for BambooHR</strong> in the Chrome Web Store and click <strong>Add to Chrome</strong>. No restart required.</p>
+
+    <h3>Step 2: Configure your schedule</h3>
+    <p>Click the extension icon in the Chrome toolbar to open the popup. Fill in:</p>
+    <table>
+      <thead><tr><th>Field</th><th>Details</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Date Range</strong></td>
+          <td>Start and end date for the period you want to fill. Defaults to the current calendar month.</td>
+        </tr>
+        <tr>
+          <td><strong>Mon–Thu Schedule</strong></td>
+          <td>Morning and Afternoon time blocks applied to Monday through Thursday.</td>
+        </tr>
+        <tr>
+          <td><strong>Friday Schedule</strong></td>
+          <td>Afternoon-only block for Fridays (half-day pattern). Leave blank to skip Fridays entirely.</td>
+        </tr>
+        <tr>
+          <td><strong>Skip Dates</strong></td>
+          <td>Click <strong>+ Add date</strong> and pick any individual days to exclude (bank holidays, PTO). Weekends are always excluded automatically.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Step 3: Fill your timesheet</h3>
+    <p>Click <strong>Preview Timesheet</strong> in the popup, or click the green <strong>Auto-Fill</strong> button in the BambooHR timesheet header. A preview dialog shows all entries to be created. Click <strong>Confirm &amp; Submit</strong> to post them.</p>
+
+    <h3>Important: Employee ID detection</h3>
+    <p>When using the "Auto-Fill" button injected into the BambooHR page, the extension detects your Employee ID from the page URL. This works when the URL contains an <code>?id=</code> parameter or a path segment like <code>/employees/12345/</code>. If neither is present, navigate to your own timesheet page first.</p>
+
+    <h3>Removing the extension</h3>
+    <p>Go to <code>chrome://extensions</code>, find <strong>Timesheet Auto-Fill for BambooHR</strong>, and click <strong>Remove</strong>. All locally stored schedule data is deleted with the extension.</p>
+  </section>
+
+  <!-- PERMISSIONS -->
+  <section id="permissions" class="section">
+    <h2>Permissions Requested and Why</h2>
+    <p>The extension requests only the minimum permissions required to provide its functionality.</p>
+
+    <table>
+      <thead>
+        <tr><th>Permission</th><th>User-facing feature</th><th>Why narrower is not viable</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>storage</code></td>
+          <td>Saves your schedule (time blocks, skip dates, date range) to <code>chrome.storage.local</code> so it persists across sessions.</td>
+          <td>Without this, every setting resets when the popup closes. There is no narrower scope for per-extension local storage.</td>
+        </tr>
+        <tr>
+          <td><code>activeTab</code></td>
+          <td>Reads the URL of the current BambooHR tab to detect your Employee ID when submitting from the popup.</td>
+          <td>Only the active tab URL is read when you click Submit. The broader <code>tabs</code> permission is not requested.</td>
+        </tr>
+        <tr>
+          <td><code>scripting</code></td>
+          <td>Reads the CSRF token from BambooHR's page JavaScript (<code>window.CSRF_TOKEN</code>) so that API requests are authenticated correctly.</td>
+          <td>CSRF tokens live in the page's JavaScript context. A content script in an isolated world cannot access them directly; <code>chrome.scripting.executeScript</code> with <code>world: "MAIN"</code> is required.</td>
+        </tr>
+        <tr>
+          <td><code>host_permissions</code>:<br><code>https://*.bamboohr.com/*</code></td>
+          <td>Injects the "Auto-Fill" button into the BambooHR timesheet header and posts time-clock entries to the BambooHR API using your authenticated session.</td>
+          <td>Content scripts and same-origin fetch both require matching host permissions. Narrower path patterns are not supported by Chrome's content script syntax.</td>
+        </tr>
+        <tr>
+          <td><code>host_permissions</code>:<br><code>https://cloudflare.com/*</code></td>
+          <td>Fetches accurate server time from Cloudflare's public CDN trace endpoint so that date range validation is based on a reliable clock rather than solely on the device's local system clock.</td>
+          <td>The device clock can be incorrect or skewed. Using a public network time source ensures the date range inputs and schedule calculations are validated against accurate time. No personal data is sent — the request carries no identifying information.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="notice">
+      <strong>No external servers involved.</strong>
+      This extension does not use analytics, advertising, tracking, or any server of its own. All API calls go directly from your browser to BambooHR using your existing authenticated session.
+    </div>
+  </section>
+
+  <!-- PRIVACY POLICY -->
+  <section id="privacy-policy" class="section">
+    <h2>Privacy Policy</h2>
+    <p class="meta">Last updated: September 29, 2026</p>
+
+    <h3>Overview</h3>
+    <p>Timesheet Auto-Fill for BambooHR is an independent third-party Chrome Extension. It is not affiliated with, endorsed by, or sponsored by Bamboo HR LLC. "BambooHR" is a registered trademark of Bamboo HR LLC and is used here solely to describe the service this extension is compatible with.</p>
+    <p>This policy explains what data the extension accesses, how it is used, and what — if anything — leaves your browser.</p>
+
+    <h3>Data Stored Locally</h3>
+    <p>The following values are saved to <code>chrome.storage.local</code> on your device only. They are never transmitted to any server operated by this extension or any third party:</p>
+    <ul>
+      <li><strong>Schedule settings:</strong> your morning/afternoon start and end times, Friday schedule, skip dates, date range, and debug preferences.</li>
+      <li><strong>Internal timestamp:</strong> a single numeric timestamp (<code>_maxT</code>) used for date range validation, storing the most recent reliable time value seen by the extension.</li>
+    </ul>
+    <p>No personal information, no passwords, no BambooHR credentials, and no session tokens are stored by this extension.</p>
+
+    <h3>Data Sent to BambooHR</h3>
+    <p>When you confirm a submission, the extension posts the following to your BambooHR tenant's <code>/timesheet/clock/entries</code> API endpoint:</p>
+    <ul>
+      <li>Your Employee ID (detected from the page URL)</li>
+      <li>Date, start time, and end time for each generated entry</li>
+      <li>The CSRF token obtained from the page (used to authenticate the request as required by BambooHR)</li>
+    </ul>
+    <p>This call is made directly from your browser to BambooHR using your existing authenticated session (the same session cookies your browser already has from being logged into BambooHR). No intermediate server is involved. The extension has no access to your BambooHR password or session token.</p>
+
+    <h3>Data Not Collected</h3>
+    <p>Timesheet Auto-Fill does not collect, transmit, or store:</p>
+    <ul>
+      <li>Usage analytics or telemetry of any kind</li>
+      <li>Browsing history or data from pages other than BambooHR</li>
+      <li>BambooHR credentials, passwords, or session tokens</li>
+      <li>Any data from pages outside <code>*.bamboohr.com</code></li>
+    </ul>
+
+    <h3>Third-Party Services</h3>
+    <p>This extension contacts two external services:</p>
+    <ul>
+      <li><strong>Your BambooHR tenant</strong> — to submit time-clock entries using your authenticated session.</li>
+      <li><strong>Cloudflare CDN trace endpoint</strong> (<code>https://cloudflare.com/cdn-cgi/trace</code>) — a public, anonymous endpoint used to obtain accurate server time for date range validation. No personal data, credentials, or identifying information is sent in this request.</li>
+    </ul>
+    <p>No analytics, advertising, AI, or any other third-party service is used.</p>
+
+    <h3>Data Deletion</h3>
+    <p>Remove the extension from Chrome to delete all locally stored schedule data. You can also clear storage via <code>chrome://extensions</code> → Timesheet Auto-Fill → <strong>Clear storage</strong>.</p>
+
+    <h3>Contact</h3>
+    <p>For questions about this Privacy Policy: <a href="mailto:lucamit@gmail.com">lucamit@gmail.com</a></p>
+  </section>
+
+  <!-- TERMS OF SERVICE -->
+  <section id="terms-of-service" class="section">
+    <h2>Terms of Service</h2>
+    <p class="meta">Last updated: September 29, 2026</p>
+
+    <h3>1. Acceptance of Terms</h3>
+    <p>By installing or using Timesheet Auto-Fill for BambooHR, you agree to these Terms of Service. If you do not agree, do not install or use the extension.</p>
+
+    <h3>2. Independent Third-Party Tool — No Affiliation with BambooHR</h3>
+    <p>This extension is an independent, third-party productivity tool. It is <strong>not</strong> created, endorsed, sponsored, affiliated with, or approved by Bamboo HR LLC in any way. "BambooHR" is a registered trademark of Bamboo HR LLC; it is used here solely to describe the service this extension is compatible with, in accordance with nominative fair use.</p>
+    <p>Use of this extension is subject to BambooHR's own Terms of Service and acceptable use policies. It is your responsibility to ensure your use of this extension complies with BambooHR's terms, your employer's policies, and any applicable employment or timekeeping regulations.</p>
+
+    <h3>3. Description of the Service</h3>
+    <p>Timesheet Auto-Fill for BambooHR is a Chrome Extension that generates and submits time-clock entries to BambooHR based on a saved weekly schedule. It is intended as a personal productivity aid. It does not circumvent, bypass, or override any BambooHR security mechanism — it operates using your authenticated browser session and standard BambooHR web APIs.</p>
+
+    <h3>4. Accuracy of Time Entries</h3>
+    <p>You are solely responsible for ensuring the time entries submitted through this extension are accurate, truthful, and compliant with your employer's timekeeping policies and applicable law. The extension generates entries based on the schedule you configure; it does not verify whether those times reflect your actual hours worked. Submitting inaccurate time records may have legal or employment consequences for which the developer is not responsible.</p>
+
+    <h3>5. No Warranty</h3>
+    <p>This extension is provided "as is" without warranties of any kind. The developer does not guarantee that the extension will remain compatible with future versions of BambooHR or Chrome, or that API changes by BambooHR will not break functionality without notice.</p>
+
+    <h3>6. Limitation of Liability</h3>
+    <p>To the maximum extent permitted by law, the developer is not liable for any damages arising from use of this extension, including inaccurate time entries, data loss, service interruptions, incompatibilities with BambooHR updates, or consequences of timekeeping non-compliance.</p>
+
+    <h3>7. License</h3>
+    <p>This extension is free to use for personal productivity purposes. You may not copy, modify, redistribute, or create derivative works without explicit written permission from the developer.</p>
+
+    <h3>8. User Responsibilities</h3>
+    <p>You agree to:</p>
+    <ul>
+      <li>Use this extension only on BambooHR accounts you are authorised to access</li>
+      <li>Submit only accurate and truthful time entries</li>
+      <li>Comply with BambooHR's Terms of Service and your employer's timekeeping policies</li>
+      <li>Comply with the Chrome Web Store Developer Program Policies</li>
+    </ul>
+
+    <h3>9. Changes to These Terms</h3>
+    <p>The developer may update these Terms at any time. Continued use after changes are posted constitutes acceptance of the revised terms.</p>
+  </section>
+
+  <!-- SUPPORT -->
+  <section id="support" class="section">
+    <h2>Support</h2>
+
+    <h3>Getting help</h3>
+    <p>See the <a href="#installation">Installation &amp; Setup</a> section above for configuration and usage guidance.</p>
+
+    <h3>Report an issue</h3>
+    <p>Email <a href="mailto:lucamit@gmail.com">lucamit@gmail.com</a> and include:</p>
+    <ul>
+      <li>What happened and what you expected</li>
+      <li>The URL format of your BambooHR timesheet page</li>
+      <li>Any errors shown in the extension (red toast messages or modal error text)</li>
+      <li>Any errors in the browser console (<kbd>F12</kbd> → Console)</li>
+    </ul>
+  </section>
+
+</div>
+
+<footer>
+  <p>Timesheet Auto-Fill for BambooHR — Third-party extension, not affiliated with Bamboo HR LLC &mdash; <a href="mailto:lucamit@gmail.com">lucamit@gmail.com</a></p>
+</footer>
+
+</body>
+</html>
