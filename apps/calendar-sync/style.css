@@ -1,0 +1,71 @@
+:root {
+  --theme-color: #1a73e8;
+  --theme-heading: #1a73e8;
+  --theme-header: #1a73e8;
+  --theme-border: #e8f0fe;
+  --theme-notice: #e8f0fe;
+  --theme-button: linear-gradient(110deg, #1672d4, #087d91, #087e59);
+  --theme-button-hover: linear-gradient(110deg, #125fb2, #066a7b, #066b4b);
+  --theme-button-active: linear-gradient(110deg, #0f5096, #055969, #055a3f);
+  --theme-shadow: 22, 114, 212;
+}
+
+.faq-item {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+.faq-q {
+  background: #f8f9fa;
+  padding: 14px 18px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #202124;
+}
+.faq-a {
+  padding: 14px 18px;
+  font-size: 0.9rem;
+  color: #3c4043;
+}
+.faq-a ul {
+  margin: 8px 0 0 18px;
+}
+.faq-a ul li {
+  margin-bottom: 4px;
+}
+.faq-a code {
+  background: #f1f3f4;
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-family: var(--font-mono);
+}
+
+.notice-intro {
+  margin: 0 0 20px;
+}
+.permissions-table {
+  margin: 16px 0;
+}
+.scope-heading {
+  width: 22%;
+}
+.detail-heading {
+  width: 39%;
+}
+.scope-cell {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+}
+.section .permission-list {
+  margin: 8px 0 0 16px;
+}
+.section .permission-list li {
+  margin-bottom: 6px;
+}
+.section .permission-note {
+  color: #5f6368;
+  font-size: 0.9rem;
+  margin-top: 16px;
+}

@@ -1,0 +1,30 @@
+:root {
+  --theme-color: #2d7c12;
+  --theme-heading: #2a6b10;
+  --theme-header: linear-gradient(135deg, #2a6b10, #4aaa1f);
+  --theme-border: #d9f0d0;
+  --theme-notice: #ecfdf5;
+  --theme-button: #2d7c12;
+  --theme-button-hover: #256210;
+  --theme-button-active: #1e5009;
+  --theme-shadow: 45, 124, 18;
+}
+
+.disclaimer-banner {
+  background: #fef9e7;
+  border-top: 4px solid #f59e0b;
+  padding: 14px 24px;
+  text-align: center;
+  font-size: 0.88rem;
+  color: #7c4f00;
+}
+
+.section table {
+  table-layout: fixed;
+}
+.section table th:first-child {
+  width: 30%;
+}
+.permissions-table th:nth-child(2) {
+  width: 35%;
+}

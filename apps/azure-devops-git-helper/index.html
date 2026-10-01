@@ -1,455 +1,735 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Git Helper for Azure DevOps | Chrome Extension</title>
-  <meta name="description" content="Git Helper for Azure DevOps is a Chrome extension that auto-fills PR titles and descriptions, adds one-click PR creation, and enables safe branch deletion directly in Azure DevOps.">
-  <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://apps.agaur.dev/apps/azure-devops-git-helper/">
-  <meta name="author" content="Amit Gaur">
-  <link rel="icon" type="image/png" href="icons/icon128.png">
-  <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://apps.agaur.dev/apps/azure-devops-git-helper/">
-  <meta property="og:title" content="Git Helper for Azure DevOps | Chrome Extension">
-  <meta property="og:description" content="Git Helper for Azure DevOps is a Chrome extension that auto-fills PR titles and descriptions, adds one-click PR creation, and enables safe branch deletion directly in Azure DevOps.">
-  <meta property="og:image" content="https://apps.agaur.dev/apps/azure-devops-git-helper/icons/icon128.png">
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Git Helper for Azure DevOps | Chrome Extension">
-  <meta name="twitter:description" content="Git Helper for Azure DevOps is a Chrome extension that auto-fills PR titles and descriptions, adds one-click PR creation, and enables safe branch deletion directly in Azure DevOps.">
-  <meta name="twitter:image" content="https://apps.agaur.dev/apps/azure-devops-git-helper/icons/icon128.png">
-  <meta property="og:locale" content="en_US">
-  <meta property="og:site_name" content="Apps by Amit Gaur">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "Git Helper for Azure DevOps",
-    "description": "Git Helper for Azure DevOps is a Chrome extension that auto-fills PR titles and descriptions, adds one-click PR creation, and enables safe branch deletion directly in Azure DevOps.",
-    "operatingSystem": "Chrome",
-    "applicationCategory": "DeveloperApplication",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD"
-    },
-    "url": "https://chromewebstore.google.com/detail/git-helper-for-azure-devo/omofjglfgagfphekfdofojdknlibfoii",
-    "image": "https://apps.agaur.dev/apps/azure-devops-git-helper/icons/icon128.png"
-  }
-  </script>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://apps.agaur.dev/"},
-      {"@type": "ListItem", "position": 2, "name": "Apps", "item": "https://apps.agaur.dev/apps/"},
-      {"@type": "ListItem", "position": 3, "name": "Git Helper for Azure DevOps", "item": "https://apps.agaur.dev/apps/azure-devops-git-helper/"}
-    ]
-  }
-  </script>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #202124; background: #fff; line-height: 1.6; }
-    a { color: #0078d4; text-decoration: none; }
-    a:hover { text-decoration: underline; }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Git Helper for Azure DevOps | Chrome Extension</title>
+    <meta
+      name="description"
+      content="Git Helper for Azure DevOps is a Chrome extension that auto-fills PR titles and descriptions, adds one-click PR creation, and enables safe branch deletion directly in Azure DevOps."
+    />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://apps.agaur.dev/apps/azure-devops-git-helper/" />
+    <meta name="author" content="Amit Gaur" />
+    <link rel="icon" type="image/png" href="icons/icon128.png" />
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://apps.agaur.dev/apps/azure-devops-git-helper/" />
+    <meta property="og:title" content="Git Helper for Azure DevOps | Chrome Extension" />
+    <meta
+      property="og:description"
+      content="Git Helper for Azure DevOps is a Chrome extension that auto-fills PR titles and descriptions, adds one-click PR creation, and enables safe branch deletion directly in Azure DevOps."
+    />
+    <meta
+      property="og:image"
+      content="https://apps.agaur.dev/apps/azure-devops-git-helper/icons/icon128.png"
+    />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Git Helper for Azure DevOps | Chrome Extension" />
+    <meta
+      name="twitter:description"
+      content="Git Helper for Azure DevOps is a Chrome extension that auto-fills PR titles and descriptions, adds one-click PR creation, and enables safe branch deletion directly in Azure DevOps."
+    />
+    <meta
+      name="twitter:image"
+      content="https://apps.agaur.dev/apps/azure-devops-git-helper/icons/icon128.png"
+    />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:site_name" content="Apps by Amit Gaur" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Git Helper for Azure DevOps",
+        "description": "Git Helper for Azure DevOps is a Chrome extension that auto-fills PR titles and descriptions, adds one-click PR creation, and enables safe branch deletion directly in Azure DevOps.",
+        "operatingSystem": "Chrome",
+        "applicationCategory": "DeveloperApplication",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "url": "https://chromewebstore.google.com/detail/git-helper-for-azure-devo/omofjglfgagfphekfdofojdknlibfoii",
+        "image": "https://apps.agaur.dev/apps/azure-devops-git-helper/icons/icon128.png"
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://apps.agaur.dev/" },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Apps",
+            "item": "https://apps.agaur.dev/apps/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Git Helper for Azure DevOps",
+            "item": "https://apps.agaur.dev/apps/azure-devops-git-helper/"
+          }
+        ]
+      }
+    </script>
+    <link rel="stylesheet" href="../common.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="app-page">
+    <header>
+      <img src="icons/icon128.png" alt="Git Helper icon" />
+      <h1>Git Helper for Azure DevOps</h1>
+      <p>
+        One-click PR creation with auto-filled descriptions, configurable draft mode and target
+        branches, AI enrichment via Bedrock, and safe branch deletion. All directly in Azure DevOps.
+      </p>
+    </header>
 
-    header { background: #0078d4; color: #fff; padding: 48px 24px; text-align: center; }
-    header img { width: 96px; height: 96px; border-radius: 20px; margin-bottom: 16px; display: block; margin-left: auto; margin-right: auto; }
-    header h1 { font-size: 2rem; font-weight: 600; margin-bottom: 8px; }
-    header p { font-size: 1.1rem; opacity: 0.9; max-width: 580px; margin: 0 auto; }
+    <nav>
+      <a href="/apps/">← All Apps</a>
+      <a href="#about">About</a>
+      <a href="#installation">Installation</a>
+      <a href="#permissions">Permissions</a>
+      <a href="#support">Support</a>
+      <a href="#privacy-policy">Privacy Policy</a>
+      <a href="#terms-of-service">Terms of Service</a>
+    </nav>
 
-    nav { background: #f8f9fa; border-bottom: 1px solid #e0e0e0; padding: 12px 24px; text-align: center; position: sticky; top: 0; z-index: 100; }
-    nav a { margin: 0 16px; font-size: 0.95rem; color: #0078d4; font-weight: 500; }
+    <div class="container">
+      <!-- ABOUT -->
+      <section id="about" class="section">
+        <h2>About Git Helper for Azure DevOps</h2>
+        <p>
+          Git Helper is a Chrome Extension that adds productivity features directly inside Azure
+          DevOps. Everything runs in your browser. No external server is involved except Azure
+          DevOps and, optionally, AWS Bedrock.
+        </p>
 
-    .container { max-width: 800px; margin: 0 auto; padding: 40px 24px; }
+        <h3>Branch Toolbar</h3>
+        <p>Features injected directly into the Azure DevOps branch list. No navigation required.</p>
 
-    .section { margin-bottom: 64px; }
-    .section h2 { font-size: 1.5rem; font-weight: 600; color: #0078d4; border-bottom: 2px solid #e1f0fb; padding-bottom: 8px; margin-bottom: 24px; }
-    .section h3 { font-size: 1.05rem; font-weight: 600; margin: 24px 0 8px; color: #202124; }
-    .section p { margin-bottom: 12px; color: #3c4043; }
-    .section ul, .section ol { margin: 8px 0 12px 20px; color: #3c4043; }
-    .section ul li, .section ol li { margin-bottom: 4px; }
-    .section code { background: #f1f3f4; padding: 1px 5px; border-radius: 4px; font-size: 0.88rem; font-family: "SF Mono", Consolas, monospace; }
+        <p class="feature-label">PR Creation</p>
+        <div class="features">
+          <div class="feature">
+            <h3>One-click PR creation</h3>
+            <p>
+              <strong>+ PR</strong> next to every branch. Creates a PR with title, description, and
+              work items pre-filled. Inline <strong>Publish / Delete / View</strong> actions appear
+              on success.
+            </p>
+          </div>
+          <div class="feature">
+            <h3>Draft mode</h3>
+            <p>
+              PRs are drafts by default. Toggle <em>Create as Draft</em> off in the popup to publish
+              immediately.
+            </p>
+          </div>
+          <div class="feature">
+            <h3>Configurable targets</h3>
+            <p>
+              Set a default target branch (default: <code>develop</code>) and a separate one for
+              <code>develop</code> source branches (default: <code>main</code>).
+            </p>
+          </div>
+          <div class="feature">
+            <h3>Auto-fill from branch name</h3>
+            <p>
+              Title and description generated from your branch name and commit history. Prefixes
+              stripped, commits grouped by type. Merge commits and low-signal messages
+              (<em>wip</em>, <em>fix typo</em>) excluded automatically.
+            </p>
+          </div>
+          <div class="feature">
+            <h3>Work item linking</h3>
+            <p>
+              Numeric IDs in the branch name (e.g. <code>feature/12345/...</code>) are linked to the
+              PR automatically.
+            </p>
+          </div>
+          <div class="feature">
+            <h3>AI description generation</h3>
+            <p>
+              Connect AWS Bedrock to refine descriptions with AI. Disabled by default. Requires
+              configuration in the popup.
+            </p>
+          </div>
+        </div>
 
-    .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 24px 0; }
-    .features-2 { grid-template-columns: repeat(2, 1fr); }
-    .feature { background: #f3f4f6; border-radius: 14px; padding: 28px 28px 24px; }
-    .feature h3 { font-size: 0.9rem; font-weight: 700; margin-bottom: 6px; color: #111; margin-top: 0; }
-    .feature p { font-size: 0.88rem; color: #555; margin: 0; line-height: 1.6; }
+        <p class="feature-label feature-label-spaced">Delete branch</p>
+        <div class="features features-2">
+          <div class="feature">
+            <h3>Ownership-verified deletion</h3>
+            <p>
+              <strong>Delete</strong> button appears on your branches only, enabled once you are
+              confirmed as the last committer. Inline <em>Sure?</em> confirmation prevents
+              accidents.
+            </p>
+          </div>
+          <div class="feature">
+            <h3>Admin Delete</h3>
+            <p>
+              Enable in the popup to delete any non-protected branch regardless of ownership.
+              Protected branches (<code>main</code>, <code>master</code>, <code>develop</code>,
+              <code>release</code>) are always blocked.
+            </p>
+          </div>
+        </div>
+      </section>
 
-    .meta { font-size: 0.85rem; color: #80868b; margin-bottom: 20px; }
+      <!-- INSTALLATION -->
+      <section id="installation" class="section">
+        <h2>Installation &amp; Setup</h2>
 
-    .notice { background: #e1f0fb; border-left: 4px solid #0078d4; padding: 16px 20px; margin: 16px 0; border-radius: 0 8px 8px 0; }
-    .notice strong { display: block; margin-bottom: 4px; }
+        <a
+          class="install-button"
+          href="https://chromewebstore.google.com/detail/git-helper-for-azure-devo/omofjglfgagfphekfdofojdknlibfoii"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <path
+              d="M12 16L7 11l1.4-1.45 2.6 2.6V4h2v8.15l2.6-2.6L17 11l-5 5z"
+              fill="currentColor"
+            />
+            <path d="M5 20v-2h14v2H5z" fill="currentColor" />
+          </svg>
+          Add to Chrome (free)
+        </a>
+        <p class="install-note">Opens Chrome Web Store &mdash; no account required to install</p>
 
-    .warning { background: #fef9e7; border-left: 4px solid #f59e0b; padding: 16px 20px; margin: 16px 0; border-radius: 0 8px 8px 0; }
+        <h3>Step 1: Install from the Chrome Web Store</h3>
+        <p>
+          Click <strong>Add to Chrome</strong>, confirm the dialog, and the extension is ready. No
+          restart required.
+        </p>
 
-    table { width: 100%; border-collapse: collapse; margin: 12px 0; }
-    thead tr { background: #f8f9fa; }
-    th { text-align: left; padding: 8px 10px; border: 1px solid #e0e0e0; font-size: 0.9rem; }
-    td { padding: 8px 10px; border: 1px solid #e0e0e0; font-size: 0.9rem; color: #3c4043; vertical-align: top; }
-    td code { background: #f1f3f4; padding: 1px 5px; border-radius: 4px; font-size: 0.82rem; }
+        <h3>Step 2: Configure (click the toolbar icon)</h3>
 
-    footer { background: #f8f9fa; border-top: 1px solid #e0e0e0; text-align: center; padding: 24px; font-size: 0.85rem; color: #5f6368; }
-  </style>
-</head>
-<body>
+        <h3 class="settings-heading">Connection</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Setting</th>
+              <th>Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Personal Access Token (PAT)</strong></td>
+              <td>
+                Paste your Azure DevOps PAT. Required for PR creation and branch deletion.<br />
+                Required scope: <strong>Code: Read &amp; Write</strong>.<br />
+                Click <strong>Test Access</strong> to verify. The extension detects your
+                organisation from the active tab automatically.
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
-<header>
-  <img src="icons/icon128.png" alt="Git Helper icon">
-  <h1>Git Helper for Azure DevOps</h1>
-  <p>One-click PR creation with auto-filled descriptions, configurable draft mode and target branches, AI enrichment via Bedrock, and safe branch deletion. All directly in Azure DevOps.</p>
-</header>
+        <h3 class="settings-heading">+ PR Button: Configure ▾</h3>
+        <p class="settings-description">
+          Click <strong>Configure ▾</strong> next to the + PR Button feature row to expand these
+          options.
+        </p>
+        <table class="options-table">
+          <thead>
+            <tr>
+              <th>Option</th>
+              <th>Default</th>
+              <th>Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Create as Draft</strong></td>
+              <td>On</td>
+              <td>
+                When on, new PRs are created as drafts. An inline <strong>Publish</strong> action
+                appears after creation so you can publish without leaving the page. When off, PRs
+                are published immediately and no Publish button is shown.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Default Target Branch</strong></td>
+              <td><code>develop</code></td>
+              <td>
+                The branch that PRs merge into for all source branches except <code>develop</code>.
+                Change this if your team uses a different integration branch (e.g.
+                <code>main</code> or <code>trunk</code>).
+              </td>
+            </tr>
+            <tr>
+              <td><strong>develop → Target Branch</strong></td>
+              <td><code>main</code></td>
+              <td>
+                Override for when the source branch is <code>develop</code> itself, typically used
+                when merging a release up to <code>main</code>.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>AI Description Generation</strong></td>
+              <td>Off</td>
+              <td>
+                When enabled, the generated PR description is sent to AWS Bedrock for AI enrichment
+                before the PR is created. Toggling this on automatically opens the
+                <em>AI Configuration</em> section. Has no effect if AI Configuration has not been
+                saved.
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
-<nav>
-  <a href="/apps/">← All Apps</a>
-  <a href="#about">About</a>
-  <a href="#installation">Installation</a>
-  <a href="#permissions">Permissions</a>
-  <a href="#support">Support</a>
-  <a href="#privacy-policy">Privacy Policy</a>
-  <a href="#terms-of-service">Terms of Service</a>
-</nav>
+        <h3 class="settings-heading">Delete Branch: Configure ▾</h3>
+        <p class="settings-description">
+          Click <strong>Configure ▾</strong> next to the Delete Branch feature row to expand this
+          option.
+        </p>
+        <table class="options-table">
+          <thead>
+            <tr>
+              <th>Option</th>
+              <th>Default</th>
+              <th>Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Admin Delete</strong></td>
+              <td>Off</td>
+              <td>
+                When off, the Delete button is only enabled on branches where you were the last
+                committer. When on, the Delete button is enabled immediately for
+                <em>any</em> non-protected branch regardless of ownership. Intended for repo admins
+                cleaning up stale branches. Protected branches (<code>main</code>,
+                <code>master</code>, <code>develop</code>, <code>release/*</code>) are always
+                blocked.
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
-<div class="container">
+        <h3 class="settings-heading">AI Configuration: Configure ▾</h3>
+        <p class="settings-description">
+          Opened automatically when you enable <em>AI Description Generation</em>, or via
+          <strong>Configure ▾</strong> (appears after enabling AI in the + PR section). Powered by
+          <strong>Amazon Bedrock</strong>.
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>AI Configuration toggle</strong></td>
+              <td>
+                Master on/off for AI. When off, no data is sent to Bedrock even if credentials are
+                saved.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>AWS Region</strong></td>
+              <td>
+                The AWS region where your Bedrock endpoint is provisioned. Default:
+                <code>us-east-2</code>. The endpoint called is
+                <code>bedrock-runtime.{region}.amazonaws.com</code>.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Model ID</strong> <em>(optional)</em></td>
+              <td>
+                Bedrock model to use. Leave blank to use the extension default
+                (<code>anthropic.claude-3-5-sonnet-20241022-v2:0</code>).
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Bearer Token</strong></td>
+              <td>
+                Your AWS Bedrock bearer token (ABSK). Stored locally only, never sent anywhere
+                except <code>bedrock-runtime.*.amazonaws.com</code>. Click
+                <strong>Test AI Connection</strong> to verify credentials before saving.
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
-  <!-- ABOUT -->
-  <section id="about" class="section">
-    <h2>About Git Helper for Azure DevOps</h2>
-    <p>Git Helper is a Chrome Extension that adds productivity features directly inside Azure DevOps. Everything runs in your browser. No external server is involved except Azure DevOps and, optionally, AWS Bedrock.</p>
+        <h3>Getting a PAT token</h3>
+        <ol>
+          <li>Go to <code>dev.azure.com/{your-org}/_usersSettings/tokens</code></li>
+          <li>Click <strong>New Token</strong></li>
+          <li>
+            Scopes: <strong>Code → Read</strong> (add <strong>Write</strong> to also delete
+            branches)
+          </li>
+          <li>Copy the token and paste it into the extension popup</li>
+        </ol>
 
-    <h3>Branch Toolbar</h3>
-    <p>Features injected directly into the Azure DevOps branch list. No navigation required.</p>
+        <h3>How + PR works</h3>
+        <ol>
+          <li>
+            Click <strong>+ PR</strong> next to any branch name (excluding <code>main</code> /
+            <code>master</code>)
+          </li>
+          <li>
+            The extension derives a <strong>PR title</strong> from the branch name (strips prefixes,
+            title-cases)
+          </li>
+          <li>
+            The <strong>target branch</strong> is determined from your popup settings, defaulting to
+            <code>develop</code> or <code>main</code> when your source is <code>develop</code>
+          </li>
+          <li>
+            It fetches commits between your branch and the target, filters noise, and generates a
+            structured <strong>description</strong> with Summary, Changes, and Testing sections
+          </li>
+          <li>
+            Any numeric IDs in the branch name (e.g. <code>feature/12345</code>) are included as
+            <strong>work item links</strong>
+          </li>
+          <li>
+            If <em>AI Description Generation</em> is enabled and Bedrock is configured, the
+            description is enriched before the PR is created
+          </li>
+          <li>
+            The PR is created via the ADO REST API. The page stays the same with inline actions
+            appearing immediately
+          </li>
+          <li>
+            When <em>Create as Draft</em> is on: <strong>Publish</strong>, <strong>Delete</strong>,
+            and <strong>View</strong> actions appear. When off: only <strong>Delete</strong> and
+            <strong>View</strong>
+          </li>
+          <li>If no PAT is configured, session cookies are used automatically</li>
+        </ol>
 
-    <p style="font-size:0.85rem;color:#5f6368;margin-bottom:8px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;">PR Creation</p>
-    <div class="features">
-      <div class="feature">
-        <h3>One-click PR creation</h3>
-        <p><strong>+ PR</strong> next to every branch. Creates a PR with title, description, and work items pre-filled. Inline <strong>Publish / Delete / View</strong> actions appear on success.</p>
-      </div>
-      <div class="feature">
-        <h3>Draft mode</h3>
-        <p>PRs are drafts by default. Toggle <em>Create as Draft</em> off in the popup to publish immediately.</p>
-      </div>
-      <div class="feature">
-        <h3>Configurable targets</h3>
-        <p>Set a default target branch (default: <code>develop</code>) and a separate one for <code>develop</code> source branches (default: <code>main</code>).</p>
-      </div>
-      <div class="feature">
-        <h3>Auto-fill from branch name</h3>
-        <p>Title and description generated from your branch name and commit history. Prefixes stripped, commits grouped by type. Merge commits and low-signal messages (<em>wip</em>, <em>fix typo</em>) excluded automatically.</p>
-      </div>
-      <div class="feature">
-        <h3>Work item linking</h3>
-        <p>Numeric IDs in the branch name (e.g. <code>feature/12345/...</code>) are linked to the PR automatically.</p>
-      </div>
-      <div class="feature">
-        <h3>AI description generation</h3>
-        <p>Connect AWS Bedrock to refine descriptions with AI. Disabled by default. Requires configuration in the popup.</p>
-      </div>
+        <h3>How branch deletion works</h3>
+        <div class="warning">
+          <strong>Deletes the branch from the remote repository for everyone.</strong>
+          This is equivalent to <code>git push origin --delete branch-name</code>.
+        </div>
+        <ol>
+          <li>
+            The Delete button is always visible next to non-protected branches, but starts disabled
+            while ownership is checked
+          </li>
+          <li>
+            The extension identifies you via the ADO identity API using your PAT, then enables the
+            button if you were the last committer
+          </li>
+          <li>
+            With <em>Admin Delete</em> enabled, the button is enabled immediately for any
+            non-protected branch regardless of ownership
+          </li>
+          <li>
+            Protected branches (<code>main</code>, <code>master</code>, <code>develop</code>,
+            <code>release/*</code>) are never deletable
+          </li>
+          <li>
+            Click Delete → an inline <strong>Sure? ✓ ✗</strong> confirmation replaces the button
+          </li>
+          <li>
+            Click ✓ to confirm. The branch is deleted from the remote and removed from the list
+          </li>
+        </ol>
+
+        <h3>Removing the extension</h3>
+        <p>
+          Go to <code>chrome://extensions</code>, find <strong>Git Helper for Azure DevOps</strong>,
+          and click <strong>Remove</strong>. All locally stored settings are deleted with the
+          extension.
+        </p>
+      </section>
+
+      <!-- PERMISSIONS -->
+      <section id="permissions" class="section">
+        <h2>Permissions Requested and Why</h2>
+        <p>
+          Git Helper requests only the minimum permissions required to provide its functionality.
+        </p>
+
+        <table class="permissions-table">
+          <thead>
+            <tr>
+              <th>Permission</th>
+              <th>User-facing feature</th>
+              <th>Why narrower is not viable</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>storage</code></td>
+              <td>
+                Saves PAT token and AI settings (region, bearer token) to
+                <code>chrome.storage.local</code> so they persist across sessions.
+              </td>
+              <td>
+                Without this permission, every setting resets when the browser closes. There is no
+                narrower scope for local per-extension storage.
+              </td>
+            </tr>
+            <tr>
+              <td><code>activeTab</code></td>
+              <td>
+                Reads the URL of the currently active tab to detect which ADO organisation you are
+                on (used to pre-fill the "Test against organisation" field in the popup).
+              </td>
+              <td>
+                Only the active tab URL is read. <code>tabs</code> permission (which grants access
+                to all open tabs) is not requested.
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <code>host_permissions</code>:<br /><code>dev.azure.com/*</code><br /><code
+                  >*.visualstudio.com/*</code
+                >
+              </td>
+              <td>
+                Injects the content script into Azure DevOps pages; calls the ADO REST API to fetch
+                commits, branch refs, and user connection data; creates and deletes branch refs.
+              </td>
+              <td>
+                Content scripts and cross-origin fetch require host permissions matching the target
+                origin. Narrower path patterns (e.g. only <code>*/pullrequest/*</code>) are not
+                supported by Chrome's host permission syntax for content scripts.
+              </td>
+            </tr>
+            <tr>
+              <td><code>host_permissions</code>:<br /><code>*.amazonaws.com/*</code></td>
+              <td>
+                Sends the generated draft and commit messages to AWS Bedrock for AI refinement, only
+                when AI is enabled and a bearer token is configured. Only
+                <code>bedrock-runtime.{region}.amazonaws.com</code> is contacted.
+              </td>
+              <td>
+                Chrome extensions cannot call cross-origin URLs from content scripts unless declared
+                in <code>host_permissions</code>. If AI is disabled, this permission is never
+                exercised.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="notice">
+          <strong class="notice-title">No background permissions</strong>
+          Git Helper does not use <code>tabs</code>, <code>history</code>, <code>cookies</code>,
+          <code>webRequest</code>, <code>bookmarks</code>, <code>identity</code>, or any other
+          sensitive Chrome API. It has no access to pages outside Azure DevOps.
+        </div>
+      </section>
+
+      <!-- PRIVACY POLICY -->
+      <section id="privacy-policy" class="section">
+        <h2>Privacy Policy</h2>
+        <p class="meta">Last updated: September 28, 2026</p>
+
+        <h3>Overview</h3>
+        <p>
+          <a
+            href="https://chromewebstore.google.com/detail/git-helper-for-azure-devo/omofjglfgagfphekfdofojdknlibfoii"
+            target="_blank"
+            >Git Helper for Azure DevOps</a
+          >
+          is a Chrome Extension that adds PR workflow features to Azure DevOps pages. It is free to
+          use for personal and commercial purposes. You may not copy, modify, redistribute,
+          reverse-engineer, or create derivative works based on this extension. This policy explains
+          what data the extension accesses, how it is used, and what leaves your browser.
+        </p>
+
+        <h3>Data Stored Locally</h3>
+        <p>
+          The following values are saved to <code>chrome.storage.local</code>, stored exclusively on
+          your device and never transmitted to any server operated by this extension:
+        </p>
+        <ul>
+          <li>
+            <strong>Personal Access Token (PAT):</strong> used to authenticate calls to the Azure
+            DevOps REST API. Never sent anywhere other than <code>dev.azure.com</code> or
+            <code>*.visualstudio.com</code>.
+          </li>
+          <li>
+            <strong>AWS Bedrock Bearer Token:</strong> your ABSK token for AI refinement. Never sent
+            anywhere other than <code>bedrock-runtime.*.amazonaws.com</code>.
+          </li>
+          <li><strong>Settings:</strong> toggles, AWS region, AI model ID. Stored locally only.</li>
+        </ul>
+
+        <h3>Data Sent to Azure DevOps</h3>
+        <p>The extension calls the Azure DevOps REST API to:</p>
+        <ul>
+          <li>
+            Create a PR (title, description, work item links) when you click <strong>+ PR</strong>
+          </li>
+          <li>Fetch commits between branches to generate the PR description</li>
+          <li>Fetch branch refs and committer identity for ownership checks</li>
+          <li>Delete a branch ref when you confirm a branch deletion</li>
+        </ul>
+        <p>
+          These calls are made directly from your browser to Azure DevOps using your configured PAT
+          or existing session cookies. No intermediate server is involved.
+        </p>
+
+        <h3>Data Sent to AWS Bedrock</h3>
+        <p>When AI is enabled and a PR is created, the extension sends to AWS Bedrock:</p>
+        <ul>
+          <li>The selected commit messages</li>
+          <li>The PR title, source branch name, and target branch name</li>
+          <li>The template-generated draft description</li>
+        </ul>
+        <p>
+          No source code, file diffs, PAT tokens, API keys, or personal account information are
+          included in the AI request. When AI is disabled,
+          <strong>no data is sent to any AI provider</strong>.
+        </p>
+
+        <h3>Data Not Collected</h3>
+        <p>Git Helper does not collect, transmit, or store:</p>
+        <ul>
+          <li>Usage analytics or telemetry</li>
+          <li>Browsing history</li>
+          <li>Source code, file contents, or repository metadata beyond commit messages</li>
+          <li>Any data from pages other than Azure DevOps</li>
+        </ul>
+
+        <h3>Third-Party Services</h3>
+        <p>
+          The only external services the extension may contact are Azure DevOps (always) and AWS
+          Bedrock (only when AI is enabled). No analytics, advertising, or tracking services are
+          used.
+        </p>
+
+        <h3>Data Deletion</h3>
+        <p>
+          Remove the extension from Chrome to delete all locally stored data. You can also clear the
+          extension's storage via <code>chrome://extensions</code> → Git Helper →
+          <strong>Clear storage</strong>.
+        </p>
+
+        <h3>Contact</h3>
+        <p>
+          For questions about this Privacy Policy:
+          <a href="mailto:lucamit@gmail.com">lucamit@gmail.com</a>
+        </p>
+      </section>
+
+      <!-- TERMS OF SERVICE -->
+      <section id="terms-of-service" class="section">
+        <h2>Terms of Service</h2>
+        <p class="meta">Last updated: September 28, 2026</p>
+
+        <h3>1. Acceptance of Terms</h3>
+        <p>
+          By installing or using Git Helper for Azure DevOps, you agree to these Terms of Service.
+          If you do not agree, do not install or use the extension.
+        </p>
+
+        <h3>2. Description of the Service</h3>
+        <p>
+          Git Helper for Azure DevOps is a Chrome Extension that adds PR workflow features to Azure
+          DevOps: one-click PR creation with auto-filled titles and descriptions, configurable draft
+          mode and target branches, optional AI-powered description enrichment via AWS Bedrock, and
+          safe branch deletion with ownership verification and an optional Admin Delete mode. It is
+          intended as a productivity aid and should not be relied upon as the sole source of
+          important PR documentation or as a substitute for reviewing your own changes.
+        </p>
+
+        <h3>3. Branch Deletion</h3>
+        <p>
+          The Delete branch feature permanently removes the branch from the remote repository for
+          all users. You are solely responsible for any consequences of deleting a branch, including
+          loss of work. Always confirm you no longer need a branch before deleting it. The developer
+          is not responsible for data loss resulting from use of this feature.
+        </p>
+
+        <h3>4. License</h3>
+        <p>
+          Git Helper for Azure DevOps is free to use for both personal and commercial purposes. You
+          may not copy, modify, redistribute, reverse-engineer, or create derivative works based on
+          this extension or its source code without explicit written permission from the developer.
+        </p>
+
+        <h3>5. Third-Party AI Services</h3>
+        <p>
+          When AI refinement is enabled, commit data is sent to AWS Bedrock using the bearer token
+          you provide. Your use of AWS services is governed by Amazon's terms. The developer of Git
+          Helper is not responsible for the behaviour, outputs, data handling, pricing, or
+          availability of AWS Bedrock.
+        </p>
+
+        <h3>6. No Warranty</h3>
+        <p>
+          Git Helper is provided "as is" without warranties of any kind. The developer does not
+          guarantee that generated descriptions will be accurate, complete, or suitable; that the
+          extension will remain compatible with future versions of Chrome or Azure DevOps; or that
+          AI output will meet any quality standard. Always review generated descriptions before
+          publishing them.
+        </p>
+
+        <h3>7. Limitation of Liability</h3>
+        <p>
+          To the maximum extent permitted by law, the developer is not liable for any damages
+          arising from use of Git Helper, including inaccurate descriptions, data loss from branch
+          deletion, service interruptions, or consequences of relying on AI-generated output.
+        </p>
+
+        <h3>8. User Responsibilities</h3>
+        <p>
+          You agree to use the extension only on repositories you are authorised to access, to
+          comply with Azure DevOps and Chrome Web Store terms, and to review generated output before
+          publishing.
+        </p>
+
+        <h3>9. Changes to These Terms</h3>
+        <p>
+          The developer may update these Terms at any time. Continued use after changes are posted
+          constitutes acceptance of the revised terms.
+        </p>
+      </section>
+
+      <!-- SUPPORT -->
+      <section id="support" class="section">
+        <h2>Support</h2>
+
+        <h3>Getting help</h3>
+        <p>
+          See the <a href="#installation">Installation &amp; Setup</a> section above for
+          configuration and usage guidance.
+        </p>
+
+        <h3>Report an issue</h3>
+        <p>Email <a href="mailto:lucamit@gmail.com">lucamit@gmail.com</a> and please include:</p>
+        <ul>
+          <li>What happened and what you expected</li>
+          <li>
+            The Azure DevOps URL format (<code>dev.azure.com</code> or
+            <code>*.visualstudio.com</code>)
+          </li>
+          <li>Whether you are using a PAT or session auth</li>
+          <li>Whether AI is enabled and whether a Bedrock bearer token is configured</li>
+          <li>
+            Any errors in the browser console (<kbd>F12</kbd> → Console). Look for lines starting
+            with <code>[GH-ADO]</code>
+          </li>
+        </ul>
+      </section>
     </div>
 
-    <p style="font-size:0.85rem;color:#5f6368;margin-top:24px;margin-bottom:8px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;">Delete branch</p>
-    <div class="features features-2">
-      <div class="feature">
-        <h3>Ownership-verified deletion</h3>
-        <p><strong>Delete</strong> button appears on your branches only, enabled once you are confirmed as the last committer. Inline <em>Sure?</em> confirmation prevents accidents.</p>
-      </div>
-      <div class="feature">
-        <h3>Admin Delete</h3>
-        <p>Enable in the popup to delete any non-protected branch regardless of ownership. Protected branches (<code>main</code>, <code>master</code>, <code>develop</code>, <code>release</code>) are always blocked.</p>
-      </div>
-    </div>
-
-  </section>
-
-  <!-- INSTALLATION -->
-  <section id="installation" class="section">
-    <h2>Installation &amp; Setup</h2>
-
-    <h3>Step 1: Install from the Chrome Web Store</h3>
-    <p>
-      <a href="https://chromewebstore.google.com/detail/git-helper-for-azure-devo/omofjglfgagfphekfdofojdknlibfoii" target="_blank"
-         style="display:inline-flex;align-items:center;gap:10px;background:#0078d4;color:#fff;padding:12px 22px;border-radius:8px;font-weight:600;font-size:0.95rem;text-decoration:none;">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        Add to Chrome (free)
-      </a>
-    </p>
-    <p style="margin-top:12px;">Click <strong>Add to Chrome</strong>, confirm the dialog, and the extension is ready. No restart required.</p>
-
-    <h3>Step 2: Configure (click the toolbar icon)</h3>
-
-    <h3 style="font-size:0.95rem;margin-top:20px;">Connection</h3>
-    <table>
-      <thead><tr><th>Setting</th><th>Details</th></tr></thead>
-      <tbody>
-        <tr>
-          <td><strong>Personal Access Token (PAT)</strong></td>
-          <td>
-            Paste your Azure DevOps PAT. Required for PR creation and branch deletion.<br>
-            Required scope: <strong>Code: Read &amp; Write</strong>.<br>
-            Click <strong>Test Access</strong> to verify. The extension detects your organisation from the active tab automatically.
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
-    <h3 style="font-size:0.95rem;margin-top:20px;">+ PR Button: Configure ▾</h3>
-    <p style="font-size:0.9rem;color:#3c4043;margin-bottom:8px;">Click <strong>Configure ▾</strong> next to the + PR Button feature row to expand these options.</p>
-    <table>
-      <thead><tr><th>Option</th><th>Default</th><th>Details</th></tr></thead>
-      <tbody>
-        <tr>
-          <td><strong>Create as Draft</strong></td>
-          <td>On</td>
-          <td>When on, new PRs are created as drafts. An inline <strong>Publish</strong> action appears after creation so you can publish without leaving the page. When off, PRs are published immediately and no Publish button is shown.</td>
-        </tr>
-        <tr>
-          <td><strong>Default Target Branch</strong></td>
-          <td><code>develop</code></td>
-          <td>The branch that PRs merge into for all source branches except <code>develop</code>. Change this if your team uses a different integration branch (e.g. <code>main</code> or <code>trunk</code>).</td>
-        </tr>
-        <tr>
-          <td><strong>develop → Target Branch</strong></td>
-          <td><code>main</code></td>
-          <td>Override for when the source branch is <code>develop</code> itself, typically used when merging a release up to <code>main</code>.</td>
-        </tr>
-        <tr>
-          <td><strong>AI Description Generation</strong></td>
-          <td>Off</td>
-          <td>When enabled, the generated PR description is sent to AWS Bedrock for AI enrichment before the PR is created. Toggling this on automatically opens the <em>AI Configuration</em> section. Has no effect if AI Configuration has not been saved.</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <h3 style="font-size:0.95rem;margin-top:20px;">Delete Branch: Configure ▾</h3>
-    <p style="font-size:0.9rem;color:#3c4043;margin-bottom:8px;">Click <strong>Configure ▾</strong> next to the Delete Branch feature row to expand this option.</p>
-    <table>
-      <thead><tr><th>Option</th><th>Default</th><th>Details</th></tr></thead>
-      <tbody>
-        <tr>
-          <td><strong>Admin Delete</strong></td>
-          <td>Off</td>
-          <td>When off, the Delete button is only enabled on branches where you were the last committer. When on, the Delete button is enabled immediately for <em>any</em> non-protected branch regardless of ownership. Intended for repo admins cleaning up stale branches. Protected branches (<code>main</code>, <code>master</code>, <code>develop</code>, <code>release/*</code>) are always blocked.</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <h3 style="font-size:0.95rem;margin-top:20px;">AI Configuration: Configure ▾</h3>
-    <p style="font-size:0.9rem;color:#3c4043;margin-bottom:8px;">Opened automatically when you enable <em>AI Description Generation</em>, or via <strong>Configure ▾</strong> (appears after enabling AI in the + PR section). Powered by <strong>Amazon Bedrock</strong>.</p>
-    <table>
-      <thead><tr><th>Field</th><th>Details</th></tr></thead>
-      <tbody>
-        <tr>
-          <td><strong>AI Configuration toggle</strong></td>
-          <td>Master on/off for AI. When off, no data is sent to Bedrock even if credentials are saved.</td>
-        </tr>
-        <tr>
-          <td><strong>AWS Region</strong></td>
-          <td>The AWS region where your Bedrock endpoint is provisioned. Default: <code>us-east-2</code>. The endpoint called is <code>bedrock-runtime.{region}.amazonaws.com</code>.</td>
-        </tr>
-        <tr>
-          <td><strong>Model ID</strong> <em>(optional)</em></td>
-          <td>Bedrock model to use. Leave blank to use the extension default (<code>anthropic.claude-3-5-sonnet-20241022-v2:0</code>).</td>
-        </tr>
-        <tr>
-          <td><strong>Bearer Token</strong></td>
-          <td>Your AWS Bedrock bearer token (ABSK). Stored locally only, never sent anywhere except <code>bedrock-runtime.*.amazonaws.com</code>. Click <strong>Test AI Connection</strong> to verify credentials before saving.</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <h3>Getting a PAT token</h3>
-    <ol>
-      <li>Go to <code>dev.azure.com/{your-org}/_usersSettings/tokens</code></li>
-      <li>Click <strong>New Token</strong></li>
-      <li>Scopes: <strong>Code → Read</strong> (add <strong>Write</strong> to also delete branches)</li>
-      <li>Copy the token and paste it into the extension popup</li>
-    </ol>
-
-    <h3>How + PR works</h3>
-    <ol>
-      <li>Click <strong>+ PR</strong> next to any branch name (excluding <code>main</code> / <code>master</code>)</li>
-      <li>The extension derives a <strong>PR title</strong> from the branch name (strips prefixes, title-cases)</li>
-      <li>The <strong>target branch</strong> is determined from your popup settings, defaulting to <code>develop</code> or <code>main</code> when your source is <code>develop</code></li>
-      <li>It fetches commits between your branch and the target, filters noise, and generates a structured <strong>description</strong> with Summary, Changes, and Testing sections</li>
-      <li>Any numeric IDs in the branch name (e.g. <code>feature/12345</code>) are included as <strong>work item links</strong></li>
-      <li>If <em>AI Description Generation</em> is enabled and Bedrock is configured, the description is enriched before the PR is created</li>
-      <li>The PR is created via the ADO REST API. The page stays the same with inline actions appearing immediately</li>
-      <li>When <em>Create as Draft</em> is on: <strong>Publish</strong>, <strong>Delete</strong>, and <strong>View</strong> actions appear. When off: only <strong>Delete</strong> and <strong>View</strong></li>
-      <li>If no PAT is configured, session cookies are used automatically</li>
-    </ol>
-
-    <h3>How branch deletion works</h3>
-    <div class="warning">
-      <strong>Deletes the branch from the remote repository for everyone.</strong>
-      This is equivalent to <code>git push origin --delete branch-name</code>.
-    </div>
-    <ol>
-      <li>The Delete button is always visible next to non-protected branches, but starts disabled while ownership is checked</li>
-      <li>The extension identifies you via the ADO identity API using your PAT, then enables the button if you were the last committer</li>
-      <li>With <em>Admin Delete</em> enabled, the button is enabled immediately for any non-protected branch regardless of ownership</li>
-      <li>Protected branches (<code>main</code>, <code>master</code>, <code>develop</code>, <code>release/*</code>) are never deletable</li>
-      <li>Click Delete → an inline <strong>Sure? ✓ ✗</strong> confirmation replaces the button</li>
-      <li>Click ✓ to confirm. The branch is deleted from the remote and removed from the list</li>
-    </ol>
-
-    <h3>Removing the extension</h3>
-    <p>Go to <code>chrome://extensions</code>, find <strong>Git Helper for Azure DevOps</strong>, and click <strong>Remove</strong>. All locally stored settings are deleted with the extension.</p>
-  </section>
-
-  <!-- PERMISSIONS -->
-  <section id="permissions" class="section">
-    <h2>Permissions Requested and Why</h2>
-    <p>Git Helper requests only the minimum permissions required to provide its functionality.</p>
-
-    <table>
-      <thead>
-        <tr><th>Permission</th><th>User-facing feature</th><th>Why narrower is not viable</th></tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><code>storage</code></td>
-          <td>Saves PAT token and AI settings (region, bearer token) to <code>chrome.storage.local</code> so they persist across sessions.</td>
-          <td>Without this permission, every setting resets when the browser closes. There is no narrower scope for local per-extension storage.</td>
-        </tr>
-        <tr>
-          <td><code>activeTab</code></td>
-          <td>Reads the URL of the currently active tab to detect which ADO organisation you are on (used to pre-fill the "Test against organisation" field in the popup).</td>
-          <td>Only the active tab URL is read. <code>tabs</code> permission (which grants access to all open tabs) is not requested.</td>
-        </tr>
-        <tr>
-          <td><code>host_permissions</code>:<br><code>dev.azure.com/*</code><br><code>*.visualstudio.com/*</code></td>
-          <td>Injects the content script into Azure DevOps pages; calls the ADO REST API to fetch commits, branch refs, and user connection data; creates and deletes branch refs.</td>
-          <td>Content scripts and cross-origin fetch require host permissions matching the target origin. Narrower path patterns (e.g. only <code>*/pullrequest/*</code>) are not supported by Chrome's host permission syntax for content scripts.</td>
-        </tr>
-        <tr>
-          <td><code>host_permissions</code>:<br><code>*.amazonaws.com/*</code></td>
-          <td>Sends the generated draft and commit messages to AWS Bedrock for AI refinement, only when AI is enabled and a bearer token is configured. Only <code>bedrock-runtime.{region}.amazonaws.com</code> is contacted.</td>
-          <td>Chrome extensions cannot call cross-origin URLs from content scripts unless declared in <code>host_permissions</code>. If AI is disabled, this permission is never exercised.</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <div class="notice">
-      <strong>No background permissions</strong>
-      Git Helper does not use <code>tabs</code>, <code>history</code>, <code>cookies</code>, <code>webRequest</code>, <code>bookmarks</code>, <code>identity</code>, or any other sensitive Chrome API. It has no access to pages outside Azure DevOps.
-    </div>
-  </section>
-
-  <!-- PRIVACY POLICY -->
-  <section id="privacy-policy" class="section">
-    <h2>Privacy Policy</h2>
-    <p class="meta">Last updated: September 28, 2026</p>
-
-    <h3>Overview</h3>
-    <p><a href="https://chromewebstore.google.com/detail/git-helper-for-azure-devo/omofjglfgagfphekfdofojdknlibfoii" target="_blank">Git Helper for Azure DevOps</a> is a Chrome Extension that adds PR workflow features to Azure DevOps pages. It is free to use for personal and commercial purposes. You may not copy, modify, redistribute, reverse-engineer, or create derivative works based on this extension. This policy explains what data the extension accesses, how it is used, and what leaves your browser.</p>
-
-    <h3>Data Stored Locally</h3>
-    <p>The following values are saved to <code>chrome.storage.local</code>, stored exclusively on your device and never transmitted to any server operated by this extension:</p>
-    <ul>
-      <li><strong>Personal Access Token (PAT):</strong> used to authenticate calls to the Azure DevOps REST API. Never sent anywhere other than <code>dev.azure.com</code> or <code>*.visualstudio.com</code>.</li>
-      <li><strong>AWS Bedrock Bearer Token:</strong> your ABSK token for AI refinement. Never sent anywhere other than <code>bedrock-runtime.*.amazonaws.com</code>.</li>
-      <li><strong>Settings:</strong> toggles, AWS region, AI model ID. Stored locally only.</li>
-    </ul>
-
-    <h3>Data Sent to Azure DevOps</h3>
-    <p>The extension calls the Azure DevOps REST API to:</p>
-    <ul>
-      <li>Create a PR (title, description, work item links) when you click <strong>+ PR</strong></li>
-      <li>Fetch commits between branches to generate the PR description</li>
-      <li>Fetch branch refs and committer identity for ownership checks</li>
-      <li>Delete a branch ref when you confirm a branch deletion</li>
-    </ul>
-    <p>These calls are made directly from your browser to Azure DevOps using your configured PAT or existing session cookies. No intermediate server is involved.</p>
-
-    <h3>Data Sent to AWS Bedrock</h3>
-    <p>When AI is enabled and a PR is created, the extension sends to AWS Bedrock:</p>
-    <ul>
-      <li>The selected commit messages</li>
-      <li>The PR title, source branch name, and target branch name</li>
-      <li>The template-generated draft description</li>
-    </ul>
-    <p>No source code, file diffs, PAT tokens, API keys, or personal account information are included in the AI request. When AI is disabled, <strong>no data is sent to any AI provider</strong>.</p>
-
-    <h3>Data Not Collected</h3>
-    <p>Git Helper does not collect, transmit, or store:</p>
-    <ul>
-      <li>Usage analytics or telemetry</li>
-      <li>Browsing history</li>
-      <li>Source code, file contents, or repository metadata beyond commit messages</li>
-      <li>Any data from pages other than Azure DevOps</li>
-    </ul>
-
-    <h3>Third-Party Services</h3>
-    <p>The only external services the extension may contact are Azure DevOps (always) and AWS Bedrock (only when AI is enabled). No analytics, advertising, or tracking services are used.</p>
-
-    <h3>Data Deletion</h3>
-    <p>Remove the extension from Chrome to delete all locally stored data. You can also clear the extension's storage via <code>chrome://extensions</code> → Git Helper → <strong>Clear storage</strong>.</p>
-
-    <h3>Contact</h3>
-    <p>For questions about this Privacy Policy: <a href="mailto:lucamit@gmail.com">lucamit@gmail.com</a></p>
-  </section>
-
-  <!-- TERMS OF SERVICE -->
-  <section id="terms-of-service" class="section">
-    <h2>Terms of Service</h2>
-    <p class="meta">Last updated: September 28, 2026</p>
-
-    <h3>1. Acceptance of Terms</h3>
-    <p>By installing or using Git Helper for Azure DevOps, you agree to these Terms of Service. If you do not agree, do not install or use the extension.</p>
-
-    <h3>2. Description of the Service</h3>
-    <p>Git Helper for Azure DevOps is a Chrome Extension that adds PR workflow features to Azure DevOps: one-click PR creation with auto-filled titles and descriptions, configurable draft mode and target branches, optional AI-powered description enrichment via AWS Bedrock, and safe branch deletion with ownership verification and an optional Admin Delete mode. It is intended as a productivity aid and should not be relied upon as the sole source of important PR documentation or as a substitute for reviewing your own changes.</p>
-
-    <h3>3. Branch Deletion</h3>
-    <p>The Delete branch feature permanently removes the branch from the remote repository for all users. You are solely responsible for any consequences of deleting a branch, including loss of work. Always confirm you no longer need a branch before deleting it. The developer is not responsible for data loss resulting from use of this feature.</p>
-
-    <h3>4. License</h3>
-    <p>Git Helper for Azure DevOps is free to use for both personal and commercial purposes. You may not copy, modify, redistribute, reverse-engineer, or create derivative works based on this extension or its source code without explicit written permission from the developer.</p>
-
-    <h3>5. Third-Party AI Services</h3>
-    <p>When AI refinement is enabled, commit data is sent to AWS Bedrock using the bearer token you provide. Your use of AWS services is governed by Amazon's terms. The developer of Git Helper is not responsible for the behaviour, outputs, data handling, pricing, or availability of AWS Bedrock.</p>
-
-    <h3>6. No Warranty</h3>
-    <p>Git Helper is provided "as is" without warranties of any kind. The developer does not guarantee that generated descriptions will be accurate, complete, or suitable; that the extension will remain compatible with future versions of Chrome or Azure DevOps; or that AI output will meet any quality standard. Always review generated descriptions before publishing them.</p>
-
-    <h3>7. Limitation of Liability</h3>
-    <p>To the maximum extent permitted by law, the developer is not liable for any damages arising from use of Git Helper, including inaccurate descriptions, data loss from branch deletion, service interruptions, or consequences of relying on AI-generated output.</p>
-
-    <h3>8. User Responsibilities</h3>
-    <p>You agree to use the extension only on repositories you are authorised to access, to comply with Azure DevOps and Chrome Web Store terms, and to review generated output before publishing.</p>
-
-    <h3>9. Changes to These Terms</h3>
-    <p>The developer may update these Terms at any time. Continued use after changes are posted constitutes acceptance of the revised terms.</p>
-  </section>
-
-  <!-- SUPPORT -->
-  <section id="support" class="section">
-    <h2>Support</h2>
-
-    <h3>Getting help</h3>
-    <p>See the <a href="#installation">Installation &amp; Setup</a> section above for configuration and usage guidance.</p>
-
-    <h3>Report an issue</h3>
-    <p>Email <a href="mailto:lucamit@gmail.com">lucamit@gmail.com</a> and please include:</p>
-    <ul>
-      <li>What happened and what you expected</li>
-      <li>The Azure DevOps URL format (<code>dev.azure.com</code> or <code>*.visualstudio.com</code>)</li>
-      <li>Whether you are using a PAT or session auth</li>
-      <li>Whether AI is enabled and whether a Bedrock bearer token is configured</li>
-      <li>Any errors in the browser console (<kbd>F12</kbd> → Console). Look for lines starting with <code>[GH-ADO]</code></li>
-    </ul>
-
-  </section>
-
-</div>
-
-<footer>
-  <p>Git Helper for Azure DevOps &mdash; <a href="mailto:lucamit@gmail.com">lucamit@gmail.com</a></p>
-</footer>
-
-</body>
+    <footer>
+      <p>
+        Git Helper for Azure DevOps &mdash; <a href="mailto:lucamit@gmail.com">lucamit@gmail.com</a>
+      </p>
+    </footer>
+  </body>
 </html>
