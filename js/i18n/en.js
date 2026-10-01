@@ -31,7 +31,7 @@ var lang_en = {
 
   cs_sp_bullets:
     '<li>Led team of 8: requirements, JIRA sprints, design docs, code reviews &amp; CI/CD.</li>' +
-    '<li>Optimized multi-stage CI/CD pipelines; reduced deployment time and cadence.</li>' +
+    '<li>Optimized multi-stage CI/CD pipelines; reduced deployment time and improved release cadence.</li>' +
     '<li>Architected zero-downtime scaling strategy for multi-tenant SaaS platform.</li>' +
     '<li>Decomposed monolith into microservices for scalability and independent deployability.</li>',
 
