@@ -1,0 +1,43 @@
+:root {
+  --theme-color: #0078d4;
+  --theme-heading: #0078d4;
+  --theme-header: #0078d4;
+  --theme-border: #e1f0fb;
+  --theme-notice: #e1f0fb;
+  --theme-button: #0078d4;
+  --theme-button-hover: #0065b3;
+  --theme-button-active: #005596;
+  --theme-shadow: 0, 120, 212;
+}
+
+.section .feature-label {
+  font-size: 0.85rem;
+  color: #5f6368;
+  margin-bottom: 8px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.section .feature-label-spaced {
+  margin-top: 24px;
+}
+.section .settings-heading {
+  margin-top: 20px;
+}
+.section .settings-description {
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+}
+
+.section table {
+  table-layout: fixed;
+}
+.section table th:first-child {
+  width: 30%;
+}
+.options-table th:nth-child(2) {
+  width: 15%;
+}
+.permissions-table th:nth-child(2) {
+  width: 35%;
+}
