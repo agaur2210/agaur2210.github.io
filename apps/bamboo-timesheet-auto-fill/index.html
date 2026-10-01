@@ -133,6 +133,8 @@
   <a href="/apps/">← All Apps</a>
   <a href="#about">About</a>
   <a href="#installation">Installation</a>
+  <a href="#auto-fill">Auto-Fill</a>
+  <a href="#delete-entries">Delete Entries</a>
   <a href="#permissions">Permissions</a>
   <a href="#support">Support</a>
   <a href="#privacy-policy">Privacy Policy</a>
@@ -150,7 +152,7 @@
       This extension is not affiliated with, endorsed by, or sponsored by Bamboo HR LLC. All interactions with BambooHR are made directly from your browser using your existing authenticated session — no data passes through any server other than BambooHR's own servers.
     </div>
 
-    <p>Timesheet Auto-Fill saves your standard weekly work schedule (morning/afternoon blocks, Friday half-day, skip dates) and lets you populate a full pay period with a single click — either from the extension popup or directly from the "Auto-Fill" button injected into the BambooHR timesheet header.</p>
+    <p>Timesheet Auto-Fill saves your standard weekly work schedule (morning/afternoon blocks, a separate Friday afternoon block, skip dates) and lets you preview and submit entries from the extension popup. The "Auto-Fill" and "Delete" buttons in the BambooHR timesheet header open the popup, where you can also preview and delete existing clock entries for the current pay period.</p>
 
     <div class="features">
       <div class="feature">
@@ -163,11 +165,15 @@
       </div>
       <div class="feature">
         <h3>Preview before submit</h3>
-        <p>A preview modal shows every entry — days, total hours — before anything is submitted. You can cancel at any time.</p>
+        <p>A preview modal shows every generated entry, the number of days and entries, and total hours before submission. Cancel the preview or confirm submission. <a href="#auto-fill">How auto-fill works →</a></p>
       </div>
       <div class="feature">
-        <h3>Header button</h3>
-        <p>An "Auto-Fill" button is injected directly into BambooHR's timesheet header, so you never have to open the popup.</p>
+        <h3>Timesheet header buttons</h3>
+        <p>The "Auto-Fill" and "Delete" buttons in BambooHR's timesheet header open the extension popup for previewing, submitting, or deleting entries.</p>
+      </div>
+      <div class="feature">
+        <h3>Preview before delete</h3>
+        <p>Review existing clock entries for the current pay period, grouped by date with start and end times. Delete them only after confirming <strong>Delete All</strong>. <a href="#delete-entries">How deletion works →</a></p>
       </div>
       <div class="feature">
         <h3>No external servers</h3>
@@ -203,31 +209,102 @@
       <tbody>
         <tr>
           <td><strong>Date Range</strong></td>
-          <td>Start and end date for the period you want to fill. Defaults to the current calendar month.</td>
+          <td>Start and end date for the period you want to fill, both included. Resets to the current calendar month whenever the popup opens.</td>
         </tr>
         <tr>
           <td><strong>Mon–Thu Schedule</strong></td>
-          <td>Morning and Afternoon time blocks applied to Monday through Thursday.</td>
+          <td>Morning and Afternoon time blocks applied to Monday through Thursday. The Morning block also applies to Fridays.</td>
         </tr>
         <tr>
           <td><strong>Friday Schedule</strong></td>
-          <td>Afternoon-only block for Fridays (half-day pattern). Leave blank to skip Fridays entirely.</td>
+          <td>A separate Afternoon block used on Fridays, together with the shared Morning block. Start and end times are required; add Friday dates to Skip Dates to exclude them from a date-range fill.</td>
         </tr>
         <tr>
           <td><strong>Skip Dates</strong></td>
           <td>Click <strong>+ Add date</strong> and pick any individual days to exclude (bank holidays, PTO). Weekends are always excluded automatically.</td>
         </tr>
+        <tr>
+          <td><strong>Single Date Preview</strong></td>
+          <td>Enable this option and choose a Date to Preview to generate entries for one weekday. In this mode, Date Range and Skip Dates do not filter the preview.</td>
+        </tr>
       </tbody>
     </table>
 
     <h3>Step 3: Fill your timesheet</h3>
-    <p>Click <strong>Preview Timesheet</strong> in the popup, or click the green <strong>Auto-Fill</strong> button in the BambooHR timesheet header. A preview dialog shows all entries to be created. Click <strong>Confirm &amp; Submit</strong> to post them.</p>
+    <p>Follow <a href="#auto-fill">Auto-Fill Timesheet Entries</a> below to review generated entries and confirm submission.</p>
 
     <h3>Important: Employee ID detection</h3>
-    <p>When using the "Auto-Fill" button injected into the BambooHR page, the extension detects your Employee ID from the page URL. This works when the URL contains an <code>?id=</code> parameter or a path segment like <code>/employees/12345/</code>. If neither is present, navigate to your own timesheet page first.</p>
+    <p>Open your own timesheet page while logged into BambooHR. When submitting entries, the extension obtains your Employee ID from your authenticated BambooHR session.</p>
 
     <h3>Removing the extension</h3>
     <p>Go to <code>chrome://extensions</code>, find <strong>Timesheet Auto-Fill for BambooHR</strong>, and click <strong>Remove</strong>. All locally stored schedule data is deleted with the extension.</p>
+  </section>
+
+  <!-- AUTO-FILL -->
+  <section id="auto-fill" class="section">
+    <h2>Auto-Fill Timesheet Entries</h2>
+    <p>Generate clock entries from your saved weekly schedule for a date range or a single weekday, review them, and confirm submission to BambooHR.</p>
+
+    <ol>
+      <li>Open your own BambooHR timesheet while logged in.</li>
+      <li>Click the green <strong>Auto-Fill</strong> button in the timesheet header to open the extension popup, or open it from the extension icon.</li>
+      <li>Set <strong>Start Date</strong> and <strong>End Date</strong>, including both boundary dates, and enter your Morning, Afternoon, and Friday Afternoon times.</li>
+      <li>Add holidays or days off to <strong>Skip Dates</strong>. For a single weekday instead, enable <strong>Single Date Preview</strong> and choose a <strong>Date to Preview</strong>.</li>
+      <li>Click <strong>Preview Timesheet</strong>. The extension validates your settings, saves them locally, and opens the <strong>Timesheet Preview</strong> dialog.</li>
+      <li>Review each date's start and end times, plus the total days, entries, and hours. Click <strong>Cancel</strong> to close the preview without submitting, or <strong>Confirm &amp; Submit</strong> to send the displayed entries to BambooHR.</li>
+      <li>After the success message, reload the BambooHR page to see the entries.</li>
+    </ol>
+
+    <h3>How entries are generated</h3>
+    <table>
+      <thead><tr><th>Day</th><th>Entries generated</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Monday–Thursday</strong></td><td>Two clock entries: the configured Morning block and Afternoon block.</td></tr>
+        <tr><td><strong>Friday</strong></td><td>Two clock entries: the same Morning block and the separate Friday Afternoon block.</td></tr>
+        <tr><td><strong>Saturday–Sunday</strong></td><td>No entries. Weekends are excluded in both date-range and single-date mode.</td></tr>
+      </tbody>
+    </table>
+    <p>In date-range mode, any date listed in <strong>Skip Dates</strong> is excluded. To skip a Friday, add that date to Skip Dates; leaving the Friday times blank prevents the preview from opening.</p>
+
+    <h3>Single Date Preview</h3>
+    <p>When enabled, only the chosen <strong>Date to Preview</strong> is used. The Date Range and Skip Dates settings are ignored, so even a weekday listed in Skip Dates will be included. Friday uses its separate afternoon block. This mode also allows submission through <strong>Confirm &amp; Submit</strong>.</p>
+
+    <h3>Saved settings</h3>
+    <p>Schedule times, skip dates, and single-date preferences are saved when you click <strong>Preview Timesheet</strong> after validation, even if you later cancel the preview. Each time the popup opens, Date Range resets to the current calendar month. Saved skip dates are restored only within the calendar month in which they were saved; they reset when the month changes.</p>
+
+    <h3>Validation and empty previews</h3>
+    <p>Date-range mode requires both dates, with Start Date on or before End Date. Single-date mode requires a Date to Preview. All Morning, Afternoon, and Friday Afternoon start and end times are required in either mode, even if the chosen dates do not include a Friday. Each block must start before it ends, and the morning and afternoon blocks must not overlap.</p>
+    <p>If the range contains only weekends or skipped dates, the extension displays <strong>"No entries generated. Check your dates and Skip Dates."</strong> A weekend in single-date mode displays <strong>"Weekend dates are excluded."</strong></p>
+
+    <h3>Existing entries and submission errors</h3>
+    <p>The preview is generated from your schedule; it does not check existing BambooHR entries or automatically skip duplicates. If BambooHR returns a <strong>409 conflict</strong>, the extension reports that some entries already exist. Add those dates to Skip Dates in date-range mode, or review and remove the existing entries before trying again. See <a href="#delete-entries">Delete Timesheet Entries</a> for the current-pay-period deletion flow.</p>
+    <p>If the extension cannot read the page's authentication token, reload the BambooHR page and try again. Other submission failures are shown in an error message. If the build has expired, update the extension before using auto-fill.</p>
+  </section>
+
+  <!-- DELETE ENTRIES -->
+  <section id="delete-entries" class="section">
+    <h2>Delete Timesheet Entries</h2>
+    <p>Use this feature to remove existing clock entries from the current pay period, for example before submitting a corrected schedule.</p>
+
+    <ol>
+      <li>Open your BambooHR timesheet for the <strong>current pay period</strong> while logged in.</li>
+      <li>Click the <strong>Delete</strong> button in the timesheet header to open the extension popup, or open it from the extension icon.</li>
+      <li>Click <strong>Preview Delete</strong> in the popup. After loading a preview, this button is labelled <strong>Delete Entries</strong>.</li>
+      <li>Review the <strong>Delete Timesheet Entries</strong> dialog. It shows the current pay period's clock entries grouped by date, with their start and end times and the total number of entries to be deleted.</li>
+      <li>Click <strong>Cancel</strong> to close the preview without deleting anything, or <strong>Delete All</strong> to permanently delete every entry listed.</li>
+      <li>After the success message, reload the BambooHR page to see the changes.</li>
+    </ol>
+
+    <div class="warning">
+      <strong>Deletion applies to the entire preview.</strong>
+      The popup's Date Range, Skip Dates, and Single Date Preview settings apply to auto-fill only; they do not filter deletion. There is no option to select individual entries in the delete preview. Review all listed entries before confirming <strong>Delete All</strong>.
+    </div>
+
+    <h3>Current pay period only</h3>
+    <p>Deletion is supported only for the current pay period. If BambooHR returns a different pay period, the extension stops with the message <strong>"You can only delete entries for the current pay period."</strong></p>
+
+    <h3>No entries to delete</h3>
+    <p>If no clock entries are returned, the preview displays an empty-state message and <strong>Delete All</strong> is disabled.</p>
   </section>
 
   <!-- PERMISSIONS -->
@@ -247,17 +324,17 @@
         </tr>
         <tr>
           <td><code>activeTab</code></td>
-          <td>Reads the URL of the current BambooHR tab to detect your Employee ID when submitting from the popup.</td>
-          <td>Only the active tab URL is read when you click Submit. The broader <code>tabs</code> permission is not requested.</td>
+          <td>Helps the popup access a BambooHR tab when you preview, submit, or delete timesheet entries.</td>
+          <td>The broader <code>tabs</code> permission is not requested; BambooHR host permissions provide access to matching tabs.</td>
         </tr>
         <tr>
           <td><code>scripting</code></td>
-          <td>Reads the CSRF token from BambooHR's page JavaScript (<code>window.CSRF_TOKEN</code>) so that API requests are authenticated correctly.</td>
+          <td>Reads the CSRF token from BambooHR's page JavaScript (<code>window.CSRF_TOKEN</code>) and runs requests in the BambooHR tab to submit entries, load the delete preview, and delete confirmed entries.</td>
           <td>CSRF tokens live in the page's JavaScript context. A content script in an isolated world cannot access them directly; <code>chrome.scripting.executeScript</code> with <code>world: "MAIN"</code> is required.</td>
         </tr>
         <tr>
           <td><code>host_permissions</code>:<br><code>https://*.bamboohr.com/*</code></td>
-          <td>Injects the "Auto-Fill" button into the BambooHR timesheet header and posts time-clock entries to the BambooHR API using your authenticated session.</td>
+          <td>Injects the "Auto-Fill" and "Delete" buttons into the BambooHR timesheet header and reads, submits, or deletes time-clock entries using your authenticated session.</td>
           <td>Content scripts and same-origin fetch both require matching host permissions. Narrower path patterns are not supported by Chrome's content script syntax.</td>
         </tr>
         <tr>
@@ -277,7 +354,7 @@
   <!-- PRIVACY POLICY -->
   <section id="privacy-policy" class="section">
     <h2>Privacy Policy</h2>
-    <p class="meta">Last updated: September 29, 2026</p>
+    <p class="meta">Last updated: October 1, 2026</p>
 
     <h3>Overview</h3>
     <p>Timesheet Auto-Fill for BambooHR is an independent third-party Chrome Extension. It is not affiliated with, endorsed by, or sponsored by Bamboo HR LLC. "BambooHR" is a registered trademark of Bamboo HR LLC and is used here solely to describe the service this extension is compatible with.</p>
@@ -291,14 +368,9 @@
     </ul>
     <p>No personal information, no passwords, no BambooHR credentials, and no session tokens are stored by this extension.</p>
 
-    <h3>Data Sent to BambooHR</h3>
-    <p>When you confirm a submission, the extension posts the following to your BambooHR tenant's <code>/timesheet/clock/entries</code> API endpoint:</p>
-    <ul>
-      <li>Your Employee ID (detected from the page URL)</li>
-      <li>Date, start time, and end time for each generated entry</li>
-      <li>The CSRF token obtained from the page (used to authenticate the request as required by BambooHR)</li>
-    </ul>
-    <p>This call is made directly from your browser to BambooHR using your existing authenticated session (the same session cookies your browser already has from being logged into BambooHR). No intermediate server is involved. The extension has no access to your BambooHR password or session token.</p>
+    <h3>Data Accessed and Sent for Deletion</h3>
+    <p>When you preview deletion, the extension reads the pay-period identifier from the BambooHR page and fetches that timesheet. It checks that the returned timesheet is the current pay period and uses clock-entry IDs, dates, start times, and end times to prepare the preview. This preview is held temporarily in the popup and is not saved to local storage.</p>
+    <p>Only after you click <strong>Delete All</strong> does the extension send the listed clock-entry IDs in a <code>DELETE</code> request to your BambooHR tenant's <code>/timesheet/clock/entries</code> endpoint, with the page's CSRF token and your existing authenticated session. The request goes directly to BambooHR.</p>
 
     <h3>Data Not Collected</h3>
     <p>Timesheet Auto-Fill does not collect, transmit, or store:</p>
@@ -312,12 +384,13 @@
     <h3>Third-Party Services</h3>
     <p>This extension contacts two external services:</p>
     <ul>
-      <li><strong>Your BambooHR tenant</strong> — to submit time-clock entries using your authenticated session.</li>
+      <li><strong>Your BambooHR tenant</strong> — to read timesheet entries for the delete preview, submit new entries, and delete confirmed entries using your authenticated session.</li>
       <li><strong>Cloudflare CDN trace endpoint</strong> (<code>https://cloudflare.com/cdn-cgi/trace</code>) — a public, anonymous endpoint used to obtain accurate server time for date range validation. No personal data, credentials, or identifying information is sent in this request.</li>
     </ul>
     <p>No analytics, advertising, AI, or any other third-party service is used.</p>
 
     <h3>Data Deletion</h3>
+    <p>To delete clock entries stored in BambooHR, follow <a href="#delete-entries">Delete Timesheet Entries</a>. Removing the extension does not delete any timesheet entries stored in BambooHR.</p>
     <p>Remove the extension from Chrome to delete all locally stored schedule data. You can also clear storage via <code>chrome://extensions</code> → Timesheet Auto-Fill → <strong>Clear storage</strong>.</p>
 
     <h3>Contact</h3>
@@ -327,7 +400,7 @@
   <!-- TERMS OF SERVICE -->
   <section id="terms-of-service" class="section">
     <h2>Terms of Service</h2>
-    <p class="meta">Last updated: September 29, 2026</p>
+    <p class="meta">Last updated: October 1, 2026</p>
 
     <h3>1. Acceptance of Terms</h3>
     <p>By installing or using Timesheet Auto-Fill for BambooHR, you agree to these Terms of Service. If you do not agree, do not install or use the extension.</p>
@@ -337,7 +410,7 @@
     <p>Use of this extension is subject to BambooHR's own Terms of Service and acceptable use policies. It is your responsibility to ensure your use of this extension complies with BambooHR's terms, your employer's policies, and any applicable employment or timekeeping regulations.</p>
 
     <h3>3. Description of the Service</h3>
-    <p>Timesheet Auto-Fill for BambooHR is a Chrome Extension that generates and submits time-clock entries to BambooHR based on a saved weekly schedule. It is intended as a personal productivity aid. It does not circumvent, bypass, or override any BambooHR security mechanism — it operates using your authenticated browser session and standard BambooHR web APIs.</p>
+    <p>Timesheet Auto-Fill for BambooHR is a Chrome Extension that generates and submits time-clock entries to BambooHR based on a saved weekly schedule. It can also preview and delete existing clock entries for the current pay period after you confirm deletion. It is intended as a personal productivity aid. It does not circumvent, bypass, or override any BambooHR security mechanism — it operates using your authenticated browser session and standard BambooHR web APIs.</p>
 
     <h3>4. Accuracy of Time Entries</h3>
     <p>You are solely responsible for ensuring the time entries submitted through this extension are accurate, truthful, and compliant with your employer's timekeeping policies and applicable law. The extension generates entries based on the schedule you configure; it does not verify whether those times reflect your actual hours worked. Submitting inaccurate time records may have legal or employment consequences for which the developer is not responsible.</p>
@@ -369,7 +442,7 @@
     <h2>Support</h2>
 
     <h3>Getting help</h3>
-    <p>See the <a href="#installation">Installation &amp; Setup</a> section above for configuration and usage guidance.</p>
+    <p>See <a href="#installation">Installation &amp; Setup</a> for configuration, <a href="#auto-fill">Auto-Fill Timesheet Entries</a> for preview and submission guidance, or <a href="#delete-entries">Delete Timesheet Entries</a> for the deletion preview and confirmation steps.</p>
 
     <h3>Report an issue</h3>
     <p>Email <a href="mailto:lucamit@gmail.com">lucamit@gmail.com</a> and include:</p>
