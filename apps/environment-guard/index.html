@@ -1,0 +1,1101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Environment Guard | Chrome / Edge / Safari Extension</title>
+    <meta
+      name="description"
+      content="Environment Guard is a browser extension that visually distinguishes production, staging, QA, and development environments at a glance — coloured border, banner, and tab prefix injected directly into the page."
+    />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://apps.agaur.dev/apps/environment-guard/" />
+    <meta name="author" content="Amit Gaur" />
+    <link rel="icon" type="image/png" href="images/environment-guard-128x128.png" />
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://apps.agaur.dev/apps/environment-guard/" />
+    <meta property="og:title" content="Environment Guard | Chrome / Edge / Safari Extension" />
+    <meta
+      property="og:description"
+      content="Environment Guard is a browser extension that visually distinguishes production, staging, QA, and development environments at a glance — coloured border, banner, and tab prefix injected directly into the page."
+    />
+    <meta
+      property="og:image"
+      content="https://apps.agaur.dev/apps/environment-guard/images/environment-guard-128x128.png"
+    />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Environment Guard | Chrome / Edge / Safari Extension" />
+    <meta
+      name="twitter:description"
+      content="Environment Guard is a browser extension that visually distinguishes production, staging, QA, and development environments at a glance — coloured border, banner, and tab prefix injected directly into the page."
+    />
+    <meta
+      name="twitter:image"
+      content="https://apps.agaur.dev/apps/environment-guard/images/environment-guard-128x128.png"
+    />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:site_name" content="Apps by Amit Gaur" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Environment Guard",
+        "description": "Environment Guard is a browser extension that visually distinguishes production, staging, QA, and development environments at a glance — coloured border, banner, and tab prefix injected directly into the page.",
+        "operatingSystem": "Chrome, Edge, Safari",
+        "applicationCategory": "DeveloperApplication",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "image": "https://apps.agaur.dev/apps/environment-guard/images/environment-guard-128x128.png"
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://apps.agaur.dev/" },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Apps",
+            "item": "https://apps.agaur.dev/apps/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Environment Guard",
+            "item": "https://apps.agaur.dev/apps/environment-guard/"
+          }
+        ]
+      }
+    </script>
+    <link rel="stylesheet" href="../common.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="app-page">
+    <header>
+      <img src="images/environment-guard-96x96.png" alt="Environment Guard icon" />
+      <h1>Environment Guard</h1>
+      <p>
+        Never mistake production for staging again — coloured border, banner, and tab prefix tell
+        you exactly which environment you're on, at a glance.
+      </p>
+    </header>
+
+    <nav>
+      <a href="/apps/">← All Apps</a>
+      <a href="#about">About</a>
+      <a href="#setup">Setup Guide</a>
+      <a href="#popup">Using the Popup</a>
+      <a href="#settings">Settings</a>
+      <a href="#matching">URL Matching</a>
+      <a href="#permissions">Permissions</a>
+      <a href="#support">Support</a>
+      <a href="#privacy-policy">Privacy Policy</a>
+      <a href="#terms-of-service">Terms of Service</a>
+    </nav>
+
+    <div class="container">
+
+      <!-- ABOUT -->
+      <section id="about" class="section">
+        <h2>About Environment Guard</h2>
+        <p>
+          Environment Guard is a Manifest V3 browser extension for Chrome, Edge, and Safari that
+          visually labels every environment your web apps run on. Configure your projects once and
+          the extension automatically injects a coloured frame, a banner, and a tab title prefix
+          whenever you visit a matching URL — no more accidentally running a destructive action on
+          production when you meant staging.
+        </p>
+
+        <div class="features">
+          <div class="feature">
+            <h3>Coloured border</h3>
+            <p>
+              A configurable-thickness frame (1–4 px) around the entire viewport in the
+              environment's colour — visible no matter how deep you are in the UI.
+            </p>
+          </div>
+          <div class="feature">
+            <h3>Environment banner</h3>
+            <p>
+              Full-width strip or compact floating badge showing the project name, environment
+              tier, and a context hint (e.g. <em>"Changes here affect live data."</em>).
+            </p>
+          </div>
+          <div class="feature">
+            <h3>Tab title prefix</h3>
+            <p>
+              <code>[PRODUCTION] Orders</code> — the right tab is obvious without switching to it.
+              A <code>MutationObserver</code> keeps the prefix in place even when a SPA overwrites
+              the title.
+            </p>
+          </div>
+          <div class="feature">
+            <h3>One-click environment switching</h3>
+            <p>
+              Jump between environments while preserving the current path. Optional: also preserve
+              query params and hash. Always shows a confirmation step before navigating to
+              production.
+            </p>
+          </div>
+          <div class="feature">
+            <h3>Inline quick-add</h3>
+            <p>
+              Configure a new environment directly from the popup on any unconfigured page — no
+              separate options window needed.
+            </p>
+          </div>
+          <div class="feature">
+            <h3>Import / Export</h3>
+            <p>
+              Back up and restore your full configuration as JSON. Import merges with or replaces
+              existing projects. Download an example file to see the expected format.
+            </p>
+          </div>
+        </div>
+
+        <h3>Environment tiers</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Tier</th>
+              <th>Default colour</th>
+              <th>Banner context hint</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Production</strong></td>
+              <td><code>#dc2626</code> Red</td>
+              <td>Changes here affect live data.</td>
+            </tr>
+            <tr>
+              <td><strong>Staging</strong></td>
+              <td><code>#d97706</code> Amber</td>
+              <td>Pre-production environment.</td>
+            </tr>
+            <tr>
+              <td><strong>QA</strong></td>
+              <td><code>#7c3aed</code> Purple</td>
+              <td>Quality assurance environment.</td>
+            </tr>
+            <tr>
+              <td><strong>Development</strong></td>
+              <td><code>#16a34a</code> Green</td>
+              <td>Local development environment.</td>
+            </tr>
+            <tr>
+              <td><strong>Custom</strong></td>
+              <td><code>#6366f1</code> Indigo</td>
+              <td>—</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          Tier colours are defaults only — every environment has a colour picker so you can
+          override them freely.
+        </p>
+      </section>
+
+      <!-- SETUP GUIDE -->
+      <section id="setup" class="section">
+        <h2>Setup Guide</h2>
+
+        <a
+          class="install-button"
+          href="https://chromewebstore.google.com/detail/environment-guard"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <path
+              d="M12 16L7 11l1.4-1.45 2.6 2.6V4h2v8.15l2.6-2.6L17 11l-5 5z"
+              fill="currentColor"
+            />
+            <path d="M5 20v-2h14v2H5z" fill="currentColor" />
+          </svg>
+          Add to Chrome (free)
+        </a>
+        <p class="install-note">Opens Chrome Web Store — no account required to install</p>
+
+        <h3>Step 1 — Install the extension</h3>
+        <p>
+          Click <strong>Add to Chrome</strong>, confirm the browser dialog, and the extension is
+          ready. No restart required. The Environment Guard icon appears in your toolbar (pin it
+          for easy access).
+        </p>
+        <p>
+          For <strong>Microsoft Edge</strong>, install from the Edge Add-ons store or directly from
+          the Chrome Web Store (Edge supports Chrome extensions). For <strong>Safari on macOS</strong>,
+          see <a href="#safari">Safari installation</a> below.
+        </p>
+
+        <h3>Step 2 — Add your first environment (quick add from popup)</h3>
+        <p>
+          Navigate to one of your web apps — for example <code>https://app.example.com</code> —
+          and click the Environment Guard toolbar icon. The popup shows <strong>Not configured</strong>
+          with the current hostname and a <strong>+ Add website</strong> button. Click it to expand
+          the inline form:
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Project name</strong></td>
+              <td>(empty, required)</td>
+              <td>
+                Display name shown in the popup header and the banner strip, e.g.
+                <em>Customer Portal</em>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Environment type</strong></td>
+              <td>Production</td>
+              <td>
+                Tier — controls the default colour and the context hint shown in the banner.
+                Options: Production, Staging, QA, Development.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Base URL</strong></td>
+              <td><code>https://&lt;current hostname&gt;</code></td>
+              <td>
+                Root URL matched against the tab. At minimum, enter the hostname
+                (<code>https://app.example.com</code>). Include a port if your app runs on one
+                (<code>http://localhost:3000</code>).
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          Click <strong>Save</strong>. The popup shows <em>"Environment added!"</em> for a moment,
+          then closes automatically. The border, banner, and tab prefix are applied immediately on
+          the current page without a reload.
+        </p>
+
+        <h3>Step 3 — Add more environments to the same project</h3>
+        <p>
+          Open <strong>Settings</strong> (toolbar icon → Settings button in the popup header). Find
+          your project and click <strong>Edit</strong>. Click <strong>+ Add environment</strong> to
+          add staging, QA, and development URLs under the same project name. With multiple
+          environments, the popup shows an <a href="#switcher">environment switcher</a> so you can
+          jump between them with one click.
+        </p>
+
+        <h3 id="safari">Safari installation (macOS)</h3>
+        <p>
+          Environment Guard is available for Safari on macOS via the Mac App Store. Once
+          installed, enable the extension under <strong>Safari → Settings → Extensions</strong>.
+        </p>
+        <div class="notice">
+          During local development: <strong>Safari → Settings → Developer</strong> tab →
+          <strong>Allow unsigned extensions</strong>. This checkbox resets after every Safari
+          restart.
+        </div>
+
+        <h3>Removing the extension</h3>
+        <p>
+          Go to <code>chrome://extensions</code>, find <strong>Environment Guard</strong>, and
+          click <strong>Remove</strong>. All locally stored configuration is deleted immediately.
+        </p>
+      </section>
+
+      <!-- POPUP -->
+      <section id="popup" class="section">
+        <h2>Using the Popup</h2>
+        <p>
+          Click the Environment Guard toolbar icon to open the popup. The popup has three states
+          depending on whether the current tab matches a configured environment.
+        </p>
+
+        <h3>State 1 — Not configured</h3>
+        <p>
+          When the current page has no matching environment, the popup shows a globe icon,
+          <strong>Not configured</strong>, the current hostname in monospace, and a
+          <strong>+ Add website</strong> button. Clicking the button expands the inline quick-add
+          form described in <a href="#setup">Step 2</a> of the Setup Guide — no new window opens.
+          After saving, the popup closes automatically and indicators appear on the page.
+        </p>
+
+        <h3>State 2 — Configured (current environment card)</h3>
+        <p>
+          When the page matches a configured environment, the popup shows a
+          <strong>Current Environment</strong> card with:
+        </p>
+        <ul>
+          <li>
+            <strong>Project</strong> — the project name (left column)
+          </li>
+          <li>
+            <strong>Environment</strong> — a coloured badge showing the environment name, e.g.
+            <span style="background:#dc2626;color:#fff;padding:1px 7px;border-radius:10px;font-size:0.82rem;font-weight:700;">PRODUCTION</span>
+            (right column). Production environments show a small dot inside the badge.
+          </li>
+          <li>
+            <strong>Hostname</strong> — the matched URL in monospace below the two columns
+          </li>
+          <li>
+            <strong>Context hint</strong> — the tier's subtext (e.g. <em>"Changes here affect live
+            data."</em>) when the environment type has one
+          </li>
+        </ul>
+
+        <h3 id="switcher">State 2 — Environment switcher</h3>
+        <p>
+          If the project has more than one enabled environment, a <strong>Switch to</strong> section
+          appears below the current environment card. It shows one button per other environment,
+          coloured in that environment's colour. Clicking a button navigates the current tab to the
+          same path on that environment's base URL.
+        </p>
+        <p>
+          <strong>Production confirmation:</strong> clicking a button whose type is
+          <em>production</em> does not navigate immediately. A warning card replaces the buttons
+          showing: <em>"Switch to production?"</em>, the destination hostname, and
+          <strong>Confirm / Cancel</strong> buttons. Confirming navigates and closes the popup;
+          Cancel returns to the switcher.
+        </p>
+        <p>
+          Whether query params and the URL hash are preserved when switching is controlled by the
+          per-project <strong>Advanced settings</strong> in the <a href="#project-editor">project
+          editor</a>.
+        </p>
+
+        <h3>Display controls (Border / Banner / Tab)</h3>
+        <p>
+          At the bottom of the popup is a row of three toggle chips: <strong>Border</strong>,
+          <strong>Banner</strong>, and <strong>Tab</strong>. Each chip is a toggle — blue when on,
+          grey when off. These are <em>display overrides</em> that take effect immediately without
+          opening Settings. They are useful when a page's own UI conflicts with the banner or border
+          (e.g. a sticky header that the banner overlaps).
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th>Chip</th>
+              <th>What it controls</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Border</strong></td>
+              <td>The coloured frame around the viewport</td>
+            </tr>
+            <tr>
+              <td><strong>Banner</strong></td>
+              <td>The full-width strip or compact badge</td>
+            </tr>
+            <tr>
+              <td><strong>Tab</strong></td>
+              <td>The <code>[ENV]</code> prefix on the tab title</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          These overrides are global (not per-site) and persist across sessions. They are separate
+          from the per-indicator defaults in <a href="#appearance">Appearance settings</a>.
+        </p>
+
+        <h3>Popup header</h3>
+        <p>
+          The gradient header always shows two controls: a <strong>Docs</strong> link (opens this
+          page) and a <strong>Settings</strong> button that opens the full settings page as a
+          browser tab.
+        </p>
+      </section>
+
+      <!-- SETTINGS -->
+      <section id="settings" class="section">
+        <h2>Settings</h2>
+        <p>
+          Open Settings via the popup header or by right-clicking the toolbar icon → Options. The
+          settings page opens as a full browser tab and has three sections in the left sidebar:
+          <strong>Projects</strong>, <strong>Appearance</strong>, and
+          <strong>Import / Export</strong>.
+        </p>
+
+        <h3>Projects list</h3>
+        <p>
+          The Projects section lists all configured projects. Each project row shows the project
+          name, the number of environments, and two actions:
+        </p>
+        <ul>
+          <li><strong>Edit</strong> — opens the <a href="#project-editor">project editor</a></li>
+          <li>
+            <strong>Delete</strong> — removes the project and all its environments after
+            confirmation
+          </li>
+        </ul>
+        <p>
+          Click <strong>+ New project</strong> at the top to open the project editor for a blank
+          project.
+        </p>
+
+        <h3 id="project-editor">Project editor</h3>
+        <p>
+          The project editor is used for both creating new projects and editing existing ones.
+        </p>
+
+        <p class="feature-label">Project fields</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Project name</strong></td>
+              <td>
+                Required. Display name used in the popup card and in the full banner text (e.g.
+                <em>Customer Portal · PRODUCTION · Changes here affect live data.</em>)
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p class="feature-label feature-label-spaced">Environment fields</p>
+        <p>
+          Each project has one or more environments. Click <strong>+ Add environment</strong> to
+          add another row. Each environment has:
+        </p>
+        <table class="options-table">
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Name</strong></td>
+              <td>(empty, required)</td>
+              <td>
+                Display name shown in the popup badge and the switcher buttons, e.g.
+                <em>Production</em>. Also used as the banner label.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Type</strong></td>
+              <td>Development</td>
+              <td>
+                Tier dropdown — sets the default colour and the context hint. Changing the type
+                automatically updates the colour to the tier default. Options: Production, Staging,
+                QA, Development, Custom.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Base URL</strong></td>
+              <td>(empty, required)</td>
+              <td>
+                The root URL to match against the current tab's URL. Must be a valid URL starting
+                with <code>http://</code> or <code>https://</code>. Include a port if the
+                environment runs on one (e.g. <code>http://localhost:3000</code>). Used to build
+                the destination URL when switching environments.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Colour</strong></td>
+              <td>Tier default</td>
+              <td>
+                Colour picker with a live badge preview. Controls the border, banner, and switcher
+                button colour. The badge text colour is automatically set to white or black based
+                on contrast.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Enabled</strong></td>
+              <td>On</td>
+              <td>
+                Uncheck to exclude this environment from URL matching and the switcher without
+                deleting it. Useful for temporarily disabling an environment without losing its
+                configuration.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          Click the trash icon on any environment row to delete it. A project must have at least
+          one environment — the trash icon is hidden when only one remains.
+        </p>
+
+        <p class="feature-label feature-label-spaced">Conflict detection</p>
+        <p>
+          If two enabled environments within a project share the same hostname and port, an amber
+          warning appears: <em>"Conflicting rules: Project / Env A and Project / Env B share the
+          same host (example.com)"</em>. Conflicts are shown before you save so you can resolve
+          them.
+        </p>
+
+        <p class="feature-label feature-label-spaced">Badge preview</p>
+        <p>
+          Below the environment list, a <strong>Preview</strong> row shows a coloured badge for
+          each named environment so you can see what the popup badge and switcher buttons will look
+          like before saving.
+        </p>
+
+        <p class="feature-label feature-label-spaced">Advanced settings</p>
+        <p>
+          Click <strong>Advanced settings ▾</strong> to expand two per-project options that control
+          what happens to the URL when switching environments:
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th>Option</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Preserve query parameters</strong></td>
+              <td>
+                When switching environments, the current query string (e.g.
+                <code>?tab=settings&amp;page=2</code>) is appended to the destination URL. Off by
+                default.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Preserve URL hash</strong></td>
+              <td>
+                When switching environments, the current URL fragment (e.g. <code>#section</code>)
+                is appended to the destination URL. Off by default.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p class="feature-label feature-label-spaced">Test URL</p>
+        <p>
+          The <strong>Test URL</strong> field at the bottom of the editor lets you verify your
+          configuration before saving. Type any URL (the <code>https://</code> prefix is added
+          automatically if omitted) and click <strong>Test</strong> or press Enter. The result
+          shows either:
+        </p>
+        <ul>
+          <li>
+            <strong>Matches: Project name / Environment name</strong> — the URL matched and this
+            is the winning environment
+          </li>
+          <li>
+            <strong>No match found for this project.</strong> — the URL did not match any enabled
+            environment in this project
+          </li>
+        </ul>
+
+        <h3 id="appearance">Appearance</h3>
+        <p>
+          The Appearance section controls the visual style of the injected indicators globally
+          across all projects.
+        </p>
+        <table class="options-table">
+          <thead>
+            <tr>
+              <th>Setting</th>
+              <th>Options</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Border thickness</strong></td>
+              <td>1 px / 2 px / 3 px / 4 px</td>
+              <td>
+                Width of the coloured frame injected around the viewport. Default: 2 px. Chosen
+                via a segmented control — changes are previewed immediately in the live preview
+                below.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Banner position</strong></td>
+              <td>Top / Bottom</td>
+              <td>
+                Whether the banner strip or compact badge is pinned to the top or bottom edge of
+                the viewport. Default: Top.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Banner style</strong></td>
+              <td>Full banner / Compact badge</td>
+              <td>
+                <strong>Full banner</strong> — a full-width strip showing
+                <em>Project · ENVIRONMENT · Context hint</em>.<br />
+                <strong>Compact badge</strong> — a small floating pill in the top-right (or
+                bottom-right) corner showing only the environment label, e.g. <em>PRODUCTION</em>.
+                Default: Full banner.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Tab title prefix</strong></td>
+              <td>On / Off</td>
+              <td>
+                When on, prepends <code>[ENVLABEL]</code> to the browser tab title, e.g.
+                <code>[PRODUCTION] Orders</code>. A <code>MutationObserver</code> keeps the prefix
+                in place even when a SPA rewrites the title. Default: On.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          A <strong>live preview</strong> at the bottom of the Appearance section shows a miniature
+          page mock with the border and banner rendered using the current settings and the
+          Production colour (<code>#dc2626</code>).
+        </p>
+
+        <h3>Import / Export</h3>
+        <p>The Import / Export section has three cards:</p>
+
+        <p class="feature-label">Export</p>
+        <p>
+          Click <strong>Export configuration</strong> to download your current configuration as
+          <code>environment-guard-config.json</code>. The file contains all projects, environments,
+          appearance settings, and display overrides. Use it to back up your config or to share a
+          standard configuration with your team.
+        </p>
+
+        <p class="feature-label feature-label-spaced">Import</p>
+        <ol>
+          <li>
+            Click the dashed <strong>Choose a JSON file…</strong> area and select a previously
+            exported <code>.json</code> file.
+          </li>
+          <li>
+            A preview lists all projects in the file with their environment counts.
+          </li>
+          <li>Choose an import mode:</li>
+        </ol>
+        <table>
+          <thead>
+            <tr>
+              <th>Mode</th>
+              <th>Behaviour</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Merge with existing</strong></td>
+              <td>
+                Adds projects from the file whose <code>id</code> does not already exist locally.
+                Existing projects are not modified. Default.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Replace all</strong></td>
+              <td>
+                Deletes all existing projects and replaces them with the imported ones. A
+                confirmation dialog is shown before applying.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          Click <strong>Apply import</strong>. A <em>"Configuration imported successfully."</em>
+          confirmation appears for 3 seconds.
+        </p>
+
+        <p class="feature-label feature-label-spaced">Example configuration</p>
+        <p>
+          Click <strong>Download example</strong> to get a sample
+          <code>environment-guard-example.json</code> showing the expected JSON structure — a
+          project named <em>Customer Portal</em> with Production, Staging, QA, and Development
+          environments.
+        </p>
+      </section>
+
+      <!-- URL MATCHING -->
+      <section id="matching" class="section">
+        <h2>URL Matching</h2>
+        <p>
+          When you navigate to a page, Environment Guard scores every enabled environment in every
+          enabled project against the current tab URL. The environment with the highest score wins
+          and its indicators are applied. If no environment scores above zero, no indicators are
+          shown.
+        </p>
+
+        <h3>Scoring rules</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Condition</th>
+              <th>Points</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Hostname matches exactly</td>
+              <td>+100</td>
+            </tr>
+            <tr>
+              <td>Port matches exactly</td>
+              <td>+10</td>
+            </tr>
+            <tr>
+              <td>Path prefix matches (one of <code>matchPaths</code>)</td>
+              <td>+50 + length of matched path</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          If the Base URL includes a port (e.g. <code>http://localhost:3000</code>), the tab URL
+          must also be on that port — a mismatch scores −1 (no match). If no port is specified in
+          the Base URL, the port check is skipped.
+        </p>
+
+        <h3>Subdomain matching</h3>
+        <p>
+          Each environment has an optional <strong>Match subdomains</strong> flag. When on, a Base
+          URL of <code>https://example.com</code> also matches
+          <code>https://api.example.com</code>, <code>https://app.example.com</code>, etc. When
+          off (the default), only the exact hostname matches.
+        </p>
+
+        <h3>Path matching</h3>
+        <p>
+          By default the path is not part of the match — only hostname and port are checked. If an
+          environment has <code>matchPaths</code> configured, the tab URL's pathname must begin
+          with one of the listed paths for the environment to match at all. Longer path matches
+          score higher than shorter ones, so a more specific rule always beats a general one.
+        </p>
+
+        <h3>Deterministic tie-breaking</h3>
+        <p>
+          If two environments produce the same score, the one that appears first in the project
+          list (by project index, then by environment index within the project) wins. There is no
+          ambiguity.
+        </p>
+
+        <h3>SPA navigation</h3>
+        <p>
+          The content script patches <code>history.pushState</code> and
+          <code>history.replaceState</code>, and also listens to <code>popstate</code>,
+          <code>hashchange</code>, and a <code>MutationObserver</code> on the document root. Any
+          URL change — whether a full navigation, a SPA route change, or a hash change — triggers a
+          re-match and re-applies (or removes) indicators without a page reload.
+        </p>
+
+        <h3>Switching environments</h3>
+        <p>
+          When you click a switcher button in the popup, the destination URL is built as follows:
+        </p>
+        <ol>
+          <li>Start with the target environment's Base URL</li>
+          <li>Replace the path with the current tab's path</li>
+          <li>
+            Append the current query string if <em>Preserve query parameters</em> is on for the
+            project
+          </li>
+          <li>
+            Append the current URL hash if <em>Preserve URL hash</em> is on for the project
+          </li>
+        </ol>
+        <p>
+          For example, if you are on
+          <code>https://staging.example.com/orders?page=2</code> and switch to Production
+          (<code>https://app.example.com</code>) with query params preserved, you land on
+          <code>https://app.example.com/orders?page=2</code>.
+        </p>
+      </section>
+
+      <!-- PERMISSIONS -->
+      <section id="permissions" class="section">
+        <h2>Permissions Requested and Why</h2>
+        <p>
+          Environment Guard requests only the minimum permissions required to provide its
+          functionality.
+        </p>
+
+        <table class="permissions-table">
+          <thead>
+            <tr>
+              <th>Permission</th>
+              <th>User-facing feature</th>
+              <th>Why narrower is not viable</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>storage</code></td>
+              <td>
+                Saves project configuration (names, URLs, colours, appearance settings, display
+                overrides) to <code>chrome.storage.local</code> so it persists across sessions and
+                browser restarts.
+              </td>
+              <td>
+                Without this permission, all configuration resets when the browser closes. There is
+                no narrower scope for local per-extension persistent storage.
+              </td>
+            </tr>
+            <tr>
+              <td><code>activeTab</code></td>
+              <td>
+                Reads the URL and hostname of the current tab when the popup is opened, to detect
+                whether the page is configured and to pre-fill the Base URL field in the inline
+                quick-add form.
+              </td>
+              <td>
+                Only the active tab URL is read at the moment the popup opens. The broader
+                <code>tabs</code> permission (access to all open tabs at any time) is not requested
+                for this purpose.
+              </td>
+            </tr>
+            <tr>
+              <td><code>scripting</code></td>
+              <td>
+                Injects the content script that renders the border, banner, and tab prefix into
+                matching pages via <code>chrome.scripting.executeScript</code>. Re-injects when
+                the background service worker detects a tab navigation.
+              </td>
+              <td>
+                Dynamic injection is used so that the static manifest does not need to declare
+                <code>&lt;all_urls&gt;</code> as a content script match pattern. Without
+                <code>scripting</code>, indicators cannot be rendered on any page.
+              </td>
+            </tr>
+            <tr>
+              <td><code>tabs</code></td>
+              <td>
+                Listens on <code>tabs.onUpdated</code> to detect tab URL changes and re-apply
+                (or remove) indicators when you navigate. Also used by the environment switcher to
+                navigate the current tab to the destination URL
+                (<code>chrome.tabs.update</code>).
+              </td>
+              <td>
+                <code>activeTab</code> alone does not fire on background tab navigations.
+                <code>tabs.onUpdated</code> and <code>chrome.tabs.update</code> both require the
+                <code>tabs</code> permission.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="notice">
+          <strong class="notice-title">No sensitive permissions</strong>
+          Environment Guard does not use <code>history</code>, <code>cookies</code>,
+          <code>webRequest</code>, <code>bookmarks</code>, <code>identity</code>, or any other
+          sensitive Chrome API. It has no access to page content beyond injecting visual indicators.
+          No data is ever sent to any external server.
+        </div>
+      </section>
+
+      <!-- PRIVACY POLICY -->
+      <section id="privacy-policy" class="section">
+        <h2>Privacy Policy</h2>
+        <p class="meta">Last updated: October 4, 2026</p>
+
+        <h3>Overview</h3>
+        <p>
+          Environment Guard is a free browser extension for Chrome, Edge, and Safari that visually
+          labels web application environments. This policy explains what data the extension accesses,
+          how it is used, and what — if anything — leaves your browser.
+        </p>
+
+        <h3>Data Stored Locally</h3>
+        <p>
+          The following values are saved to <code>chrome.storage.local</code>, stored exclusively
+          on your device and never transmitted to any server:
+        </p>
+        <ul>
+          <li>
+            <strong>Project configuration</strong> — project names, environment names, Base URLs,
+            types, colours, and per-project options (enabled, preserve query params, preserve hash).
+          </li>
+          <li>
+            <strong>Appearance settings</strong> — border thickness, banner position, banner style,
+            and tab prefix on/off.
+          </li>
+          <li>
+            <strong>Display overrides</strong> — the per-session Border / Banner / Tab toggle
+            states set from the popup.
+          </li>
+        </ul>
+
+        <h3>Data Accessed at Runtime</h3>
+        <p>
+          The extension reads the URL of the current tab when the popup is opened and when
+          <code>tabs.onUpdated</code> fires. The URL is matched in memory against your stored
+          configuration to determine which environment is active. The URL is not stored, logged,
+          or transmitted — it is used transiently for the duration of the match operation.
+        </p>
+        <p>
+          The extension does not read page content, DOM structure, form values, cookies, or any
+          information beyond the tab URL and title.
+        </p>
+
+        <h3>Data Not Collected</h3>
+        <p>Environment Guard does not collect, transmit, or store:</p>
+        <ul>
+          <li>Usage analytics or telemetry</li>
+          <li>Browsing history</li>
+          <li>Page content, form values, or credentials</li>
+          <li>Any personally identifiable information</li>
+        </ul>
+
+        <h3>Data Sharing and Transfer</h3>
+        <ul>
+          <li>Environment Guard makes no network requests of any kind.</li>
+          <li>No data is sent to any server, analytics service, or third party.</li>
+          <li>
+            No human (including the developer) has access to your configuration or browsing
+            activity through this extension.
+          </li>
+        </ul>
+
+        <h3>Data Retention and Deletion</h3>
+        <p>
+          Configuration data is retained in <code>chrome.storage.local</code> until you remove the
+          extension or clear its storage.
+        </p>
+        <ul>
+          <li>
+            Remove the extension from <code>chrome://extensions</code> to delete all stored data
+            immediately.
+          </li>
+          <li>
+            Use <strong>Settings → Import / Export → Export</strong> to download a backup before
+            removing if you want to restore it later.
+          </li>
+        </ul>
+
+        <h3>Third-Party Services</h3>
+        <p>
+          Environment Guard does not use any third-party analytics, advertising, tracking,
+          telemetry, or data-processing services. The extension operates entirely within your
+          browser.
+        </p>
+
+        <h3>Contact</h3>
+        <p>
+          For questions about this Privacy Policy or Environment Guard's handling of data,
+          contact: <a href="mailto:lucamit@gmail.com">lucamit@gmail.com</a>
+        </p>
+      </section>
+
+      <!-- TERMS OF SERVICE -->
+      <section id="terms-of-service" class="section">
+        <h2>Terms of Service</h2>
+        <p class="meta">Last updated: October 4, 2026</p>
+
+        <h3>1. Acceptance of Terms</h3>
+        <p>
+          By installing, accessing, or using Environment Guard, you agree to these Terms of
+          Service. If you do not agree to these terms, do not install or use the extension.
+        </p>
+
+        <h3>2. Description of the Service</h3>
+        <p>
+          Environment Guard is a browser extension that injects visual indicators (coloured
+          border, banner, tab title prefix) into web pages based on URL rules you configure. It is
+          intended as a visual aid to help distinguish between deployment environments and should
+          not be relied upon as the sole safeguard against accidental actions on production systems.
+        </p>
+
+        <h3>3. Free to Use</h3>
+        <p>
+          Environment Guard is currently provided free of charge. There are no subscription fees
+          or paid features at this time. The developer reserves the right to introduce paid
+          features, modify pricing, or discontinue free access in the future. Where reasonably
+          possible, users will be informed before such changes take effect.
+        </p>
+
+        <h3>4. License</h3>
+        <p>
+          Environment Guard is free to use for both personal and commercial purposes. You may not
+          copy, modify, redistribute, reverse-engineer, or create derivative works based on this
+          extension or its source code without explicit written permission from the developer.
+        </p>
+
+        <h3>5. No Warranty</h3>
+        <p>
+          Environment Guard is provided "as is" and "as available" without warranties of any kind.
+          The developer does not guarantee that:
+        </p>
+        <ul>
+          <li>environment detection will always match the correct tier;</li>
+          <li>visual indicators will render correctly on every website;</li>
+          <li>the extension will remain compatible with future browser versions; or</li>
+          <li>the service will operate without interruptions or errors.</li>
+        </ul>
+        <p>
+          You are solely responsible for confirming which environment you are working on before
+          taking any consequential action.
+        </p>
+
+        <h3>6. Limitation of Liability</h3>
+        <p>
+          To the maximum extent permitted by applicable law, the developer will not be liable for
+          any damages arising from use of Environment Guard, including accidental actions on
+          production, incorrect environment detection, data loss, service interruptions, or other
+          consequences of relying on visual indicators.
+        </p>
+        <p>Use of Environment Guard is at your own risk.</p>
+
+        <h3>7. User Responsibilities</h3>
+        <p>By using Environment Guard, you agree that:</p>
+        <ul>
+          <li>you are responsible for the URL rules and project configuration you set up;</li>
+          <li>you will not use the extension for unlawful or unauthorized purposes;</li>
+          <li>you will comply with applicable browser store terms and policies; and</li>
+          <li>
+            you will independently verify which environment you are on before taking irreversible
+            actions.
+          </li>
+        </ul>
+
+        <h3>8. Changes to These Terms</h3>
+        <p>
+          The developer may update these Terms at any time. Continued use after changes are posted
+          constitutes acceptance of the revised terms.
+        </p>
+      </section>
+
+      <!-- SUPPORT -->
+      <section id="support" class="section">
+        <h2>Support</h2>
+
+        <h3>Getting help</h3>
+        <p>
+          See the <a href="#setup">Setup Guide</a>, <a href="#popup">Using the Popup</a>,
+          <a href="#settings">Settings</a>, and <a href="#matching">URL Matching</a> sections above
+          for full documentation.
+        </p>
+
+        <h3>Report an issue</h3>
+        <p>Email <a href="mailto:lucamit@gmail.com">lucamit@gmail.com</a> and please include:</p>
+        <ul>
+          <li>What happened and what you expected</li>
+          <li>The browser and version (Chrome, Edge, or Safari)</li>
+          <li>The Base URL configured for the affected environment</li>
+          <li>The URL of the tab where the issue occurred</li>
+          <li>Whether the issue occurs on initial page load, SPA navigation, or both</li>
+          <li>
+            Any errors in the browser console (<kbd>F12</kbd> → Console). Look for lines starting
+            with <code>[EG]</code>
+          </li>
+        </ul>
+      </section>
+    </div>
+
+    <footer>
+      <p>Environment Guard &mdash; <a href="mailto:lucamit@gmail.com">lucamit@gmail.com</a></p>
+    </footer>
+  </body>
+</html>
