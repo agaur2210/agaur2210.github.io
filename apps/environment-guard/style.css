@@ -1,0 +1,24 @@
+:root {
+  --theme-color: #4f46e5;
+  --theme-heading: #4f46e5;
+  --theme-header: #3730a3;
+  --theme-border: #ede9fe;
+  --theme-notice: #ede9fe;
+  --theme-button: #4f46e5;
+  --theme-button-hover: #4338ca;
+  --theme-button-active: #3730a3;
+  --theme-shadow: 79, 70, 229;
+}
+
+.section table {
+  table-layout: fixed;
+}
+.section table th:first-child {
+  width: 25%;
+}
+.options-table th:nth-child(2) {
+  width: 20%;
+}
+.permissions-table th:nth-child(2) {
+  width: 35%;
+}
