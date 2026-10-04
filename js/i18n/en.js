@@ -8,7 +8,7 @@ var lang_en = {
   certs_title:      'Certifications',
 
   // About
-  about_text: 'Software Engineer with over {years}+ years of experience designing scalable cloud-native applications using .NET Core and AWS. Proven expertise leading cross-functional teams, architecting microservices, optimizing performance, and driving CI/CD pipelines. Deep experience in design patterns, agile delivery, and enterprise Salesforce integration.',
+  about_text: 'Software Engineer with over {years}+ years of experience in designing scalable cloud-native applications using .NET Core and AWS. Proven expertise leading cross-functional teams, architecting microservices, optimizing performance, and driving CI/CD pipelines. Deep experience in design patterns, agile delivery, and enterprise Salesforce integration.',
 
   // Job titles
   job_staff_se:        'Staff Software Engineer',
@@ -30,28 +30,28 @@ var lang_en = {
     '<li>Designing microservice architecture template used across multiple services.</li>',
 
   cs_sp_bullets:
-    '<li>Led team of 8: requirements, JIRA sprints, design docs, code reviews &amp; CI/CD.</li>' +
+    '<li>Led a team of 8 engineers: requirements, JIRA sprints, design docs, code reviews &amp; CI/CD.</li>' +
     '<li>Optimized multi-stage CI/CD pipelines; reduced deployment time and improved release cadence.</li>' +
-    '<li>Architected zero-downtime scaling strategy for multi-tenant SaaS platform.</li>' +
-    '<li>Decomposed monolith into microservices for scalability and independent deployability.</li>',
+    '<li>Architected a zero-downtime scaling strategy for multi-tenant SaaS platform.</li>' +
+    '<li>Decomposed a monolith into microservices for scalability and independent deployability.</li>',
 
   cs_p_bullets:
-    '<li>Created integration module with custom CMS, eliminating manual intervention.</li>' +
-    '<li>Developed video encoding framework improving UX across devices and network speeds by 50%.</li>' +
-    '<li>Implemented point-to-point integration increasing workflow efficiency.</li>' +
+    '<li>Created an integration module with custom CMS, eliminating manual intervention.</li>' +
+    '<li>Developed a video encoding framework improving UX across devices and network speeds by 50%.</li>' +
+    '<li>Implemented point-to-point integration to improve workflow efficiency.</li>' +
     '<li>Optimized stored procedures — 60% faster query execution on large datasets.</li>',
 
   cs_p_note: 'Course creation time ↓50% · Provider onboarding 15d → &lt;5d · Error rate ↓30%',
 
   zs_aa_bullets:
     '<li>Managed 20+ engineers; guided reusable component design and root cause analysis.</li>' +
-    '<li>Designed data model and framework for data versioning and ingestion (producer/consumer).</li>' +
+    '<li>Designed data models and framework for data versioning and ingestion (producer/consumer).</li>' +
     '<li>Salesforce Change Data Capture integration; performance improvements via async execution.</li>',
 
   zs_aa_note: 'ZS workflow library at 50+ customers · ARR grew 25M → 50M+ USD',
 
   cyb_bullets:
-    '<li>Backend APIs for HP Ecommerce, KIA Ecommerce, and social networking platforms.</li>',
+    '<li>Developed Backend APIs for HP Ecommerce, KIA , and social networking applications.</li>',
 
   // Apps
   app_cs_desc:  'Google Workspace Add-on — mirrors free/busy time across multiple calendars without sharing event details.',
