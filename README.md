@@ -4,12 +4,14 @@ Personal profile page served at **https://apps.agaur.dev/**
 
 ## File structure
 
-| File | Purpose |
+| File / Directory | Purpose |
 |---|---|
-| `index.html` | Page structure and all content (experience, skills, certs, education) |
+| `index.html` | Page structure and all content (experience, skills, certs, education, app cards) |
 | `translations.js` | English and Spanish translation strings + `setLang()` function |
 | `app.js` | Page initialisation (years calculation, language default, dropdown close) |
 | `style.css` | Print / `@media print` styles |
+| `apps/` | One sub-directory per published app, each with its own `index.html` landing page and assets |
+| `sitemap.xml` | URL index for search engines — must be updated when a new app is added |
 
 ## Deploying
 
@@ -91,6 +93,27 @@ my_new_key: 'Texto en español',
 ```
 
 Then add `data-i18n="my_new_key"` (plain text) or `data-i18n-html="my_new_key"` (HTML content) to the element in `index.html`.
+
+### Add a new app to the Developed Apps section
+
+1. Create `apps/<app-slug>/index.html` (and any assets) following the same structure as existing apps.
+2. Add an `<a>` block inside the **Developed Apps** `<div class="space-y-3">` in `index.html`:
+
+```html
+<a href="https://apps.agaur.dev/apps/<app-slug>/" target="_blank" rel="noopener"
+   class="flex gap-3 items-start hover:bg-slate-50 rounded-lg p-2 -mx-2 transition no-underline">
+  <img src="https://apps.agaur.dev/apps/<app-slug>/images/icon-96x96.png"
+       alt="App Name" class="w-10 h-10 rounded-lg shrink-0">
+  <div>
+    <h3 class="font-semibold text-sm text-slate-900 mb-1">App Name</h3>
+    <p class="text-xs text-slate-500 mb-2" data-i18n="app_<key>_desc">Short description.</p>
+    <span class="text-xs font-medium text-blue-600" data-i18n="view_details">View details →</span>
+  </div>
+</a>
+```
+
+3. Add `app_<key>_desc` to **both** `js/i18n/en.js` and `js/i18n/es.js`.
+4. Add the app URL to `sitemap.xml`.
 
 ### Change contact details
 
