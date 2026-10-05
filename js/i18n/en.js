@@ -57,7 +57,7 @@ var lang_en = {
   app_cs_desc:  'Google Workspace Add-on — mirrors free/busy time across multiple calendars without sharing event details.',
   app_adgh_desc: 'Chrome extension — adds git helpers and shortcuts directly into the Azure DevOps UI.',
   app_btaf_desc: 'Chrome extension — auto-fills BambooHR time-clock entries from a saved weekly schedule with a single click.',
-  app_eg_desc:   'Chrome / Edge / Safari extension — coloured border, banner, and tab prefix that visually distinguishes production, staging, QA, and development environments.',
+  app_eg_desc:   'Chrome / Edge / Safari extension — coloured border, banner, and tab prefix that visually distinguishes environments; popup toggles let you override each indicator per-session without opening Settings.',
   view_details: 'View details →',
 
   // Certs
