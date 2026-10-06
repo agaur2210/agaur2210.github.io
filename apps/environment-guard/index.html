@@ -245,9 +245,9 @@
         <h3>Step 2 — Add your first environment (quick add from popup)</h3>
         <p>
           Navigate to one of your web apps — for example <code>https://app.example.com</code> —
-          and click the Environment Guard toolbar icon. The popup shows <strong>Not configured</strong>
-          with the current hostname and a <strong>+ Add website</strong> button. Click it to expand
-          the inline form:
+          and click the Environment Guard toolbar icon. The popup shows <strong>No environment
+          configured for this site</strong> with the current hostname and a
+          <strong>+ Add this site</strong> button. Click it to expand the inline form:
         </p>
         <table>
           <thead>
@@ -329,10 +329,11 @@
         <h3>State 1 — Not configured</h3>
         <p>
           When the current page has no matching environment, the popup shows a globe icon,
-          <strong>Not configured</strong>, the current hostname in monospace, and a
-          <strong>+ Add website</strong> button. Clicking the button expands the inline quick-add
-          form described in <a href="#setup">Step 2</a> of the Setup Guide — no new window opens.
-          After saving, the popup closes automatically and indicators appear on the page.
+          <strong>No environment configured for this site</strong>, the current hostname in monospace,
+          environment tier preview badges, and a <strong>+ Add this site</strong> button. Clicking
+          the button expands the inline quick-add form described in <a href="#setup">Step 2</a> of
+          the Setup Guide — no new window opens. After saving, the popup closes automatically and
+          indicators appear on the page.
         </p>
 
         <h3>State 2 — Configured (current environment card)</h3>
@@ -860,14 +861,16 @@
             <tr>
               <td><code>scripting</code></td>
               <td>
-                Injects the content script that renders the border, banner, and tab prefix into
-                matching pages via <code>chrome.scripting.executeScript</code>. Re-injects when
-                the background service worker detects a tab navigation.
+                Used as a fallback to re-inject the content script via
+                <code>chrome.scripting.executeScript</code> on tabs where the declarative
+                content script was not yet active (e.g. tabs open before the extension was
+                installed or updated).
               </td>
               <td>
-                Dynamic injection is used so that the static manifest does not need to declare
-                <code>&lt;all_urls&gt;</code> as a content script match pattern. Without
-                <code>scripting</code>, indicators cannot be rendered on any page.
+                The content script is declared statically in the manifest (injected automatically
+                on every page load), but <code>scripting</code> is retained so the background
+                service worker can re-inject it on demand for already-open tabs without requiring
+                a reload.
               </td>
             </tr>
             <tr>
