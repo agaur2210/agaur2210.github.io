@@ -6,7 +6,7 @@
     <title>Git Helper for Azure DevOps | Chrome Extension</title>
     <meta
       name="description"
-      content="Git Helper for Azure DevOps is a Chrome extension that auto-fills PR titles and descriptions, adds one-click PR creation, and enables safe branch deletion directly in Azure DevOps."
+      content="Git Helper for Azure DevOps is a Chrome extension that auto-fills PR titles and descriptions, adds one-click PR creation, AI-powered work item remediation, and enables safe branch deletion directly in Azure DevOps."
     />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://apps.agaur.dev/apps/azure-devops-git-helper/" />
@@ -18,7 +18,7 @@
     <meta property="og:title" content="Git Helper for Azure DevOps | Chrome Extension" />
     <meta
       property="og:description"
-      content="Git Helper for Azure DevOps is a Chrome extension that auto-fills PR titles and descriptions, adds one-click PR creation, and enables safe branch deletion directly in Azure DevOps."
+      content="Git Helper for Azure DevOps is a Chrome extension that auto-fills PR titles and descriptions, adds one-click PR creation, AI-powered work item remediation, and enables safe branch deletion directly in Azure DevOps."
     />
     <meta
       property="og:image"
@@ -28,7 +28,7 @@
     <meta name="twitter:title" content="Git Helper for Azure DevOps | Chrome Extension" />
     <meta
       name="twitter:description"
-      content="Git Helper for Azure DevOps is a Chrome extension that auto-fills PR titles and descriptions, adds one-click PR creation, and enables safe branch deletion directly in Azure DevOps."
+      content="Git Helper for Azure DevOps is a Chrome extension that auto-fills PR titles and descriptions, adds one-click PR creation, AI-powered work item remediation, and enables safe branch deletion directly in Azure DevOps."
     />
     <meta
       name="twitter:image"
@@ -41,7 +41,7 @@
         "@context": "https://schema.org",
         "@type": "SoftwareApplication",
         "name": "Git Helper for Azure DevOps",
-        "description": "Git Helper for Azure DevOps is a Chrome extension that auto-fills PR titles and descriptions, adds one-click PR creation, and enables safe branch deletion directly in Azure DevOps.",
+        "description": "Git Helper for Azure DevOps is a Chrome extension that auto-fills PR titles and descriptions, adds one-click PR creation, AI-powered work item remediation, and enables safe branch deletion directly in Azure DevOps.",
         "operatingSystem": "Chrome",
         "applicationCategory": "DeveloperApplication",
         "offers": {
@@ -83,7 +83,8 @@
       <h1>Git Helper for Azure DevOps</h1>
       <p>
         One-click PR creation with auto-filled descriptions, configurable draft mode and target
-        branches, AI enrichment via Bedrock, and safe branch deletion. All directly in Azure DevOps.
+        branches, AI enrichment via Bedrock, AI-powered work item remediation, and safe branch
+        deletion. All directly in Azure DevOps.
       </p>
     </header>
 
@@ -177,6 +178,32 @@
             </p>
           </div>
         </div>
+
+        <h3>Work Item Toolbar</h3>
+        <p>Features injected directly into the Azure DevOps work item form toolbar.</p>
+
+        <p class="feature-label">AI Remediate</p>
+        <div class="features features-2">
+          <div class="feature">
+            <h3>One-click AI fix</h3>
+            <p>
+              <strong>AI Remediate</strong> button appears in the work item toolbar. Clicking it
+              prompts for project type, then triggers a configured ADO pipeline that uses an AI
+              agent to investigate the work item, locate the root cause in the repository, apply
+              a minimal fix, and open a Pull Request — all without leaving the page.
+            </p>
+          </div>
+          <div class="feature">
+            <h3>Live progress feed</h3>
+            <p>
+              A floating panel tracks the pipeline in real time: first showing pipeline task
+              steps, then switching to an agent tool-call feed grouped by phase
+              (<em>Investigating &rarr; Planning &rarr; Remediating &rarr; Validating &rarr;
+              Creating PR</em>). Run state is saved locally so progress is restored after a
+              page refresh.
+            </p>
+          </div>
+        </div>
       </section>
 
       <!-- INSTALLATION -->
@@ -228,7 +255,8 @@
               <td><strong>Personal Access Token (PAT)</strong></td>
               <td>
                 Paste your Azure DevOps PAT. Required for PR creation and branch deletion.<br />
-                Required scope: <strong>Code: Read &amp; Write</strong>.<br />
+                Required scope: <strong>Code: Read &amp; Write</strong>. Add
+                <strong>Work Items: Read &amp; Write</strong> if you use AI Remediate.<br />
                 Click <strong>Test Access</strong> to verify. The extension detects your
                 organisation from the active tab automatically.
               </td>
@@ -350,8 +378,7 @@
             <tr>
               <td><strong>Model ID</strong> <em>(optional)</em></td>
               <td>
-                Bedrock model to use. Leave blank to use the extension default
-                (<code>anthropic.claude-3-5-sonnet-20241022-v2:0</code>).
+                Bedrock model to use. Leave blank to use the extension default.
               </td>
             </tr>
             <tr>
@@ -370,8 +397,9 @@
           <li>Go to <code>dev.azure.com/{your-org}/_usersSettings/tokens</code></li>
           <li>Click <strong>New Token</strong></li>
           <li>
-            Scopes: <strong>Code → Read</strong> (add <strong>Write</strong> to also delete
-            branches)
+            Scopes: <strong>Code → Read &amp; Write</strong> (required for PR creation and
+            branch deletion). Add <strong>Work Items → Read &amp; Write</strong> if you use
+            AI Remediate
           </li>
           <li>Copy the token and paste it into the extension popup</li>
         </ol>
@@ -441,6 +469,112 @@
           </li>
           <li>
             Click ✓ to confirm. The branch is deleted from the remote and removed from the list
+          </li>
+        </ol>
+
+        <h3 class="settings-heading">AI Remediate: Configure ▾</h3>
+        <p class="settings-description">
+          Opened via <strong>Configure ▾</strong> next to the AI Remediate feature row in the
+          popup. One-time setup — three steps:
+        </p>
+        <ol>
+          <li>Enter <strong>Pipeline Creation — Repository</strong> and <strong>Pipeline Creation — Branch</strong></li>
+          <li>Click <strong>Initialize</strong> — the extension pushes the pipeline YAML files and creates both ADO pipelines automatically</li>
+          <li>Optionally set <strong>Default Target Repo</strong> as a fallback, then save settings</li>
+        </ol>
+        <table class="options-table">
+          <thead>
+            <tr>
+              <th>Option</th>
+              <th>Default</th>
+              <th>Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Pipeline Creation — Repository</strong></td>
+              <td><em>None</em></td>
+              <td>
+                Name of the ADO Git repository where pipeline YAML files will be pushed
+                (e.g. <code>spike-devops-tools</code>). The extension pushes
+                <code>/pipelines/fix-work-item.yml</code> and
+                <code>/pipelines/review-pr.yml</code> to this repo on the branch below.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Pipeline Creation — Branch</strong></td>
+              <td><em>None</em></td>
+              <td>
+                Branch in the pipeline repo that holds the YAML files
+                (e.g. <code>ado-gh-demo</code>). Created automatically from the repo's
+                default branch if it does not exist.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Default Target Repo</strong></td>
+              <td><em>None</em></td>
+              <td>
+                Fallback repository name for the code to be fixed, used when the work item
+                does not contain a <code>Repo: org/project/repo-name</code> line.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Initialize button</strong></td>
+              <td>—</td>
+              <td>
+                After filling in <em>Repository</em> and <em>Branch</em> above, click
+                <strong>Initialize</strong>. The extension verifies the repo, creates the
+                branch if needed, pushes the pipeline files, and creates (or updates) two
+                ADO pipelines: <code>git-helper-ai-remediate</code> and
+                <code>git-helper-ai-review</code>. Pipeline IDs are saved automatically —
+                no further configuration required.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="notice">
+          <strong class="notice-title">PAT scopes required for AI Remediate</strong>
+          In addition to <strong>Code: Read &amp; Write</strong>, the PAT needs
+          <strong>Work Items: Read &amp; Write</strong> so the pipeline agent can read work
+          item details and post the created PR URL as a work item comment.
+        </div>
+
+        <h3>How AI Remediate works</h3>
+        <ol>
+          <li>
+            Click <strong>AI Remediate</strong> in the work item toolbar — a project type
+            picker appears (<em>.NET</em> or <em>Node</em>)
+          </li>
+          <li>
+            The extension reads the work item title, description, and form text to detect the
+            target repository (looks for <code>Repo: org/project/repo-name</code>). Falls back
+            to <em>Default Target Repo</em> from popup settings if not found
+          </li>
+          <li>
+            The <code>git-helper-ai-remediate</code> pipeline is triggered via the ADO
+            Pipelines API with <code>workItemId</code>, <code>targetRepo</code>, and
+            <code>targetBranch</code> as template parameters. Your PAT and Bedrock bearer
+            token are passed as masked runtime variables so the pipeline agent can authenticate
+          </li>
+          <li>
+            A floating progress panel appears. It shows pipeline task steps while the pipeline
+            starts, then switches to a live agent tool-call feed once the AI agent begins
+            working
+          </li>
+          <li>
+            The agent works through five phases: <em>Investigating</em> (reads code),
+            <em>Planning</em> (forms hypothesis), <em>Remediating</em> (applies patch),
+            <em>Validating</em> (checks fix), <em>Creating PR</em> (opens a pull request
+            and links it to the work item)
+          </li>
+          <li>
+            On success, a <strong>View Pull Request →</strong> link appears in the panel and
+            below the button. On failure, a link to the pipeline run is shown instead
+          </li>
+          <li>
+            Run state is saved locally — if you refresh the page while a fix is running, the
+            progress panel is automatically restored and polling continues
           </li>
         </ol>
 
@@ -582,7 +716,7 @@
         </p>
 
         <h3>Data Sent to AWS Bedrock</h3>
-        <p>When AI is enabled and a PR is created, the extension sends to AWS Bedrock:</p>
+        <p>When AI description generation is enabled and a PR is created, the extension sends to AWS Bedrock:</p>
         <ul>
           <li>The selected commit messages</li>
           <li>The PR title, source branch name, and target branch name</li>
@@ -590,8 +724,25 @@
         </ul>
         <p>
           No source code, file diffs, PAT tokens, API keys, or personal account information are
-          included in the AI request. When AI is disabled,
+          included in the AI description request. When AI is disabled,
           <strong>no data is sent to any AI provider</strong>.
+        </p>
+
+        <h3>Data Sent by AI Remediate</h3>
+        <p>
+          When <strong>AI Remediate</strong> is triggered, the extension calls the ADO Pipelines
+          API to start the configured fix pipeline. The following are passed as pipeline
+          parameters:
+        </p>
+        <ul>
+          <li>The work item ID</li>
+          <li>The target repository name and target branch</li>
+          <li>Your PAT and Bedrock bearer token (as secret runtime variables — masked by ADO)</li>
+        </ul>
+        <p>
+          The pipeline itself (running on your ADO agents) calls AWS Bedrock with work item and
+          code context to perform the fix. No data from the AI Remediate pipeline is sent to any
+          server operated by this extension.
         </p>
 
         <h3>Data Not Collected</h3>
@@ -639,10 +790,12 @@
         <p>
           Git Helper for Azure DevOps is a Chrome Extension that adds PR workflow features to Azure
           DevOps: one-click PR creation with auto-filled titles and descriptions, configurable draft
-          mode and target branches, optional AI-powered description enrichment via AWS Bedrock, and
-          safe branch deletion with ownership verification and an optional Admin Delete mode. It is
-          intended as a productivity aid and should not be relied upon as the sole source of
-          important PR documentation or as a substitute for reviewing your own changes.
+          mode and target branches, optional AI-powered description enrichment via AWS Bedrock,
+          AI-powered work item remediation that investigates code and opens a Pull Request
+          automatically, and safe branch deletion with ownership verification and an optional Admin
+          Delete mode. It is intended as a productivity aid and should not be relied upon as the
+          sole source of important PR documentation or as a substitute for reviewing your own
+          changes.
         </p>
 
         <h3>3. Branch Deletion</h3>
