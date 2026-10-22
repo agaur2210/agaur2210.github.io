@@ -1,0 +1,1348 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Azure DevOps Git Assistance | Chrome Extension</title>
+    <meta
+      name="description"
+      content="Azure DevOps Git Assistance is a Chrome extension that auto-fills PR titles and descriptions, adds one-click PR creation, AI-powered work item remediation, and enables safe branch deletion directly in Azure DevOps."
+    />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://apps.agaur.dev/apps/azure-devops-git-assistant/" />
+    <meta name="author" content="Amit Gaur" />
+    <link rel="icon" type="image/png" href="icons/icon128.png" />
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://apps.agaur.dev/apps/azure-devops-git-assistant/" />
+    <meta property="og:title" content="Azure DevOps Git Assistance | Chrome Extension" />
+    <meta
+      property="og:description"
+      content="Azure DevOps Git Assistance is a Chrome extension that auto-fills PR titles and descriptions, adds one-click PR creation, AI-powered work item remediation, and enables safe branch deletion directly in Azure DevOps."
+    />
+    <meta
+      property="og:image"
+      content="https://apps.agaur.dev/apps/azure-devops-git-assistant/icons/icon128.png"
+    />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Azure DevOps Git Assistance | Chrome Extension" />
+    <meta
+      name="twitter:description"
+      content="Azure DevOps Git Assistance is a Chrome extension that auto-fills PR titles and descriptions, adds one-click PR creation, AI-powered work item remediation, and enables safe branch deletion directly in Azure DevOps."
+    />
+    <meta
+      name="twitter:image"
+      content="https://apps.agaur.dev/apps/azure-devops-git-assistant/icons/icon128.png"
+    />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:site_name" content="Apps by Amit Gaur" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Azure DevOps Git Assistance",
+        "description": "Azure DevOps Git Assistance is a Chrome extension that auto-fills PR titles and descriptions, adds one-click PR creation, AI-powered work item remediation, and enables safe branch deletion directly in Azure DevOps.",
+        "operatingSystem": "Chrome",
+        "applicationCategory": "DeveloperApplication",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "url": "https://chromewebstore.google.com/detail/git-helper-for-azure-devo/omofjglfgagfphekfdofojdknlibfoii",
+        "image": "https://apps.agaur.dev/apps/azure-devops-git-assistant/icons/icon128.png"
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://apps.agaur.dev/" },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Apps",
+            "item": "https://apps.agaur.dev/apps/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Azure DevOps Git Assistance",
+            "item": "https://apps.agaur.dev/apps/azure-devops-git-assistant/"
+          }
+        ]
+      }
+    </script>
+    <link rel="stylesheet" href="../common.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="app-page">
+    <header>
+      <img src="icons/icon128.png" alt="Azure DevOps Git Assistance icon" />
+      <h1>Azure DevOps Git Assistance</h1>
+      <p>
+        One-click PR creation with auto-filled descriptions, configurable draft mode and target
+        branches, AI enrichment via Bedrock, AI-powered work item remediation, and safe branch
+        deletion. All directly in Azure DevOps.
+      </p>
+    </header>
+
+    <nav>
+      <!-- <a href="/apps/">← All Apps</a> -->
+      <a href="#about">About</a>
+      <a href="#installation">Installation</a>
+      <a href="#permissions">Permissions</a>
+      <a href="#support">Support</a>
+      <a href="#privacy-policy">Privacy Policy</a>
+      <a href="#terms-of-service">Terms of Service</a>
+    </nav>
+
+    <div class="container">
+      <!-- ABOUT -->
+      <section id="about" class="section">
+        <h2>About Azure DevOps Git Assistance</h2>
+        <p>
+          Azure DevOps Git Assistance is a Chrome Extension that adds productivity features directly inside Azure
+          DevOps. Everything runs in your browser. No external server is involved except Azure
+          DevOps and, optionally, AWS Bedrock.
+        </p>
+
+        <h3>Branch Toolbar</h3>
+        <p>Features injected directly into the Azure DevOps branch list. No navigation required.</p>
+
+        <p class="feature-label">PR Creation</p>
+        <div class="features">
+          <div class="feature">
+            <h3>One-click PR creation</h3>
+            <p>
+              <strong>+ PR</strong> next to every branch. Creates a PR with title, description, and
+              work items pre-filled. Inline <strong>Publish / Delete / View</strong> actions appear
+              on success.
+            </p>
+          </div>
+          <div class="feature">
+            <h3>Draft mode</h3>
+            <p>
+              PRs are drafts by default. Toggle <em>Create as Draft</em> off in the popup to publish
+              immediately.
+            </p>
+          </div>
+          <div class="feature">
+            <h3>Configurable targets</h3>
+            <p>
+              Set a default target branch (default: <code>develop</code>) and a separate one for
+              <code>develop</code> source branches (default: <code>main</code>).
+            </p>
+          </div>
+          <div class="feature">
+            <h3>Auto-fill from branch name</h3>
+            <p>
+              Title and description generated from your branch name and commit history. Prefixes
+              stripped, commits grouped by type. Merge commits and low-signal messages
+              (<em>wip</em>, <em>fix typo</em>) excluded automatically.
+            </p>
+          </div>
+          <div class="feature">
+            <h3>Work item linking</h3>
+            <p>
+              Numeric IDs in the branch name (e.g. <code>feature/12345/...</code>) are linked to the
+              PR automatically.
+            </p>
+          </div>
+          <div class="feature">
+            <h3>AI description generation</h3>
+            <p>
+              Connect AWS Bedrock to refine descriptions with AI. Disabled by default. Requires
+              configuration in the popup.
+            </p>
+          </div>
+        </div>
+
+        <p class="feature-label feature-label-spaced">Delete branch</p>
+        <div class="features features-2">
+          <div class="feature">
+            <h3>Ownership-verified deletion</h3>
+            <p>
+              <strong>Delete</strong> button appears on your branches only, enabled once you are
+              confirmed as the last committer. Inline <em>Sure?</em> confirmation prevents
+              accidents.
+            </p>
+          </div>
+          <div class="feature">
+            <h3>Admin Delete</h3>
+            <p>
+              Enable in the popup to delete any non-protected branch regardless of ownership.
+              Protected branches (<code>main</code>, <code>master</code>, <code>develop</code>,
+              <code>release</code>) are always blocked.
+            </p>
+          </div>
+        </div>
+
+        <h3>Work Item Toolbar</h3>
+        <p>Features injected directly into the Azure DevOps work item form toolbar.</p>
+
+        <p class="feature-label">AI Remediate</p>
+        <div class="features features-2">
+          <div class="feature">
+            <h3>One-click AI fix</h3>
+            <p>
+              <strong>AI Remediate</strong> button appears in the work item toolbar. Clicking it
+              prompts for project type, then triggers a configured ADO pipeline that uses an AI
+              agent to investigate the work item, locate the root cause in the repository, apply
+              a minimal fix, and open a Pull Request — all without leaving the page.
+            </p>
+          </div>
+          <div class="feature">
+            <h3>Live progress feed</h3>
+            <p>
+              A floating panel tracks the pipeline in real time: first showing pipeline task
+              steps, then switching to an agent tool-call feed grouped by phase
+              (<em>Investigating &rarr; Planning &rarr; Remediating &rarr; Validating &rarr;
+              Creating PR</em>). Run state is saved locally so progress is restored after a
+              page refresh.
+            </p>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- INSTALLATION -->
+      <section id="installation" class="section">
+        <h2>Installation &amp; Setup</h2>
+
+        <a
+          class="install-button"
+          href="https://chromewebstore.google.com/detail/git-helper-for-azure-devo/omofjglfgagfphekfdofojdknlibfoii"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <path
+              d="M12 16L7 11l1.4-1.45 2.6 2.6V4h2v8.15l2.6-2.6L17 11l-5 5z"
+              fill="currentColor"
+            />
+            <path d="M5 20v-2h14v2H5z" fill="currentColor" />
+          </svg>
+          Add to Chrome (free)
+        </a>
+        <p class="install-note">Opens Chrome Web Store &mdash; no account required to install</p>
+
+        <h3>Step 1: Install from the Chrome Web Store</h3>
+        <p>
+          Click <strong>Add to Chrome</strong>, confirm the dialog, and the extension is ready. No
+          restart required.
+        </p>
+
+        <h3>Step 2: Configure (click the toolbar icon)</h3>
+
+        <h3 class="settings-heading">Connection</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Setting</th>
+              <th>Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Personal Access Token (PAT)</strong></td>
+              <td>
+                Paste your Azure DevOps PAT. Required for PR creation and branch deletion.<br />
+                Required scope: <strong>Code: Read &amp; Write</strong>. Add
+                <strong>Work Items: Read &amp; Write</strong> if you use AI Remediate.<br />
+                Click <strong>Test Access</strong> to verify. The extension detects your
+                organisation from the active tab automatically.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3 class="settings-heading">+ PR Button: Configure ▾</h3>
+        <p class="settings-description">
+          Click <strong>Configure ▾</strong> next to the + PR Button feature row to expand these
+          options.
+        </p>
+        <table class="options-table">
+          <thead>
+            <tr>
+              <th>Option</th>
+              <th>Default</th>
+              <th>Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Create as Draft</strong></td>
+              <td>On</td>
+              <td>
+                When on, new PRs are created as drafts. An inline <strong>Publish</strong> action
+                appears after creation so you can publish without leaving the page. When off, PRs
+                are published immediately and no Publish button is shown.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Default Target Branch</strong></td>
+              <td><code>develop</code></td>
+              <td>
+                The branch that PRs merge into for all source branches except <code>develop</code>.
+                Change this if your team uses a different integration branch (e.g.
+                <code>main</code> or <code>trunk</code>).
+              </td>
+            </tr>
+            <tr>
+              <td><strong>develop → Target Branch</strong></td>
+              <td><code>main</code></td>
+              <td>
+                Override for when the source branch is <code>develop</code> itself, typically used
+                when merging a release up to <code>main</code>.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>AI Description Generation</strong></td>
+              <td>Off</td>
+              <td>
+                When enabled, the generated PR description is sent to AWS Bedrock for AI enrichment
+                before the PR is created. Toggling this on automatically opens the
+                <em>AI Configuration</em> section. Has no effect if AI Configuration has not been
+                saved.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3 class="settings-heading">Delete Branch: Configure ▾</h3>
+        <p class="settings-description">
+          Click <strong>Configure ▾</strong> next to the Delete Branch feature row to expand this
+          option.
+        </p>
+        <table class="options-table">
+          <thead>
+            <tr>
+              <th>Option</th>
+              <th>Default</th>
+              <th>Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Admin Delete</strong></td>
+              <td>Off</td>
+              <td>
+                When off, the Delete button is only enabled on branches where you were the last
+                committer. When on, the Delete button is enabled immediately for
+                <em>any</em> non-protected branch regardless of ownership. Intended for repo admins
+                cleaning up stale branches. Protected branches (<code>main</code>,
+                <code>master</code>, <code>develop</code>, <code>release/*</code>) are always
+                blocked.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3 class="settings-heading">AI Configuration: Configure ▾</h3>
+        <p class="settings-description">
+          Opened automatically when you enable <em>AI Description Generation</em>, or via
+          <strong>Configure ▾</strong> (appears after enabling AI in the + PR section). Powered by
+          <strong>Amazon Bedrock</strong>.
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>AI Configuration toggle</strong></td>
+              <td>
+                Master on/off for AI. When off, no data is sent to Bedrock even if credentials are
+                saved.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>AWS Region</strong></td>
+              <td>
+                The AWS region where your Bedrock endpoint is provisioned. Default:
+                <code>us-east-2</code>. The endpoint called is
+                <code>bedrock-runtime.{region}.amazonaws.com</code>.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Model ID</strong> <em>(optional)</em></td>
+              <td>
+                Bedrock model to use. Leave blank to use the extension default.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Bearer Token</strong></td>
+              <td>
+                Your AWS Bedrock bearer token (ABSK). Stored locally only, never sent anywhere
+                except <code>bedrock-runtime.*.amazonaws.com</code>. Click
+                <strong>Test AI Connection</strong> to verify credentials before saving.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Getting a PAT token</h3>
+        <ol>
+          <li>Go to <code>dev.azure.com/{your-org}/_usersSettings/tokens</code></li>
+          <li>Click <strong>New Token</strong></li>
+          <li>
+            Scopes: <strong>Code → Read &amp; Write</strong> (required for PR creation and
+            branch deletion). Add <strong>Work Items → Read &amp; Write</strong> if you use
+            AI Remediate
+          </li>
+          <li>Copy the token and paste it into the extension popup</li>
+        </ol>
+
+        <h3>How + PR works</h3>
+        <ol>
+          <li>
+            Click <strong>+ PR</strong> next to any branch name (excluding <code>main</code> /
+            <code>master</code>)
+          </li>
+          <li>
+            The extension derives a <strong>PR title</strong> from the branch name (strips prefixes,
+            title-cases)
+          </li>
+          <li>
+            The <strong>target branch</strong> is determined from your popup settings, defaulting to
+            <code>develop</code> or <code>main</code> when your source is <code>develop</code>
+          </li>
+          <li>
+            It fetches commits between your branch and the target, filters noise, and generates a
+            structured <strong>description</strong> with Summary, Changes, and Testing sections
+          </li>
+          <li>
+            Any numeric IDs in the branch name (e.g. <code>feature/12345</code>) are included as
+            <strong>work item links</strong>
+          </li>
+          <li>
+            If <em>AI Description Generation</em> is enabled and Bedrock is configured, the
+            description is enriched before the PR is created
+          </li>
+          <li>
+            The PR is created via the ADO REST API. The page stays the same with inline actions
+            appearing immediately
+          </li>
+          <li>
+            When <em>Create as Draft</em> is on: <strong>Publish</strong>, <strong>Delete</strong>,
+            and <strong>View</strong> actions appear. When off: only <strong>Delete</strong> and
+            <strong>View</strong>
+          </li>
+          <li>If no PAT is configured, session cookies are used automatically</li>
+        </ol>
+
+        <h3>How branch deletion works</h3>
+        <div class="warning">
+          <strong>Deletes the branch from the remote repository for everyone.</strong>
+          This is equivalent to <code>git push origin --delete branch-name</code>.
+        </div>
+        <ol>
+          <li>
+            The Delete button is always visible next to non-protected branches, but starts disabled
+            while ownership is checked
+          </li>
+          <li>
+            The extension identifies you via the ADO identity API using your PAT, then enables the
+            button if you were the last committer
+          </li>
+          <li>
+            With <em>Admin Delete</em> enabled, the button is enabled immediately for any
+            non-protected branch regardless of ownership
+          </li>
+          <li>
+            Protected branches (<code>main</code>, <code>master</code>, <code>develop</code>,
+            <code>release/*</code>) are never deletable
+          </li>
+          <li>
+            Click Delete → an inline <strong>Sure? ✓ ✗</strong> confirmation replaces the button
+          </li>
+          <li>
+            Click ✓ to confirm. The branch is deleted from the remote and removed from the list
+          </li>
+        </ol>
+
+        <h3 class="settings-heading">AI Remediate: Configure ▾</h3>
+        <p class="settings-description">
+          Opened via <strong>Configure ▾</strong> next to the AI Remediate feature row in the
+          popup. One-time setup — three steps:
+        </p>
+        <ol>
+          <li>Enter <strong>Pipeline Creation — Repository</strong> and <strong>Pipeline Creation — Branch</strong></li>
+          <li>Click <strong>Initialize</strong> — the extension pushes the pipeline YAML files and creates both ADO pipelines automatically</li>
+          <li>Optionally set <strong>Default Target Repo</strong> as a fallback, then save settings</li>
+        </ol>
+        <table class="options-table">
+          <thead>
+            <tr>
+              <th>Option</th>
+              <th>Default</th>
+              <th>Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Pipeline Creation — Repository</strong></td>
+              <td><em>None</em></td>
+              <td>
+                Name of the ADO Git repository where pipeline YAML files will be pushed
+                (e.g. <code>spike-devops-tools</code>). The extension pushes
+                <code>/pipelines/fix-work-item.yml</code> and
+                <code>/pipelines/review-pr.yml</code> to this repo on the branch below.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Pipeline Creation — Branch</strong></td>
+              <td><em>None</em></td>
+              <td>
+                Branch in the pipeline repo that holds the YAML files
+                (e.g. <code>ado-gh-demo</code>). Created automatically from the repo's
+                default branch if it does not exist.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Default Target Repo</strong></td>
+              <td><em>None</em></td>
+              <td>
+                Fallback repository name for the code to be fixed, used when the work item
+                does not contain a <code>Repo: org/project/repo-name</code> line.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Initialize button</strong></td>
+              <td>—</td>
+              <td>
+                After filling in <em>Repository</em> and <em>Branch</em> above, click
+                <strong>Initialize</strong>. The extension verifies the repo, creates the
+                branch if needed, pushes the pipeline files, and creates (or updates) two
+                ADO pipelines: <code>git-helper-ai-remediate</code> and
+                <code>git-helper-ai-review</code>. Pipeline IDs are saved automatically —
+                no further configuration required.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3 class="settings-heading">Agent Budget Limits <em style="font-weight:400;font-style:normal;font-size:0.9em;">(optional)</em></h3>
+        <p class="settings-description">
+          Expand <strong>Agent Budget Limits</strong> inside the AI Remediate configure block to cap how many
+          resources the AI agent may consume per pipeline run. Leave any field blank to use the pipeline default.
+        </p>
+        <table class="options-table">
+          <thead>
+            <tr>
+              <th>Option</th>
+              <th>Default</th>
+              <th>Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Max Fix Attempts</strong></td>
+              <td>3</td>
+              <td>Maximum number of times the agent will attempt to apply and validate a fix before giving up.</td>
+            </tr>
+            <tr>
+              <td><strong>Max Iterations</strong></td>
+              <td>50</td>
+              <td>Total agent loop iterations across all phases. Prevents runaway agents on complex issues.</td>
+            </tr>
+            <tr>
+              <td><strong>Max Tool Calls</strong></td>
+              <td>100</td>
+              <td>Total number of tool calls (file reads, shell commands, API calls) the agent may make.</td>
+            </tr>
+            <tr>
+              <td><strong>Wall Time (minutes)</strong></td>
+              <td>45</td>
+              <td>Hard time limit for the entire pipeline run. The agent is stopped if it exceeds this.</td>
+            </tr>
+            <tr>
+              <td><strong>Max Input Tokens</strong></td>
+              <td>2,000,000</td>
+              <td>Maximum Bedrock input tokens the agent may consume across all AI calls in the run.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="notice">
+          <strong class="notice-title">PAT scopes required for AI Remediate &amp; AI Review</strong>
+          In addition to <strong>Code: Read &amp; Write</strong>, the PAT needs
+          <strong>Work Items: Read &amp; Write</strong> so the pipeline agent can read work
+          item details and post the created PR URL as a work item comment.
+        </div>
+
+        <h3>How AI Remediate works</h3>
+        <ol>
+          <li>
+            Click <strong>AI Remediate</strong> in the work item toolbar — a project type
+            picker appears (<em>.NET</em> or <em>Node</em>)
+          </li>
+          <li>
+            The extension reads the work item title, description, and form text to detect the
+            target repository (looks for <code>Repo: org/project/repo-name</code>). Falls back
+            to <em>Default Target Repo</em> from popup settings if not found
+          </li>
+          <li>
+            The <code>git-helper-ai-remediate</code> pipeline is triggered via the ADO
+            Pipelines API with <code>workItemId</code>, <code>targetRepo</code>, and
+            <code>targetBranch</code> as template parameters. Your PAT and Bedrock bearer
+            token are passed as masked runtime variables so the pipeline agent can authenticate.
+            Any configured Agent Budget Limits (max fix attempts, iterations, tool calls,
+            wall time, input tokens) are also passed as pipeline variables
+          </li>
+          <li>
+            A floating progress panel appears. It shows pipeline task steps while the pipeline
+            starts, then switches to a live agent tool-call feed once the AI agent begins
+            working
+          </li>
+          <li>
+            The agent works through five phases: <em>Investigating</em> (reads code),
+            <em>Planning</em> (forms hypothesis), <em>Remediating</em> (applies patch),
+            <em>Validating</em> (checks fix), <em>Creating PR</em> (opens a pull request
+            and links it to the work item)
+          </li>
+          <li>
+            On success, a <strong>View Pull Request →</strong> link appears in the panel and
+            below the button. On failure, a link to the pipeline run is shown instead
+          </li>
+          <li>
+            Run state is saved locally — if you refresh the page while a fix is running, the
+            progress panel is automatically restored and polling continues
+          </li>
+        </ol>
+
+        <h3 id="agent-internals">Agent Internals</h3>
+        <p class="settings-description">Pipeline agent architecture for AI Remediate. Hover or click nodes in the state diagram to explore phase details.</p>
+
+        <style>
+          #agi{background:#0d1117;color:#c9d1d9;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:14px;line-height:1.6;border-radius:8px;overflow:hidden;margin-top:16px;
+            --bg:#0d1117;--surface:#161b22;--border:#30363d;--text:#c9d1d9;--muted:#8b949e;--accent:#58a6ff;
+            --green:#3fb950;--red:#f85149;--yellow:#d29922;--purple:#bc8cff;--orange:#ffa657;--teal:#39d0d8}
+          #agi *{box-sizing:border-box}
+          #agi .ai-h1{font-size:18px;color:#fff;padding:20px 24px 4px}
+          #agi .ai-sub{color:var(--muted);font-size:12px;padding:0 24px 16px}
+          #agi code{font-family:"SF Mono",Consolas,monospace;font-size:12px;background:#1f2937;padding:1px 5px;border-radius:3px;color:var(--text)}
+          #agi p{color:var(--muted);margin-bottom:10px}
+          #agi h2{font-size:16px;color:var(--accent);margin:0 0 14px;border-bottom:1px solid var(--border);padding-bottom:6px;background:none}
+          #agi h3{font-size:12px;color:var(--orange);margin:16px 0 8px;text-transform:uppercase;letter-spacing:.06em;background:none}
+          #agi .tabs{display:flex;border-bottom:1px solid var(--border);padding:0 24px;gap:2px;flex-wrap:wrap}
+          #agi .tab{padding:9px 14px;font-size:13px;cursor:pointer;border-bottom:2px solid transparent;color:var(--muted);user-select:none;transition:color .15s,border-color .15s}
+          #agi .tab:hover{color:var(--text)}
+          #agi .tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+          #agi .panel{display:none;padding:24px}
+          #agi .panel.active{display:block}
+          #agi .flow-toggle{display:flex;align-items:center;gap:8px;margin-bottom:18px}
+          #agi .flow-toggle span{font-size:12px;color:var(--muted)}
+          #agi .toggle-btn{padding:6px 18px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--muted);font-size:12px;cursor:pointer;transition:all .2s}
+          #agi .toggle-btn.active-bug{background:#2f2a0a;border-color:var(--yellow);color:var(--yellow)}
+          #agi .toggle-btn.active-sec{background:#1e1a2e;border-color:var(--purple);color:var(--purple)}
+          #agi .diagram-wrap{overflow-x:auto;padding-bottom:8px}
+          #agi svg.diagram{min-width:980px;transition:opacity .2s}
+          #agi .nd rect{stroke-width:1.5;transition:fill .35s,stroke .35s,opacity .35s}
+          #agi .nd text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:12px;font-weight:600;fill:#fff;transition:opacity .35s}
+          #agi .nd .sub{font-size:10px;font-weight:400;fill:#8b949e;transition:opacity .35s}
+          #agi .eg{fill:none;stroke-width:1.5;transition:stroke .35s,opacity .35s,stroke-dasharray .35s}
+          #agi .eg.normal{stroke:#30363d;marker-end:url(#agi-arr)}
+          #agi .eg.retry{stroke:#d29922;stroke-dasharray:4 3;marker-end:url(#agi-arr-y)}
+          #agi .eg.fail{stroke:#f85149;stroke-dasharray:4 3;marker-end:url(#agi-arr-r)}
+          #agi .eg.branch{stroke:#30363d;stroke-dasharray:4 3;marker-end:url(#agi-arr)}
+          #agi .dim rect{fill:#111418 !important;stroke:#21262d !important}
+          #agi .dim text,#agi .dim .sub{opacity:.25 !important}
+          #agi .eg.dim{stroke:#21262d !important;stroke-dasharray:none !important;opacity:.15 !important;marker-end:none}
+          #agi path.hl-shared{stroke:#58a6ff !important;stroke-dasharray:none !important;opacity:1 !important;stroke-width:2.5 !important;marker-end:url(#agi-arr-b) !important}
+          #agi path.hl-retry{stroke:#d29922 !important;stroke-dasharray:5 3 !important;opacity:1 !important;stroke-width:2 !important;marker-end:url(#agi-arr-y) !important}
+          #agi path.hl-fail{stroke:#f85149 !important;stroke-dasharray:4 3 !important;opacity:.45 !important;stroke-width:1.5 !important;marker-end:url(#agi-arr-r) !important}
+          #agi .phase-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+          #agi .pc{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px 16px}
+          #agi .pc .name{font-weight:700;font-size:13px;margin-bottom:6px}
+          #agi .pc .desc{color:var(--muted);font-size:12px;line-height:1.5}
+          #agi .pc .tools-row{margin-top:8px;display:flex;flex-wrap:wrap;gap:4px}
+          #agi .pc.bug{border-color:var(--yellow)}#agi .pc.sec{border-color:var(--purple)}
+          #agi .pc.terminal{border-color:var(--red);opacity:.75}#agi .pc.done{border-color:var(--green)}
+          #agi .pill{display:inline-block;border-radius:3px;padding:1px 6px;font-size:10px;font-family:monospace}
+          #agi .pill.r{background:#162029;color:var(--teal)}#agi .pill.w{background:#1a2f1a;color:var(--green)}#agi .pill.ado{background:#21252e;color:var(--purple)}
+          #agi .badge{display:inline-block;font-size:10px;padding:1px 7px;border-radius:10px;margin-left:6px;vertical-align:middle}
+          #agi .badge.bug{background:#2f2a0a;color:var(--yellow)}#agi .badge.sec{background:#1e1a2e;color:var(--purple)}#agi .badge.nofatal{background:#1a2f1a;color:var(--green)}
+          #agi table.tools{width:100%;border-collapse:collapse;font-size:12px}
+          #agi table.tools th{text-align:left;padding:8px 12px;background:var(--surface);color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--border)}
+          #agi table.tools td{padding:7px 12px;border-bottom:1px solid #21262d;vertical-align:top}
+          #agi table.tools tr:last-child td{border-bottom:none}
+          #agi td.tname{font-family:monospace;color:var(--accent);white-space:nowrap}
+          #agi .phase-pill{display:inline-block;background:#1f2937;border-radius:3px;padding:1px 6px;margin:1px;font-size:11px;font-family:monospace;color:var(--text)}
+          #agi .phase-pill.w{background:#1a2f1a;color:var(--green)}
+          #agi .guard{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px 16px;margin-bottom:10px}
+          #agi .guard .gname{font-weight:700;color:var(--orange);margin-bottom:4px}
+          #agi .gs{font-size:10px;padding:1px 7px;border-radius:10px;margin-left:8px;vertical-align:middle}
+          #agi .gs.on{background:#1a2f1a;color:var(--green)}#agi .gs.opt{background:#2a2a1a;color:var(--yellow)}
+          #agi ul.pats{list-style:none;display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;padding:0}
+          #agi ul.pats li{background:#1a1f2e;border:1px solid #2d3748;border-radius:3px;padding:1px 7px;font-size:11px;font-family:monospace;color:#a5b4fc}
+          #agi .warn{color:var(--red);font-size:11px;margin-top:6px}
+          #agi .two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+          @media(max-width:700px){#agi .two{grid-template-columns:1fr}}
+          #agi .rule-list{list-style:none;padding:0}
+          #agi .rule-list li{padding:5px 0;border-bottom:1px solid #21262d;font-size:12px;display:flex;gap:8px;color:var(--muted)}
+          #agi .rule-list li:last-child{border-bottom:none}
+          #agi .rule-list li::before{content:"✓";color:var(--green);flex-shrink:0}
+          #agi .rule-list li.no::before{content:"✗";color:var(--red)}
+          #agi .logb{display:inline-block;font-size:11px;font-family:monospace;background:#0d1f0d;border:1px solid #1e4d1e;border-radius:4px;padding:1px 8px;color:#6ee7b7;margin:2px}
+          #agi ol.steps{color:var(--muted);font-size:13px;padding-left:20px;line-height:2.2}
+          #agi #node-info{margin-top:14px;background:#161b22;border:1px solid #30363d;border-radius:8px;padding:14px 18px;font-size:12px;min-height:56px;transition:border-color .2s,box-shadow .2s;line-height:1.6}
+          #agi #node-info.pinned{box-shadow:0 0 0 2px currentColor}
+          #agi #node-info .ni-hint{color:#3d444d;font-size:11px;font-style:italic}
+          #agi .nd{pointer-events:all}
+          #agi .nd rect{cursor:pointer;transition:filter .15s}
+          #agi .nd:hover rect{filter:brightness(1.18)}
+        </style>
+
+        <div id="agi">
+          <div class="tabs">
+            <div class="tab active" onclick="agiShowTab('diagram',this)">State Diagram</div>
+            <div class="tab" onclick="agiShowTab('phases',this)">Phase Roles</div>
+            <div class="tab" onclick="agiShowTab('tools',this)">Tool Matrix</div>
+            <div class="tab" onclick="agiShowTab('guards',this)">Security Guards</div>
+            <div class="tab" onclick="agiShowTab('critic',this)">Critic</div>
+            <div class="tab" onclick="agiShowTab('pr',this)">PR Description</div>
+          </div>
+
+          <!-- TAB: DIAGRAM -->
+          <div class="panel active" id="agi-tab-diagram">
+            <h2>State Transition Diagram</h2>
+            <div class="flow-toggle">
+              <span>Flow:</span>
+              <button class="toggle-btn active-sec" id="agi-btn-sec" onclick="agiSetFlow('security')">Security fix</button>
+              <button class="toggle-btn" id="agi-btn-bug" onclick="agiSetFlow('bug')">Bug fix</button>
+            </div>
+            <div style="display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap">
+              <div class="diagram-wrap" style="flex:1 1 600px;min-width:0">
+                <svg class="diagram" id="agi-sm" viewBox="0 -20 1020 390" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <marker id="agi-arr"   markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#30363d"/></marker>
+                    <marker id="agi-arr-y" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#d29922"/></marker>
+                    <marker id="agi-arr-r" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#f85149"/></marker>
+                    <marker id="agi-arr-b" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#58a6ff"/></marker>
+                  </defs>
+                  <!-- Row 0 -->
+                  <g class="nd" id="agi-n-idle"><rect x="10" y="30" width="74" height="36" rx="7" fill="#1a1f2e" stroke="#58a6ff"/><text x="47" y="52" text-anchor="middle" font-size="12">IDLE</text></g>
+                  <path class="eg normal" id="agi-e-idle-ls" d="M84,48 L108,48"/>
+                  <g class="nd" id="agi-n-ls"><rect x="110" y="30" width="118" height="36" rx="7" fill="#1a1f2e" stroke="#58a6ff"/><text x="169" y="52" text-anchor="middle" font-size="12">LOADING_SKILL</text></g>
+                  <path class="eg normal" id="agi-e-ls-inv" d="M228,48 L252,48"/>
+                  <g class="nd" id="agi-n-inv"><rect x="254" y="30" width="130" height="36" rx="7" fill="#1a1f2e" stroke="#58a6ff"/><text x="319" y="52" text-anchor="middle" font-size="12">INVESTIGATING</text></g>
+                  <path class="eg branch" id="agi-e-inv-plan" d="M384,48 L530,48"/>
+                  <g class="nd" id="agi-n-plan"><rect x="532" y="30" width="104" height="36" rx="7" fill="#1a1f2e" stroke="#58a6ff"/><text x="584" y="52" text-anchor="middle" font-size="12">PLANNING</text></g>
+                  <path class="eg normal" id="agi-e-plan-rem" d="M636,48 L660,48"/>
+                  <g class="nd" id="agi-n-rem"><rect x="662" y="30" width="118" height="36" rx="7" fill="#1a1f2e" stroke="#3fb950"/><text x="721" y="52" text-anchor="middle" font-size="12">REMEDIATING</text></g>
+                  <!-- REPRODUCING branch -->
+                  <path class="eg branch" id="agi-e-inv-repr" d="M319,66 L319,116"/>
+                  <g class="nd" id="agi-n-repr"><rect x="254" y="118" width="130" height="36" rx="7" fill="#1a1f2e" stroke="#3fb950"/><text x="319" y="140" text-anchor="middle" font-size="12">REPRODUCING</text></g>
+                  <path class="eg branch" id="agi-e-repr-plan" d="M384,136 L584,136 L584,66"/>
+                  <!-- PROVING branch -->
+                  <path class="eg branch" id="agi-e-rem-prov" d="M721,66 L721,116"/>
+                  <g class="nd" id="agi-n-prov"><rect x="656" y="118" width="130" height="36" rx="7" fill="#1a1f2e" stroke="#bc8cff"/><text x="721" y="140" text-anchor="middle" font-size="12">PROVING</text></g>
+                  <path class="eg branch" id="agi-e-prov-val" d="M786,136 L856,136 L856,66"/>
+                  <path class="eg normal" id="agi-e-rem-val" d="M780,48 L804,48"/>
+                  <g class="nd" id="agi-n-val"><rect x="806" y="30" width="108" height="36" rx="7" fill="#1a1f2e" stroke="#58a6ff"/><text x="860" y="52" text-anchor="middle" font-size="12">VALIDATING</text></g>
+                  <path class="eg normal" id="agi-e-val-critic" d="M914,48 L938,48"/>
+                  <g class="nd" id="agi-n-critic"><rect x="940" y="30" width="68" height="36" rx="7" fill="#1a1f2e" stroke="#bc8cff"/><text x="974" y="52" text-anchor="middle" font-size="12">CRITIC</text></g>
+                  <path class="eg normal" id="agi-e-critic-pr" d="M974,66 L974,210 L720,210"/>
+                  <g class="nd" id="agi-n-pr"><rect x="580" y="192" width="138" height="36" rx="7" fill="#1a1f2e" stroke="#58a6ff"/><text x="649" y="214" text-anchor="middle" font-size="12">CREATING_PR</text></g>
+                  <path class="eg normal" id="agi-e-pr-done" d="M580,210 L554,210"/>
+                  <g class="nd" id="agi-n-done"><rect x="430" y="192" width="122" height="36" rx="7" fill="#1a1f2e" stroke="#58a6ff"/><text x="491" y="214" text-anchor="middle" font-size="12">COMPLETE</text></g>
+                  <g class="nd" id="agi-n-fail"><rect x="370" y="270" width="230" height="36" rx="7" fill="#1a1f2e" stroke="#f85149"/><text x="485" y="292" text-anchor="middle" font-size="11">FAILED / BUDGET_EXCEEDED</text></g>
+                  <!-- failure edges -->
+                  <path class="eg fail" id="agi-e-inv-fail"  d="M319,66 Q 370,200 430,270"/>
+                  <path class="eg fail" id="agi-e-repr-fail" d="M319,154 Q 360,220 450,270"/>
+                  <path class="eg fail" id="agi-e-rem-fail"  d="M721,66 Q 640,200 540,270"/>
+                  <path class="eg fail" id="agi-e-val-fail"  d="M860,66 Q 720,190 560,270"/>
+                  <path class="eg fail" id="agi-e-pr-fail"   d="M649,228 Q 600,260 565,270"/>
+                  <!-- retry edges -->
+                  <path class="eg retry" id="agi-e-val-rem-retry"    d="M860,30 Q860,8 721,8 Q662,8 662,30"/>
+                  <path class="eg retry" id="agi-e-critic-rem-retry" d="M974,30 Q974,-4 721,-4 Q662,-4 662,30"/>
+                  <path class="eg retry" id="agi-e-repr-retry" d="M 364,148 Q 319,192 274,148"/>
+                  <text id="agi-e-repr-retry-lbl" x="319" y="204" text-anchor="middle" fill="#d29922" font-size="9">test passes → retry once</text>
+                  <!-- Legend -->
+                  <g transform="translate(760,220)">
+                    <rect width="250" height="99" rx="5" fill="#161b22" stroke="#30363d"/>
+                    <text x="10" y="14" fill="#8b949e" font-size="9" font-weight="700">LEGEND</text>
+                    <line x1="10" y1="26" x2="38" y2="26" stroke="#58a6ff" stroke-width="2" marker-end="url(#agi-arr-b)"/>
+                    <text x="44" y="30" fill="#8b949e" font-size="10">active path</text>
+                    <line x1="130" y1="26" x2="158" y2="26" stroke="#d29922" stroke-dasharray="5 3" stroke-width="1.5" marker-end="url(#agi-arr-y)"/>
+                    <text x="164" y="30" fill="#8b949e" font-size="10">retry</text>
+                    <line x1="130" y1="39" x2="158" y2="39" stroke="#f85149" stroke-dasharray="4 3" stroke-width="1.5" marker-end="url(#agi-arr-r)"/>
+                    <text x="164" y="43" fill="#8b949e" font-size="10">failure</text>
+                    <rect x="10" y="54" width="14" height="10" rx="2" fill="#1a1f2e" stroke="#3fb950" stroke-width="1.5"/>
+                    <text x="30" y="63" fill="#8b949e" font-size="10">write (modifies files)</text>
+                    <rect x="10" y="70" width="14" height="10" rx="2" fill="#1a1f2e" stroke="#bc8cff" stroke-width="1.5"/>
+                    <text x="30" y="79" fill="#8b949e" font-size="10">security-only phase</text>
+                    <rect x="10" y="86" width="14" height="10" rx="2" fill="#1a1f2e" stroke="#f85149" stroke-width="1.5"/>
+                    <text x="30" y="95" fill="#8b949e" font-size="10">failure / terminal</text>
+                    <rect x="130" y="70" width="14" height="10" rx="2" fill="#1a1f2e" stroke="#58a6ff" stroke-width="1.5"/>
+                    <text x="150" y="79" fill="#8b949e" font-size="10">normal phase</text>
+                  </g>
+                </svg>
+              </div>
+              <div id="node-info" style="flex:0 0 300px;position:sticky;top:20px">
+                <span class="ni-hint">Hover or click a state →</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB: PHASES -->
+          <div class="panel" id="agi-tab-phases">
+            <h2>Phase Roles &amp; Tool Access</h2>
+            <div class="phase-grid">
+              <div class="pc" data-phase="IDLE"><div class="name">IDLE</div><div class="desc">Start state. No tools. Transitions only to LOADING_SKILL.</div></div>
+              <div class="pc" data-phase="LOADING_SKILL"><div class="name">LOADING_SKILL</div><div class="desc">Reads <code>skills/work-item-fix/SKILL.md</code> and injects it as the system prompt for all agent phases. No tools available.</div></div>
+              <div class="pc" data-phase="INVESTIGATING"><div class="name" style="color:#58a6ff">INVESTIGATING</div><div class="desc">Fetch the work item, explore the repo, identify root cause and exact files/lines. Goal: smallest possible change. <em>Budget: 50 iterations.</em></div><div class="tools-row"><span class="pill r">get_work_item</span><span class="pill r">read_file</span><span class="pill r">list_files</span><span class="pill r">search_code</span><span class="pill r">find_references</span></div></div>
+              <div class="pc bug" data-phase="REPRODUCING"><div class="name" style="color:#d29922">REPRODUCING <span class="badge bug">bug only</span></div><div class="desc">Receives full INVESTIGATING context. Finds nearest test file, inserts a single failing test. Pre-fix run checks the test <strong>must fail</strong>; retries once with feedback if it passes. <em>Budget: 20 iter / attempt.</em></div><div class="tools-row"><span class="pill r">read_file</span><span class="pill r">list_files</span><span class="pill r">search_code</span><span class="pill r">find_references</span><span class="pill w">replace_in_file ✦</span><span class="pill w">apply_patch</span></div></div>
+              <div class="pc" data-phase="PLANNING"><div class="name">PLANNING</div><div class="desc">Pure LLM synthesis — no tools. Compresses INVESTIGATING output into a compact self-contained fix plan.</div></div>
+              <div class="pc" data-phase="REMEDIATING"><div class="name" style="color:#3fb950">REMEDIATING</div><div class="desc">Apply patches. Only exact lines needed — no reformatting or cleanup. Re-entered on validation failure or critic reject.</div><div class="tools-row"><span class="pill r">get_work_item</span><span class="pill r">read_file</span><span class="pill r">list_files</span><span class="pill r">search_code</span><span class="pill r">find_references</span><span class="pill w">replace_in_file ✦</span><span class="pill w">apply_patch</span></div></div>
+              <div class="pc sec" data-phase="PROVING"><div class="name" style="color:#bc8cff">PROVING <span class="badge sec">security only</span> <span class="badge nofatal">non-fatal</span></div><div class="desc">Read-only dry-run. Agent confirms the attack vector is closed. Write tools are blocked. Failure does not block the fix. <em>Budget: 20 iter.</em></div><div class="tools-row"><span class="pill r">get_work_item</span><span class="pill r">read_file</span><span class="pill r">list_files</span><span class="pill r">search_code</span><span class="pill r">find_references</span></div></div>
+              <div class="pc" data-phase="VALIDATING"><div class="name">VALIDATING</div><div class="desc"><code>FixValidator</code> runs independently — never accessible to Claude. Checks: patch applied, non-empty files, JSON/XML parseable, output scan passes, <code>TEST_COMMAND</code> exits 0 if set.</div><div class="tools-row"><span class="pill r">read_file</span><span class="pill r">list_files</span></div></div>
+              <div class="pc sec" data-phase="CRITIC"><div class="name" style="color:#bc8cff">CRITIC</div><div class="desc">Independent LLM call — no tools. Receives fix plan + unified diffs. A <strong>reject always blocks PR</strong>. Feedback injected into next REMEDIATING attempt.</div></div>
+              <div class="pc" data-phase="CREATING_PR"><div class="name">CREATING_PR</div><div class="desc">Blocked if patch hash changed since validation. Pushes to <code>ai-fix/wi-&lt;id&gt;-&lt;ts&gt;</code>, creates PR, links work item.</div><div class="tools-row"><span class="pill ado">create_pull_request</span><span class="pill ado">link_work_item</span></div></div>
+              <div class="pc done" data-phase="COMPLETE"><div class="name" style="color:#3fb950">COMPLETE</div><div class="desc">Terminal. PR created, work item linked, rich ADO comment posted.</div></div>
+              <div class="pc terminal" data-phase="FAILED"><div class="name">FAILED / BUDGET_EXCEEDED / BLOCKED</div><div class="desc">Terminal error states. Report JSON + Markdown published as pipeline artifact.</div></div>
+            </div>
+            <p style="margin-top:12px;font-size:11px"><span class="pill r">read</span> read-only &nbsp; <span class="pill w">write ✦</span> modifies workspace files</p>
+          </div>
+
+          <!-- TAB: TOOL MATRIX -->
+          <div class="panel" id="agi-tab-tools">
+            <h2>Tool Permission Matrix</h2>
+            <p>Tools are phase-gated. A call in an unlisted phase is immediately rejected. Green pills = write (modifies workspace).</p>
+            <table class="tools">
+              <thead><tr><th style="width:190px">Tool</th><th>Allowed Phases</th><th>Notes</th></tr></thead>
+              <tbody>
+                <tr><td class="tname">get_work_item</td><td><span class="phase-pill">INVESTIGATING</span><span class="phase-pill">PLANNING</span><span class="phase-pill">REMEDIATING</span><span class="phase-pill">PROVING</span></td><td style="color:#8b949e;font-size:11px">Input scanned by guards before fetch.</td></tr>
+                <tr><td class="tname">read_file</td><td><span class="phase-pill">INVESTIGATING</span><span class="phase-pill">REPRODUCING</span><span class="phase-pill">PLANNING</span><span class="phase-pill">REMEDIATING</span><span class="phase-pill">PROVING</span><span class="phase-pill">VALIDATING</span><span class="phase-pill">REVIEWING</span></td><td></td></tr>
+                <tr><td class="tname">list_files</td><td><span class="phase-pill">INVESTIGATING</span><span class="phase-pill">REPRODUCING</span><span class="phase-pill">PLANNING</span><span class="phase-pill">REMEDIATING</span><span class="phase-pill">PROVING</span><span class="phase-pill">VALIDATING</span><span class="phase-pill">REVIEWING</span></td><td></td></tr>
+                <tr><td class="tname">search_code</td><td><span class="phase-pill">INVESTIGATING</span><span class="phase-pill">REPRODUCING</span><span class="phase-pill">PLANNING</span><span class="phase-pill">REMEDIATING</span><span class="phase-pill">PROVING</span><span class="phase-pill">REVIEWING</span></td><td></td></tr>
+                <tr><td class="tname">find_references</td><td><span class="phase-pill">INVESTIGATING</span><span class="phase-pill">REPRODUCING</span><span class="phase-pill">PLANNING</span><span class="phase-pill">REMEDIATING</span><span class="phase-pill">PROVING</span><span class="phase-pill">REVIEWING</span></td><td></td></tr>
+                <tr><td class="tname">replace_in_file</td><td><span class="phase-pill w">REPRODUCING</span><span class="phase-pill w">REMEDIATING</span></td><td style="color:#8b949e;font-size:11px">Preferred — surgical insertion, leaves existing code untouched.</td></tr>
+                <tr><td class="tname">apply_patch</td><td><span class="phase-pill w">REPRODUCING</span><span class="phase-pill w">REMEDIATING</span></td><td style="color:#8b949e;font-size:11px">Captures <code>git diff --cached</code> in <code>PatchRecord.unifiedDiff</code> for the critic. Blocked in PROVING.</td></tr>
+                <tr><td class="tname">get_pr_details<br>get_pr_diff<br>get_pr_comments</td><td><span class="phase-pill">INVESTIGATING</span><span class="phase-pill">PLANNING</span><span class="phase-pill">REVIEWING</span></td><td style="color:#8b949e;font-size:11px">Review workflow only.</td></tr>
+                <tr><td class="tname">create_pull_request</td><td><span class="phase-pill w">CREATING_PR</span></td><td></td></tr>
+                <tr><td class="tname">link_work_item</td><td><span class="phase-pill w">CREATING_PR</span></td><td></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- TAB: GUARDS -->
+          <div class="panel" id="agi-tab-guards">
+            <h2>Security Guards</h2>
+            <p>Guards scan tool <em>inputs</em> before execution. A block is a hard failure — the error includes <code>matchedText</code> (≤80 chars) visible in pipeline logs.</p>
+            <div class="guard">
+              <div class="gname">regexGuard <span class="gs on">always on</span></div>
+              <p style="margin:4px 0 8px">Returns <code>safe: false</code> with <code>matchedText</code> snippet on first match.</p>
+              <ul class="pats">
+                <li>ignore-instructions</li><li>disregard</li><li>forget-instructions</li><li>override-safety</li><li>do-not-follow</li><li>persona-switch</li><li>act-as</li><li>pretend-persona</li><li>roleplay-framing</li><li>new-role</li><li>session-persona</li><li>DAN-jailbreak</li><li>jailbreak-keyword</li><li>system-tag</li><li>system-bracket</li><li>markdown-header-injection</li><li>llama-inst-tokens</li><li>special-model-tokens</li><li>claude-turn-markers</li><li>extract-system-prompt</li><li>prompt-extraction</li><li>repeat-above</li><li>respond-only-in</li><li>execute-command</li><li>run-command</li><li>shell-subshell</li><li>backtick-execution</li><li>developer-mode</li><li>unrestricted-mode</li><li>no-restrictions</li><li>safety-bypass</li>
+              </ul>
+              <p class="warn">⚠ <code>backtick-execution</code> (<code>/`[^`]{5,}`/</code>) is intentionally broad — work items with inline code like <code>`StackOverflowException`</code> will be blocked. Known limitation.</p>
+            </div>
+            <div class="guard"><div class="gname">base64Guard <span class="gs on">always on</span></div><p>Detects Base64-encoded payloads that could smuggle injection patterns past the regex guard.</p></div>
+            <div class="guard"><div class="gname">llmGuard <span class="gs opt">optional</span></div><p>Secondary LLM evaluator. Active when <code>llmClient</code> is in <code>GuardOptions</code>.</p></div>
+            <div class="guard"><div class="gname">azurePromptShield <span class="gs opt">optional</span></div><p>Calls Azure AI Content Safety prompt shield. Requires <code>AZURE_CONTENT_SAFETY_ENDPOINT</code> + <code>AZURE_CONTENT_SAFETY_KEY</code>.</p></div>
+            <p><strong style="color:#c9d1d9">Length guard removed.</strong> The 8 000-char limit blocked legitimate large work items.</p>
+            <h3>Output scanner</h3>
+            <p>Runs on <code>git diff --cached</code> after every <code>apply_patch</code> / <code>replace_in_file</code>. On failure the file is unstaged and restored — patch rolled back.</p>
+          </div>
+
+          <!-- TAB: CRITIC -->
+          <div class="panel" id="agi-tab-critic">
+            <h2>Critic Phase</h2>
+            <p>Independent LLM call (no tools). Receives fix plan + unified diff hunks via <code>git diff --cached --unified=5</code> — up to 8 000 chars per file. A <strong style="color:#c9d1d9">reject always blocks PR</strong> — no bypass limit.</p>
+            <div class="two">
+              <div>
+                <h3>DO evaluate</h3>
+                <ul class="rule-list">
+                  <li>Does the fix address the root cause in the plan?</li>
+                  <li>Are there logic errors, bypasses, or unintended side effects?</li>
+                  <li>Does the change match acceptance criteria in the work item?</li>
+                  <li>If a version number was replaced — does the old value still appear in patched content?</li>
+                  <li><em style="color:#8b949e">(Bug fixes only)</em> Is a regression test present and does it cover the specific bug?</li>
+                </ul>
+              </div>
+              <div>
+                <h3>DO NOT reject based on</h3>
+                <ul class="rule-list">
+                  <li class="no">Whether a CVE exists in any external database (no internet access)</li>
+                  <li class="no">Whether a package version exists on NuGet / npm / PyPI</li>
+                  <li class="no">Whether a version bump is a breaking change</li>
+                  <li class="no">Any external fact not derivable from the provided text</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB: PR DESCRIPTION -->
+          <div class="panel" id="agi-tab-pr">
+            <h2>PR Description — AI Generation</h2>
+            <p>The <strong style="color:#c9d1d9">+ PR button</strong> generates an AI-refined description from commits and changed files.</p>
+            <ol class="steps">
+              <li>Fetch branch commits and changed files from <code>diffs/commits</code> API in parallel.</li>
+              <li>Filter commits (merge commits optional per settings).</li>
+              <li>Template generator builds structured draft.</li>
+              <li>AI refinement receives draft + commit messages + changed file list — uses file paths to make bullets specific.</li>
+              <li>Refined Markdown set as PR description on creation.</li>
+            </ol>
+            <h3>Logging</h3>
+            <div>
+              <span class="logb">[tool-error]</span> immediate stderr on tool failure<br>
+              <span class="logb">[plan]</span> planText preview after PLANNING<br>
+              <span class="logb">[remediate]</span> 0 patches applied warning<br>
+              <span class="logb">[proving]</span> non-fatal proving failure<br>
+              <span class="logb">[reproducing]</span> pre-fix test run result<br>
+              <span class="logb">[critic]</span> full reject feedback
+            </div>
+          </div>
+        </div><!-- /#agi -->
+
+        <script>
+        (function() {
+          function agiSc(id, cls) {
+            var el = document.getElementById(id);
+            if (el) el.setAttribute('class', cls);
+          }
+          window.agiShowTab = function(id, el) {
+            document.querySelectorAll('#agi .panel').forEach(function(p){p.classList.remove('active');});
+            document.querySelectorAll('#agi .tab').forEach(function(t){t.classList.remove('active');});
+            document.getElementById('agi-tab-' + id).classList.add('active');
+            el.classList.add('active');
+          };
+          var agiCurrentFlow = 'security';
+          var AGI_PATHS = {
+            security: {
+              dim:        ['agi-n-repr'],
+              mainEdges:  ['agi-e-idle-ls','agi-e-ls-inv','agi-e-inv-plan','agi-e-plan-rem','agi-e-rem-prov','agi-e-prov-val','agi-e-val-critic','agi-e-critic-pr','agi-e-pr-done'],
+              dimEdges:   ['agi-e-inv-repr','agi-e-repr-plan','agi-e-rem-val','agi-e-repr-fail','agi-e-repr-retry'],
+              retryEdges: ['agi-e-val-rem-retry','agi-e-critic-rem-retry'],
+              failEdges:  ['agi-e-inv-fail','agi-e-rem-fail','agi-e-val-fail','agi-e-pr-fail'],
+            },
+            bug: {
+              dim:        ['agi-n-prov'],
+              mainEdges:  ['agi-e-idle-ls','agi-e-ls-inv','agi-e-inv-repr','agi-e-repr-plan','agi-e-plan-rem','agi-e-rem-val','agi-e-val-critic','agi-e-critic-pr','agi-e-pr-done'],
+              dimEdges:   ['agi-e-inv-plan','agi-e-rem-prov','agi-e-prov-val'],
+              retryEdges: ['agi-e-val-rem-retry','agi-e-critic-rem-retry','agi-e-repr-retry'],
+              failEdges:  ['agi-e-inv-fail','agi-e-repr-fail','agi-e-rem-fail','agi-e-val-fail','agi-e-pr-fail'],
+            },
+          };
+          var AGI_ALL_NODES = ['agi-n-idle','agi-n-ls','agi-n-inv','agi-n-repr','agi-n-plan','agi-n-rem','agi-n-prov','agi-n-val','agi-n-critic','agi-n-pr','agi-n-done','agi-n-fail'];
+          var AGI_ALL_EDGES = ['agi-e-idle-ls','agi-e-ls-inv','agi-e-inv-plan','agi-e-inv-repr','agi-e-repr-plan','agi-e-plan-rem','agi-e-rem-prov','agi-e-rem-val','agi-e-prov-val','agi-e-val-critic','agi-e-critic-pr','agi-e-pr-done','agi-e-inv-fail','agi-e-repr-fail','agi-e-rem-fail','agi-e-val-fail','agi-e-pr-fail','agi-e-val-rem-retry','agi-e-critic-rem-retry','agi-e-repr-retry'];
+          function agiRender() {
+            var p = AGI_PATHS[agiCurrentFlow];
+            AGI_ALL_NODES.forEach(function(id){agiSc(id,'nd');});
+            p.dim.forEach(function(id){agiSc(id,'nd dim');});
+            p.mainEdges.forEach(function(id){agiSc(id,'eg hl-shared');});
+            p.retryEdges.forEach(function(id){agiSc(id,'eg hl-retry');});
+            p.failEdges.forEach(function(id){agiSc(id,'eg hl-fail');});
+            p.dimEdges.forEach(function(id){agiSc(id,'eg dim');});
+            var reprLbl = document.getElementById('agi-e-repr-retry-lbl');
+            if (reprLbl) reprLbl.style.opacity = agiCurrentFlow === 'bug' ? '1' : '0';
+          }
+          window.agiSetFlow = function(type) {
+            agiCurrentFlow = type;
+            var isSec = type === 'security';
+            document.getElementById('agi-btn-sec').className = 'toggle-btn' + (isSec ? ' active-sec' : '');
+            document.getElementById('agi-btn-bug').className = 'toggle-btn' + (!isSec ? ' active-bug' : '');
+            agiRender();
+          };
+          var AGI_NODE_INFO = {
+            'agi-n-idle':   {phase:'IDLE'},
+            'agi-n-ls':     {phase:'LOADING_SKILL'},
+            'agi-n-inv':    {phase:'INVESTIGATING'},
+            'agi-n-repr':   {phase:'REPRODUCING'},
+            'agi-n-plan':   {phase:'PLANNING'},
+            'agi-n-rem':    {phase:'REMEDIATING'},
+            'agi-n-prov':   {phase:'PROVING'},
+            'agi-n-val':    {phase:'VALIDATING'},
+            'agi-n-critic': {phase:'CRITIC'},
+            'agi-n-pr':     {phase:'CREATING_PR'},
+            'agi-n-done':   {phase:'COMPLETE'},
+            'agi-n-fail':   {phase:'FAILED'},
+          };
+          var AGI_NODE_COLORS = {
+            'agi-n-idle':'#58a6ff','agi-n-ls':'#58a6ff','agi-n-inv':'#58a6ff',
+            'agi-n-repr':'#d29922','agi-n-plan':'#58a6ff','agi-n-rem':'#3fb950',
+            'agi-n-prov':'#bc8cff','agi-n-val':'#58a6ff','agi-n-critic':'#bc8cff',
+            'agi-n-pr':'#58a6ff','agi-n-done':'#3fb950','agi-n-fail':'#f85149'
+          };
+          var agiPinnedNode = null;
+          var agiLastHovered = null;
+          function agiRenderNodeInfo(id, pinned) {
+            var ni = document.getElementById('node-info');
+            if (!ni) return;
+            if (!id) {
+              if (!agiPinnedNode) ni.innerHTML = '<span class="ni-hint">Hover or click a state →</span>';
+              ni.style.borderColor = '#30363d';
+              ni.style.color = '#30363d';
+              ni.classList.remove('pinned');
+              return;
+            }
+            var color = AGI_NODE_COLORS[id] || '#58a6ff';
+            var phaseName = (AGI_NODE_INFO[id] || {}).phase;
+            var card = phaseName ? document.querySelector('#agi .pc[data-phase="' + phaseName + '"]') : null;
+            ni.style.borderColor = color;
+            ni.style.color = color;
+            ni.classList.toggle('pinned', pinned);
+            if (!card) return;
+            var clone = card.cloneNode(true);
+            clone.style.cssText = 'border:none;background:transparent;padding:0;margin:0';
+            var pinBar = document.createElement('div');
+            pinBar.style.cssText = 'text-align:right;margin-bottom:4px';
+            pinBar.innerHTML = pinned
+              ? '<span style="font-size:10px;color:#8b949e;">📌 pinned · click to unpin</span>'
+              : '<span style="font-size:10px;color:#3d444d;">click to pin</span>';
+            ni.innerHTML = '';
+            ni.appendChild(pinBar);
+            ni.appendChild(clone);
+          }
+          document.addEventListener('mousemove', function(e) {
+            if (agiPinnedNode) return;
+            var under = document.elementFromPoint(e.clientX, e.clientY);
+            var found = AGI_ALL_NODES.find(function(id) {
+              var g = document.getElementById(id);
+              return g && (g === under || g.contains(under));
+            }) || null;
+            if (found !== agiLastHovered) {
+              agiLastHovered = found;
+              agiRenderNodeInfo(found, false);
+            }
+          });
+          AGI_ALL_NODES.forEach(function(id) {
+            var el = document.getElementById(id);
+            if (!el) return;
+            el.addEventListener('click', function() {
+              if (agiPinnedNode === id) {
+                agiPinnedNode = null;
+                agiLastHovered = null;
+                agiRenderNodeInfo(null, false);
+              } else {
+                agiPinnedNode = id;
+                agiRenderNodeInfo(id, true);
+              }
+            });
+          });
+          agiSetFlow('security');
+        })();
+        </script>
+
+        <h3>Removing the extension</h3>
+        <p>
+          Go to <code>chrome://extensions</code>, find <strong>Azure DevOps Git Assistance</strong>,
+          and click <strong>Remove</strong>. All locally stored settings are deleted with the
+          extension.
+        </p>
+      </section>
+
+      <!-- PERMISSIONS -->
+      <section id="permissions" class="section">
+        <h2>Permissions Requested and Why</h2>
+        <p>
+          Azure DevOps Git Assistance requests only the minimum permissions required to provide its functionality.
+        </p>
+
+        <table class="permissions-table">
+          <thead>
+            <tr>
+              <th>Permission</th>
+              <th>User-facing feature</th>
+              <th>Why narrower is not viable</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>storage</code></td>
+              <td>
+                Saves PAT token and AI settings (region, bearer token) to
+                <code>chrome.storage.local</code> so they persist across sessions.
+              </td>
+              <td>
+                Without this permission, every setting resets when the browser closes. There is no
+                narrower scope for local per-extension storage.
+              </td>
+            </tr>
+            <tr>
+              <td><code>activeTab</code></td>
+              <td>
+                Reads the URL of the currently active tab to detect which ADO organisation you are
+                on (used to pre-fill the "Test against organisation" field in the popup).
+              </td>
+              <td>
+                Only the active tab URL is read. <code>tabs</code> permission (which grants access
+                to all open tabs) is not requested.
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <code>host_permissions</code>:<br /><code>dev.azure.com/*</code><br /><code
+                  >*.visualstudio.com/*</code
+                >
+              </td>
+              <td>
+                Injects the content script into Azure DevOps pages; calls the ADO REST API to fetch
+                commits, branch refs, and user connection data; creates and deletes branch refs.
+              </td>
+              <td>
+                Content scripts and cross-origin fetch require host permissions matching the target
+                origin. Narrower path patterns (e.g. only <code>*/pullrequest/*</code>) are not
+                supported by Chrome's host permission syntax for content scripts.
+              </td>
+            </tr>
+            <tr>
+              <td><code>host_permissions</code>:<br /><code>*.amazonaws.com/*</code></td>
+              <td>
+                Sends the generated draft and commit messages to AWS Bedrock for AI refinement, only
+                when AI is enabled and a bearer token is configured. Only
+                <code>bedrock-runtime.{region}.amazonaws.com</code> is contacted.
+              </td>
+              <td>
+                Chrome extensions cannot call cross-origin URLs from content scripts unless declared
+                in <code>host_permissions</code>. If AI is disabled, this permission is never
+                exercised.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="notice">
+          <strong class="notice-title">No background permissions</strong>
+          Azure DevOps Git Assistance does not use <code>tabs</code>, <code>history</code>, <code>cookies</code>,
+          <code>webRequest</code>, <code>bookmarks</code>, <code>identity</code>, or any other
+          sensitive Chrome API. It has no access to pages outside Azure DevOps.
+        </div>
+      </section>
+
+      <!-- PRIVACY POLICY -->
+      <section id="privacy-policy" class="section">
+        <h2>Privacy Policy</h2>
+        <p class="meta">Last updated: September 28, 2026</p>
+
+        <h3>Overview</h3>
+        <p>
+          <a
+            href="https://chromewebstore.google.com/detail/git-helper-for-azure-devo/omofjglfgagfphekfdofojdknlibfoii"
+            target="_blank"
+            >Azure DevOps Git Assistance</a
+          >
+          is a Chrome Extension that adds PR workflow features to Azure DevOps pages. It is free to
+          use for personal and commercial purposes. You may not copy, modify, redistribute,
+          reverse-engineer, or create derivative works based on this extension. This policy explains
+          what data the extension accesses, how it is used, and what leaves your browser.
+        </p>
+
+        <h3>Data Stored Locally</h3>
+        <p>
+          The following values are saved to <code>chrome.storage.local</code>, stored exclusively on
+          your device and never transmitted to any server operated by this extension:
+        </p>
+        <ul>
+          <li>
+            <strong>Personal Access Token (PAT):</strong> used to authenticate calls to the Azure
+            DevOps REST API. Never sent anywhere other than <code>dev.azure.com</code> or
+            <code>*.visualstudio.com</code>.
+          </li>
+          <li>
+            <strong>AWS Bedrock Bearer Token:</strong> your ABSK token for AI refinement. Never sent
+            anywhere other than <code>bedrock-runtime.*.amazonaws.com</code>.
+          </li>
+          <li><strong>Settings:</strong> toggles, AWS region, AI model ID. Stored locally only.</li>
+        </ul>
+
+        <h3>Data Sent to Azure DevOps</h3>
+        <p>The extension calls the Azure DevOps REST API to:</p>
+        <ul>
+          <li>
+            Create a PR (title, description, work item links) when you click <strong>+ PR</strong>
+          </li>
+          <li>Fetch commits between branches to generate the PR description</li>
+          <li>Fetch branch refs and committer identity for ownership checks</li>
+          <li>Delete a branch ref when you confirm a branch deletion</li>
+        </ul>
+        <p>
+          These calls are made directly from your browser to Azure DevOps using your configured PAT
+          or existing session cookies. No intermediate server is involved.
+        </p>
+
+        <h3>Data Sent to AWS Bedrock</h3>
+        <p>When AI description generation is enabled and a PR is created, the extension sends to AWS Bedrock:</p>
+        <ul>
+          <li>The selected commit messages</li>
+          <li>The PR title, source branch name, and target branch name</li>
+          <li>The template-generated draft description</li>
+        </ul>
+        <p>
+          No source code, file diffs, PAT tokens, API keys, or personal account information are
+          included in the AI description request. When AI is disabled,
+          <strong>no data is sent to any AI provider</strong>.
+        </p>
+
+        <h3>Data Sent by AI Remediate</h3>
+        <p>
+          When <strong>AI Remediate</strong> is triggered, the extension calls the ADO Pipelines
+          API to start the configured fix pipeline. The following are passed as pipeline
+          parameters:
+        </p>
+        <ul>
+          <li>The work item ID</li>
+          <li>The target repository name and target branch</li>
+          <li>Your PAT and Bedrock bearer token (as secret runtime variables — masked by ADO)</li>
+        </ul>
+        <p>
+          The pipeline itself (running on your ADO agents) calls AWS Bedrock with work item and
+          code context to perform the fix. No data from the AI Remediate pipeline is sent to any
+          server operated by this extension.
+        </p>
+
+        <h3>Data Not Collected</h3>
+        <p>Azure DevOps Git Assistance does not collect, transmit, or store:</p>
+        <ul>
+          <li>Usage analytics or telemetry</li>
+          <li>Browsing history</li>
+          <li>Source code, file contents, or repository metadata beyond commit messages</li>
+          <li>Any data from pages other than Azure DevOps</li>
+        </ul>
+
+        <h3>Third-Party Services</h3>
+        <p>
+          The only external services the extension may contact are Azure DevOps (always) and AWS
+          Bedrock (only when AI is enabled). No analytics, advertising, or tracking services are
+          used.
+        </p>
+
+        <h3>Data Deletion</h3>
+        <p>
+          Remove the extension from Chrome to delete all locally stored data. You can also clear the
+          extension's storage via <code>chrome://extensions</code> → Azure DevOps Git Assistance →
+          <strong>Clear storage</strong>.
+        </p>
+
+        <h3>Contact</h3>
+        <p>
+          For questions about this Privacy Policy:
+          <a href="mailto:lucamit@gmail.com">lucamit@gmail.com</a>
+        </p>
+      </section>
+
+      <!-- TERMS OF SERVICE -->
+      <section id="terms-of-service" class="section">
+        <h2>Terms of Service</h2>
+        <p class="meta">Last updated: September 28, 2026</p>
+
+        <h3>1. Acceptance of Terms</h3>
+        <p>
+          By installing or using Azure DevOps Git Assistance, you agree to these Terms of Service.
+          If you do not agree, do not install or use the extension.
+        </p>
+
+        <h3>2. Description of the Service</h3>
+        <p>
+          Azure DevOps Git Assistance is a Chrome Extension that adds PR workflow features to Azure
+          DevOps: one-click PR creation with auto-filled titles and descriptions, configurable draft
+          mode and target branches, optional AI-powered description enrichment via AWS Bedrock,
+          AI-powered work item remediation that investigates code and opens a Pull Request
+          automatically, and safe branch deletion with ownership verification and an optional Admin
+          Delete mode. It is intended as a productivity aid and should not be relied upon as the
+          sole source of important PR documentation or as a substitute for reviewing your own
+          changes.
+        </p>
+
+        <h3>3. Branch Deletion</h3>
+        <p>
+          The Delete branch feature permanently removes the branch from the remote repository for
+          all users. You are solely responsible for any consequences of deleting a branch, including
+          loss of work. Always confirm you no longer need a branch before deleting it. The developer
+          is not responsible for data loss resulting from use of this feature.
+        </p>
+
+        <h3>4. License</h3>
+        <p>
+          Azure DevOps Git Assistance is free to use for both personal and commercial purposes. You
+          may not copy, modify, redistribute, reverse-engineer, or create derivative works based on
+          this extension or its source code without explicit written permission from the developer.
+        </p>
+
+        <h3>5. Third-Party AI Services</h3>
+        <p>
+          When AI refinement is enabled, commit data is sent to AWS Bedrock using the bearer token
+          you provide. Your use of AWS services is governed by Amazon's terms. The developer of
+          Azure DevOps Git Assistance is not responsible for the behaviour, outputs, data handling, pricing, or
+          availability of AWS Bedrock.
+        </p>
+
+        <h3>6. No Warranty</h3>
+        <p>
+          Azure DevOps Git Assistance is provided "as is" without warranties of any kind. The developer does not
+          guarantee that generated descriptions will be accurate, complete, or suitable; that the
+          extension will remain compatible with future versions of Chrome or Azure DevOps; or that
+          AI output will meet any quality standard. Always review generated descriptions before
+          publishing them.
+        </p>
+
+        <h3>7. Limitation of Liability</h3>
+        <p>
+          To the maximum extent permitted by law, the developer is not liable for any damages
+          arising from use of Azure DevOps Git Assistance, including inaccurate descriptions, data loss from branch
+          deletion, service interruptions, or consequences of relying on AI-generated output.
+        </p>
+
+        <h3>8. User Responsibilities</h3>
+        <p>
+          You agree to use the extension only on repositories you are authorised to access, to
+          comply with Azure DevOps and Chrome Web Store terms, and to review generated output before
+          publishing.
+        </p>
+
+        <h3>9. Changes to These Terms</h3>
+        <p>
+          The developer may update these Terms at any time. Continued use after changes are posted
+          constitutes acceptance of the revised terms.
+        </p>
+      </section>
+
+      <!-- SUPPORT -->
+      <section id="support" class="section">
+        <h2>Support</h2>
+
+        <h3>Getting help</h3>
+        <p>
+          See the <a href="#installation">Installation &amp; Setup</a> section above for
+          configuration and usage guidance.
+        </p>
+
+        <h3>Report an issue</h3>
+        <p>Email <a href="mailto:lucamit@gmail.com">lucamit@gmail.com</a> and please include:</p>
+        <ul>
+          <li>What happened and what you expected</li>
+          <li>
+            The Azure DevOps URL format (<code>dev.azure.com</code> or
+            <code>*.visualstudio.com</code>)
+          </li>
+          <li>Whether you are using a PAT or session auth</li>
+          <li>Whether AI is enabled and whether a Bedrock bearer token is configured</li>
+          <li>
+            Any errors in the browser console (<kbd>F12</kbd> → Console). Look for lines starting
+            with <code>[GH-ADO]</code>
+          </li>
+        </ul>
+      </section>
+    </div>
+
+    <footer>
+      <p>
+        Azure DevOps Git Assistance &mdash; <a href="mailto:lucamit@gmail.com">lucamit@gmail.com</a>
+      </p>
+    </footer>
+  </body>
+</html>
