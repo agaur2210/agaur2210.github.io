@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent Internals — Azure DevOps Git Assistant</title>
+<style>
+  :root {
+    --bg:#0d1117;--surface:#161b22;--border:#30363d;
+    --text:#c9d1d9;--muted:#8b949e;--accent:#58a6ff;
+    --green:#3fb950;--red:#f85149;--yellow:#d29922;
+    --purple:#bc8cff;--orange:#ffa657;--teal:#39d0d8;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:14px;line-height:1.6}
+  h1{font-size:22px;color:#fff;padding:24px 32px 4px}
+  .subtitle{color:var(--muted);font-size:13px;padding:0 32px 20px}
+  code{font-family:"SF Mono",Consolas,monospace;font-size:12px;background:#1f2937;padding:1px 5px;border-radius:3px;color:var(--text)}
+  p{color:var(--muted);margin-bottom:10px}
+  h2{font-size:16px;color:var(--accent);margin:0 0 14px;border-bottom:1px solid var(--border);padding-bottom:6px}
+  h3{font-size:12px;color:var(--orange);margin:16px 0 8px;text-transform:uppercase;letter-spacing:.06em}
+
+  /* ── Tabs ── */
+  .tabs{display:flex;border-bottom:1px solid var(--border);padding:0 32px;gap:2px}
+  .tab{padding:10px 18px;font-size:13px;cursor:pointer;border-bottom:2px solid transparent;color:var(--muted);user-select:none;transition:color .15s,border-color .15s}
+  .tab:hover{color:var(--text)}
+  .tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+  .panel{display:none;padding:28px 32px}
+  .panel.active{display:block}
+
+  /* ── Flow toggle ── */
+  .flow-toggle{display:flex;align-items:center;gap:8px;margin-bottom:18px}
+  .flow-toggle span{font-size:12px;color:var(--muted)}
+  .toggle-btn{padding:6px 18px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--muted);font-size:12px;cursor:pointer;transition:all .2s}
+  .toggle-btn.active-bug{background:#2f2a0a;border-color:var(--yellow);color:var(--yellow)}
+  .toggle-btn.active-sec{background:#1e1a2e;border-color:var(--purple);color:var(--purple)}
+
+  /* ── SVG diagram animation ── */
+  .diagram-wrap{overflow-x:auto;padding-bottom:8px}
+  svg.diagram{min-width:980px;transition:opacity .2s}
+
+  /* node base */
+  .nd rect{stroke-width:1.5;transition:fill .35s,stroke .35s,opacity .35s}
+  .nd text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:12px;font-weight:600;fill:#fff;transition:opacity .35s}
+  .nd .sub{font-size:10px;font-weight:400;fill:#8b949e;transition:opacity .35s}
+
+  /* edge base */
+  .eg{fill:none;stroke-width:1.5;transition:stroke .35s,opacity .35s,stroke-dasharray .35s}
+  .eg.normal{stroke:#30363d;marker-end:url(#arr)}
+  .eg.retry{stroke:#d29922;stroke-dasharray:4 3;marker-end:url(#arr-y)}
+  .eg.fail{stroke:#f85149;stroke-dasharray:4 3;marker-end:url(#arr-r)}
+  .eg.branch{stroke:#30363d;stroke-dasharray:4 3;marker-end:url(#arr)}
+
+  /* dim state — off-path nodes/edges */
+  .dim rect{fill:#111418 !important;stroke:#21262d !important}
+  .dim text,.dim .sub{opacity:.25 !important}
+  .eg.dim{stroke:#21262d !important;stroke-dasharray:none !important;opacity:.15 !important;marker-end:none}
+
+  /* nodes stay neutral — no glow, no colour changes */
+
+  /* highlight — edges only */
+  path.hl-shared{stroke:#58a6ff !important;stroke-dasharray:none !important;opacity:1 !important;stroke-width:2.5 !important;marker-end:url(#arr-b) !important}
+  path.hl-retry {stroke:#d29922 !important;stroke-dasharray:5 3 !important;opacity:1 !important;stroke-width:2 !important;marker-end:url(#arr-y) !important}
+  path.hl-fail  {stroke:#f85149 !important;stroke-dasharray:4 3 !important;opacity:.45 !important;stroke-width:1.5 !important;marker-end:url(#arr-r) !important}
+
+  /* ── Phase cards ── */
+  .phase-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+  .pc{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px 16px}
+  .pc .name{font-weight:700;font-size:13px;margin-bottom:6px}
+  .pc .desc{color:var(--muted);font-size:12px;line-height:1.5}
+  .pc .tools-row{margin-top:8px;display:flex;flex-wrap:wrap;gap:4px}
+  .pc.bug{border-color:var(--yellow)}.pc.sec{border-color:var(--purple)}
+  .pc.terminal{border-color:var(--red);opacity:.75}.pc.done{border-color:var(--green)}
+  .pill{display:inline-block;border-radius:3px;padding:1px 6px;font-size:10px;font-family:monospace}
+  .pill.r{background:#162029;color:var(--teal)}.pill.w{background:#1a2f1a;color:var(--green)}.pill.ado{background:#21252e;color:var(--purple)}
+  .badge{display:inline-block;font-size:10px;padding:1px 7px;border-radius:10px;margin-left:6px;vertical-align:middle}
+  .badge.bug{background:#2f2a0a;color:var(--yellow)}.badge.sec{background:#1e1a2e;color:var(--purple)}.badge.nofatal{background:#1a2f1a;color:var(--green)}
+
+  /* ── Tool table (phase-pill style) ── */
+  table.tools{width:100%;border-collapse:collapse;font-size:12px}
+  table.tools th{text-align:left;padding:8px 12px;background:var(--surface);color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--border)}
+  table.tools td{padding:7px 12px;border-bottom:1px solid #21262d;vertical-align:top}
+  table.tools tr:last-child td{border-bottom:none}
+  td.tname{font-family:monospace;color:var(--accent);white-space:nowrap}
+  .phase-pill{display:inline-block;background:#1f2937;border-radius:3px;padding:1px 6px;margin:1px;font-size:11px;font-family:monospace;color:var(--text)}
+  .phase-pill.w{background:#1a2f1a;color:var(--green)}
+
+  /* ── Guards ── */
+  .guard{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px 16px;margin-bottom:10px}
+  .guard .gname{font-weight:700;color:var(--orange);margin-bottom:4px}
+  .gs{font-size:10px;padding:1px 7px;border-radius:10px;margin-left:8px;vertical-align:middle}
+  .gs.on{background:#1a2f1a;color:var(--green)}.gs.opt{background:#2a2a1a;color:var(--yellow)}
+  ul.pats{list-style:none;display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+  ul.pats li{background:#1a1f2e;border:1px solid #2d3748;border-radius:3px;padding:1px 7px;font-size:11px;font-family:monospace;color:#a5b4fc}
+  .warn{color:var(--red);font-size:11px;margin-top:6px}
+
+  /* ── Critic ── */
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:700px){.two{grid-template-columns:1fr}}
+  .rule-list{list-style:none}
+  .rule-list li{padding:5px 0;border-bottom:1px solid #21262d;font-size:12px;display:flex;gap:8px;color:var(--muted)}
+  .rule-list li:last-child{border-bottom:none}
+  .rule-list li::before{content:"✓";color:var(--green);flex-shrink:0}
+  .rule-list li.no::before{content:"✗";color:var(--red)}
+
+  /* ── Misc ── */
+  .logb{display:inline-block;font-size:11px;font-family:monospace;background:#0d1f0d;border:1px solid #1e4d1e;border-radius:4px;padding:1px 8px;color:#6ee7b7;margin:2px}
+  ol.steps{color:var(--muted);font-size:13px;padding-left:20px;line-height:2.2}
+
+  /* ── Node info panel ── */
+  #node-info{margin-top:14px;background:#161b22;border:1px solid #30363d;border-radius:8px;padding:14px 18px;font-size:12px;min-height:56px;transition:border-color .2s,box-shadow .2s;line-height:1.6}
+  #node-info.pinned{box-shadow:0 0 0 2px currentColor}
+  #node-info .ni-header{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+  #node-info .ni-name{font-weight:700;font-size:14px}
+  #node-info .ni-badge{font-size:10px;padding:2px 8px;border-radius:10px;vertical-align:middle}
+  #node-info .ni-pin{font-size:10px;color:#3d444d;margin-left:auto;white-space:nowrap}
+  #node-info .ni-pin.active{color:#8b949e}
+  #node-info .ni-body{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:start}
+  @media(max-width:740px){#node-info .ni-body{grid-template-columns:1fr}}
+  #node-info .ni-desc{color:#8b949e;font-size:12px;line-height:1.65}
+  #node-info .ni-desc code{font-family:"SF Mono",Consolas,monospace;font-size:11px;background:#1f2937;padding:1px 5px;border-radius:3px;color:#c9d1d9}
+  #node-info .ni-desc em{color:#c9d1d9;font-style:normal}
+  #node-info .ni-desc strong{color:#c9d1d9}
+  #node-info .ni-tools{display:flex;flex-wrap:wrap;gap:4px;padding-top:4px}
+  #node-info .ni-section{font-size:10px;color:#8b949e;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px;white-space:nowrap}
+  #node-info .ni-hint{color:#3d444d;font-size:11px;font-style:italic}
+  .nd{pointer-events:all}
+  .nd rect{cursor:pointer;transition:filter .15s}
+  .nd:hover rect{filter:brightness(1.18)}
+</style>
+</head>
+<body>
+
+<h1>Agent Internals</h1>
+<p class="subtitle">Azure DevOps Git Assistant — pipeline agent architecture reference · 2026-10-22</p>
+
+<div class="tabs">
+  <div class="tab active" onclick="showTab('diagram',this)">State Diagram</div>
+  <div class="tab" onclick="showTab('phases',this)">Phase Roles</div>
+  <div class="tab" onclick="showTab('tools',this)">Tool Matrix</div>
+  <div class="tab" onclick="showTab('guards',this)">Security Guards</div>
+  <div class="tab" onclick="showTab('critic',this)">Critic</div>
+  <div class="tab" onclick="showTab('pr',this)">PR Description</div>
+</div>
+
+<!-- ══════════════════════════ TAB: DIAGRAM ══════════════════════════ -->
+<div class="panel active" id="tab-diagram">
+  <h2>State Transition Diagram</h2>
+
+  <div class="flow-toggle">
+    <span>Flow:</span>
+    <button class="toggle-btn active-sec" id="btn-sec" onclick="setFlow('security')">Security fix</button>
+    <button class="toggle-btn" id="btn-bug" onclick="setFlow('bug')">Bug fix</button>
+  </div>
+
+  <div style="display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap">
+  <div class="diagram-wrap" style="flex:1 1 600px;min-width:0">
+  <!--
+    Layout (y increases downward):
+    Row 0 (y=30):  IDLE → LOADING_SKILL → INVESTIGATING ──────────────────────────────────────────→ PLANNING
+    Row 1 (y=120): (branch down from INVESTIGATING for REPRODUCING, branch down from PLANNING for REMEDIATING)
+                   REPRODUCING(bug)    |    REMEDIATING → PROVING(sec) | VALIDATING → CRITIC
+    Row 2 (y=220): CREATING_PR → COMPLETE
+    Row 3 (y=310): FAILED/BUDGET_EXCEEDED
+  -->
+  <svg class="diagram" id="sm" viewBox="0 -20 1020 390" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <marker id="arr"   markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#30363d"/></marker>
+      <marker id="arr-y" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#d29922"/></marker>
+      <marker id="arr-r" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#f85149"/></marker>
+      <marker id="arr-p" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#bc8cff"/></marker>
+      <marker id="arr-b" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#58a6ff"/></marker>
+    </defs>
+
+    <!-- ── Row 0 ── -->
+    <!-- IDLE -->
+    <g class="nd" id="n-idle">
+      <rect x="10" y="30" width="74" height="36" rx="7" fill="#1a1f2e" stroke="#58a6ff"/>
+      <text x="47" y="52" text-anchor="middle" font-size="12">IDLE</text>
+    </g>
+
+    <!-- IDLE → LOADING_SKILL -->
+    <path class="eg normal" id="e-idle-ls" d="M84,48 L108,48"/>
+
+    <!-- LOADING_SKILL -->
+    <g class="nd" id="n-ls">
+      <rect x="110" y="30" width="118" height="36" rx="7" fill="#1a1f2e" stroke="#58a6ff"/>
+      <text x="169" y="52" text-anchor="middle" font-size="12">LOADING_SKILL</text>
+    </g>
+
+    <!-- LOADING_SKILL → INVESTIGATING -->
+    <path class="eg normal" id="e-ls-inv" d="M228,48 L252,48"/>
+
+    <!-- INVESTIGATING -->
+    <g class="nd" id="n-inv">
+      <rect x="254" y="30" width="130" height="36" rx="7" fill="#1a1f2e" stroke="#58a6ff"/>
+      <text x="319" y="52" text-anchor="middle" font-size="12">INVESTIGATING</text>
+    </g>
+
+    <!-- INVESTIGATING → PLANNING (skip REPRODUCING for security) -->
+    <path class="eg branch" id="e-inv-plan" d="M384,48 L530,48"/>
+
+    <!-- PLANNING -->
+    <g class="nd" id="n-plan">
+      <rect x="532" y="30" width="104" height="36" rx="7" fill="#1a1f2e" stroke="#58a6ff"/>
+      <text x="584" y="52" text-anchor="middle" font-size="12">PLANNING</text>
+    </g>
+
+    <!-- PLANNING → REMEDIATING -->
+    <path class="eg normal" id="e-plan-rem" d="M636,48 L660,48"/>
+
+    <!-- REMEDIATING -->
+    <g class="nd" id="n-rem">
+      <rect x="662" y="30" width="118" height="36" rx="7" fill="#1a1f2e" stroke="#3fb950"/>
+      <text x="721" y="52" text-anchor="middle" font-size="12">REMEDIATING</text>
+    </g>
+
+    <!-- ── REPRODUCING branch ── -->
+    <path class="eg branch" id="e-inv-repr" d="M319,66 L319,116"/>
+
+    <!-- REPRODUCING -->
+    <g class="nd" id="n-repr">
+      <rect x="254" y="118" width="130" height="36" rx="7" fill="#1a1f2e" stroke="#3fb950"/>
+      <text x="319" y="140" text-anchor="middle" font-size="12">REPRODUCING</text>
+    </g>
+
+    <!-- REPRODUCING → PLANNING -->
+    <path class="eg branch" id="e-repr-plan" d="M384,136 L584,136 L584,66"/>
+
+    <!-- ── PROVING branch ── -->
+    <path class="eg branch" id="e-rem-prov" d="M721,66 L721,116"/>
+
+    <!-- PROVING -->
+    <g class="nd" id="n-prov">
+      <rect x="656" y="118" width="130" height="36" rx="7" fill="#1a1f2e" stroke="#bc8cff"/>
+      <text x="721" y="140" text-anchor="middle" font-size="12">PROVING</text>
+    </g>
+
+    <!-- PROVING → VALIDATING -->
+    <path class="eg branch" id="e-prov-val" d="M786,136 L856,136 L856,66"/>
+
+    <!-- REMEDIATING → VALIDATING (skip PROVING for bug) -->
+    <path class="eg normal" id="e-rem-val" d="M780,48 L804,48"/>
+
+    <!-- VALIDATING -->
+    <g class="nd" id="n-val">
+      <rect x="806" y="30" width="108" height="36" rx="7" fill="#1a1f2e" stroke="#58a6ff"/>
+      <text x="860" y="52" text-anchor="middle" font-size="12">VALIDATING</text>
+    </g>
+
+    <!-- VALIDATING → CRITIC -->
+    <path class="eg normal" id="e-val-critic" d="M914,48 L938,48"/>
+
+    <!-- CRITIC -->
+    <g class="nd" id="n-critic">
+      <rect x="940" y="30" width="68" height="36" rx="7" fill="#1a1f2e" stroke="#bc8cff"/>
+      <text x="974" y="52" text-anchor="middle" font-size="12">CRITIC</text>
+    </g>
+
+    <!-- CRITIC → CREATING_PR (down + left) -->
+    <path class="eg normal" id="e-critic-pr" d="M974,66 L974,210 L720,210"/>
+
+    <!-- CREATING_PR -->
+    <g class="nd" id="n-pr">
+      <rect x="580" y="192" width="138" height="36" rx="7" fill="#1a1f2e" stroke="#58a6ff"/>
+      <text x="649" y="214" text-anchor="middle" font-size="12">CREATING_PR</text>
+    </g>
+
+    <!-- CREATING_PR → COMPLETE -->
+    <path class="eg normal" id="e-pr-done" d="M580,210 L554,210"/>
+
+    <!-- COMPLETE -->
+    <g class="nd" id="n-done">
+      <rect x="430" y="192" width="122" height="36" rx="7" fill="#1a1f2e" stroke="#58a6ff"/>
+      <text x="491" y="214" text-anchor="middle" font-size="12">COMPLETE</text>
+    </g>
+
+    <!-- FAILED — center bottom, below all content -->
+    <g class="nd" id="n-fail">
+      <rect x="370" y="270" width="230" height="36" rx="7" fill="#1a1f2e" stroke="#f85149"/>
+      <text x="485" y="292" text-anchor="middle" font-size="11">FAILED / BUDGET_EXCEEDED</text>
+    </g>
+
+    <!-- failure edges — each node curves straight down to FAILED center -->
+    <path class="eg fail" id="e-inv-fail"  d="M319,66 Q 370,200 430,270"/>
+    <path class="eg fail" id="e-repr-fail" d="M319,154 Q 360,220 450,270"/>
+    <path class="eg fail" id="e-rem-fail"  d="M721,66 Q 640,200 540,270"/>
+    <path class="eg fail" id="e-val-fail"  d="M860,66 Q 720,190 560,270"/>
+    <path class="eg fail" id="e-pr-fail"   d="M649,228 Q 600,260 565,270"/>
+
+    <!-- retry edges -->
+    <path class="eg retry" id="e-val-rem-retry"    d="M860,30 Q860,8 721,8 Q662,8 662,30"/>
+    <path class="eg retry" id="e-critic-rem-retry" d="M974,30 Q974,-4 721,-4 Q662,-4 662,30"/>
+    <!-- REPRODUCING self-loop — pre-fix test passes → retry once with feedback -->
+    <path class="eg retry" id="e-repr-retry" d="M 364,148 Q 319,192 274,148"/>
+    <text id="e-repr-retry-lbl" x="319" y="204" text-anchor="middle" fill="#d29922" font-size="9">test passes → retry once</text>
+
+    <!-- ── Legend ── -->
+    <g transform="translate(760,220)">
+      <rect width="250" height="99" rx="5" fill="#161b22" stroke="#30363d"/>
+      <text x="10" y="14" fill="#8b949e" font-size="9" font-weight="700" text-transform="uppercase">LEGEND</text>
+
+      <!-- edge legend -->
+      <line x1="10" y1="26" x2="38" y2="26" stroke="#58a6ff" stroke-width="2" marker-end="url(#arr-b)"/>
+      <text x="44" y="30" fill="#8b949e" font-size="10">active path</text>
+      <line x1="130" y1="26" x2="158" y2="26" stroke="#d29922" stroke-dasharray="5 3" stroke-width="1.5" marker-end="url(#arr-y)"/>
+      <text x="164" y="30" fill="#8b949e" font-size="10">retry</text>
+      <line x1="130" y1="39" x2="158" y2="39" stroke="#f85149" stroke-dasharray="4 3" stroke-width="1.5" marker-end="url(#arr-r)"/>
+      <text x="164" y="43" fill="#8b949e" font-size="10">failure</text>
+
+      <!-- box color legend -->
+      <line x1="10" y1="57" x2="10" y2="57" stroke="none"/>
+      <rect x="10" y="54" width="14" height="10" rx="2" fill="#1a1f2e" stroke="#3fb950" stroke-width="1.5"/>
+      <text x="30" y="63" fill="#8b949e" font-size="10">write (modifies files)</text>
+      <rect x="10" y="70" width="14" height="10" rx="2" fill="#1a1f2e" stroke="#bc8cff" stroke-width="1.5"/>
+      <text x="30" y="79" fill="#8b949e" font-size="10">security-only phase</text>
+      <rect x="10" y="86" width="14" height="10" rx="2" fill="#1a1f2e" stroke="#f85149" stroke-width="1.5"/>
+      <text x="30" y="95" fill="#8b949e" font-size="10">failure / terminal</text>
+      <rect x="130" y="70" width="14" height="10" rx="2" fill="#1a1f2e" stroke="#58a6ff" stroke-width="1.5"/>
+      <text x="150" y="79" fill="#8b949e" font-size="10">normal phase</text>
+    </g>
+  </svg>
+  </div><!-- diagram-wrap -->
+  <div id="node-info" style="flex:0 0 320px;position:sticky;top:20px">
+    <span class="ni-hint">Hover or click a state →</span>
+  </div>
+  </div><!-- flex row -->
+</div>
+
+<!-- ══════════════════════════ TAB: PHASES ══════════════════════════ -->
+<div class="panel" id="tab-phases">
+  <h2>Phase Roles &amp; Tool Access</h2>
+  <div class="phase-grid">
+
+    <div class="pc" data-phase="IDLE">
+      <div class="name">IDLE</div>
+      <div class="desc">Start state. No tools. Transitions only to LOADING_SKILL.</div>
+    </div>
+
+    <div class="pc" data-phase="LOADING_SKILL">
+      <div class="name">LOADING_SKILL</div>
+      <div class="desc">Reads <code>skills/work-item-fix/SKILL.md</code> and injects it as the system prompt for all agent phases. No tools available.</div>
+    </div>
+
+    <div class="pc" data-phase="INVESTIGATING">
+      <div class="name" style="color:var(--accent)">INVESTIGATING</div>
+      <div class="desc">Fetch the work item, explore the repo, identify root cause and exact files/lines. Goal: smallest possible change. <em>Budget: 50 iterations.</em></div>
+      <div class="tools-row">
+        <span class="pill r">get_work_item</span><span class="pill r">read_file</span><span class="pill r">list_files</span>
+        <span class="pill r">search_code</span><span class="pill r">find_references</span>
+        <span class="pill r">get_pr_details</span><span class="pill r">get_pr_diff</span><span class="pill r">get_pr_comments</span>
+      </div>
+    </div>
+
+    <div class="pc bug" data-phase="REPRODUCING">
+      <div class="name" style="color:var(--yellow)">REPRODUCING <span class="badge bug">bug only</span></div>
+      <div class="desc">Receives the full INVESTIGATING conversation as context — no need to re-fetch the work item. Finds the nearest test file, reads it, inserts a single failing test using <code>replace_in_file</code> (preferred) or <code>apply_patch</code>. Pre-fix run checks the test <strong>must fail</strong>; retries once with feedback if it passes. Continues regardless after one retry. <em>Budget: 20 iter / attempt.</em></div>
+      <div class="tools-row">
+        <span class="pill r">read_file</span><span class="pill r">list_files</span>
+        <span class="pill r">search_code</span><span class="pill r">find_references</span>
+        <span class="pill w">replace_in_file ✦</span><span class="pill w">apply_patch</span>
+      </div>
+    </div>
+
+    <div class="pc" data-phase="PLANNING">
+      <div class="name">PLANNING</div>
+      <div class="desc">Pure LLM synthesis — no tools. Compresses INVESTIGATING output into a compact self-contained fix plan. Always draws from <code>investigationResult</code>, never from REPRODUCING.</div>
+    </div>
+
+    <div class="pc" data-phase="REMEDIATING">
+      <div class="name" style="color:var(--green)">REMEDIATING</div>
+      <div class="desc">Apply patches. Only exact lines needed — no reformatting, no new files, no unrelated cleanup. Bug fixes must make the REPRODUCING test pass without deleting it. Re-entered on validation failure or critic reject. Tool errors logged to stderr and injected into retry context.</div>
+      <div class="tools-row">
+        <span class="pill r">get_work_item</span><span class="pill r">read_file</span><span class="pill r">list_files</span>
+        <span class="pill r">search_code</span><span class="pill r">find_references</span>
+        <span class="pill w">replace_in_file ✦</span><span class="pill w">apply_patch</span>
+      </div>
+    </div>
+
+    <div class="pc sec" data-phase="PROVING">
+      <div class="name" style="color:var(--purple)">PROVING <span class="badge sec">security only</span> <span class="badge nofatal">non-fatal</span></div>
+      <div class="desc">Read-only dry-run. Agent reads patched files and reasons about whether the attack vector is closed — quoting specific lines and identifying remaining paths. <code>apply_patch</code> and <code>replace_in_file</code> are blocked. Does not affect <code>ctx.appliedPatches</code> or the validation hash. Failure does not block the fix. <em>Budget: 20 iter.</em></div>
+      <div class="tools-row">
+        <span class="pill r">get_work_item</span><span class="pill r">read_file</span><span class="pill r">list_files</span>
+        <span class="pill r">search_code</span><span class="pill r">find_references</span>
+      </div>
+    </div>
+
+    <div class="pc" data-phase="VALIDATING">
+      <div class="name">VALIDATING</div>
+      <div class="desc"><code>FixValidator</code> runs independently — never accessible to Claude. Checks: (1) patch applied, (2) non-empty files, (3) JSON/XML parseable, (4) output scan passes, (5) patch scope clean, (6) <code>TEST_COMMAND</code> exits 0 if set. On failure, tool errors from REMEDIATING are injected into the retry prompt.</div>
+      <div class="tools-row">
+        <span class="pill r">read_file</span><span class="pill r">list_files</span>
+      </div>
+    </div>
+
+    <div class="pc sec" data-phase="CRITIC">
+      <div class="name" style="color:var(--purple)">CRITIC</div>
+      <div class="desc">Independent LLM call (no tools). Receives fix plan + unified diffs (<code>git diff --cached --unified=5</code>, captured at apply time, up to 8 000 chars). A reject always blocks PR — no bypass limit. Feedback injected into next REMEDIATING attempt.</div>
+    </div>
+
+    <div class="pc" data-phase="CREATING_PR">
+      <div class="name">CREATING_PR</div>
+      <div class="desc">Blocked if patch hash changed since validation. Pushes to <code>ai-fix/wi-&lt;id&gt;-&lt;ts&gt;</code>, creates PR, links work item.</div>
+      <div class="tools-row">
+        <span class="pill ado">create_pull_request</span><span class="pill ado">link_work_item</span>
+      </div>
+    </div>
+
+    <div class="pc done" data-phase="COMPLETE">
+      <div class="name" style="color:var(--green)">COMPLETE</div>
+      <div class="desc">Terminal. PR created, work item linked, rich ADO comment posted.</div>
+    </div>
+
+    <div class="pc terminal" data-phase="FAILED">
+      <div class="name">FAILED / BUDGET_EXCEEDED / BLOCKED</div>
+      <div class="desc">Terminal error states. Report JSON + Markdown published as pipeline artifact.</div>
+    </div>
+
+  </div>
+  <p style="margin-top:12px;font-size:11px"><span class="pill r">read</span> read-only &nbsp; <span class="pill w">write ✦</span> modifies workspace files</p>
+</div>
+
+<!-- ══════════════════════════ TAB: TOOL MATRIX ══════════════════════════ -->
+<div class="panel" id="tab-tools">
+  <h2>Tool Permission Matrix</h2>
+  <p>Tools are phase-gated. A call in an unlisted phase is immediately rejected with an error returned to the model. Green pills = write (modifies workspace), plain = read-only.</p>
+  <table class="tools">
+    <thead>
+      <tr>
+        <th style="width:190px">Tool</th>
+        <th>Allowed Phases</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="tname">get_work_item</td>
+        <td>
+          <span class="phase-pill">INVESTIGATING</span>
+          <span class="phase-pill">PLANNING</span><span class="phase-pill">REMEDIATING</span>
+          <span class="phase-pill">PROVING</span>
+        </td>
+        <td style="color:var(--muted);font-size:11px">Input scanned by guards before fetch. Error includes <code>matchedText</code> snippet.</td>
+      </tr>
+      <tr>
+        <td class="tname">read_file</td>
+        <td>
+          <span class="phase-pill">INVESTIGATING</span><span class="phase-pill">REPRODUCING</span>
+          <span class="phase-pill">PLANNING</span><span class="phase-pill">REMEDIATING</span>
+          <span class="phase-pill">PROVING</span><span class="phase-pill">VALIDATING</span>
+          <span class="phase-pill">REVIEWING</span>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="tname">list_files</td>
+        <td>
+          <span class="phase-pill">INVESTIGATING</span><span class="phase-pill">REPRODUCING</span>
+          <span class="phase-pill">PLANNING</span><span class="phase-pill">REMEDIATING</span>
+          <span class="phase-pill">PROVING</span><span class="phase-pill">VALIDATING</span>
+          <span class="phase-pill">REVIEWING</span>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="tname">search_code</td>
+        <td>
+          <span class="phase-pill">INVESTIGATING</span><span class="phase-pill">REPRODUCING</span>
+          <span class="phase-pill">PLANNING</span><span class="phase-pill">REMEDIATING</span>
+          <span class="phase-pill">PROVING</span><span class="phase-pill">REVIEWING</span>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="tname">find_references</td>
+        <td>
+          <span class="phase-pill">INVESTIGATING</span><span class="phase-pill">REPRODUCING</span>
+          <span class="phase-pill">PLANNING</span><span class="phase-pill">REMEDIATING</span>
+          <span class="phase-pill">PROVING</span><span class="phase-pill">REVIEWING</span>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="tname">replace_in_file</td>
+        <td>
+          <span class="phase-pill w">REPRODUCING</span>
+          <span class="phase-pill w">REMEDIATING</span>
+        </td>
+        <td style="color:var(--muted);font-size:11px">Preferred over <code>apply_patch</code> — surgical insertion, leaves existing code untouched.</td>
+      </tr>
+      <tr>
+        <td class="tname">apply_patch</td>
+        <td>
+          <span class="phase-pill w">REPRODUCING</span>
+          <span class="phase-pill w">REMEDIATING</span>
+        </td>
+        <td style="color:var(--muted);font-size:11px">Full file replacement. Captures <code>git diff --cached</code> in <code>PatchRecord.unifiedDiff</code> for the critic. Blocked in PROVING.</td>
+      </tr>
+      <tr>
+        <td class="tname">get_pr_details<br>get_pr_diff<br>get_pr_comments</td>
+        <td>
+          <span class="phase-pill">INVESTIGATING</span>
+          <span class="phase-pill">PLANNING</span>
+          <span class="phase-pill">REVIEWING</span>
+        </td>
+        <td style="color:var(--muted);font-size:11px">Review workflow only.</td>
+      </tr>
+      <tr>
+        <td class="tname">create_pull_request</td>
+        <td><span class="phase-pill w">CREATING_PR</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="tname">link_work_item</td>
+        <td><span class="phase-pill w">CREATING_PR</span></td>
+        <td></td>
+      </tr>
+
+    </tbody>
+  </table>
+
+  <!-- ── Inferred operations — collapsible ── -->
+  <details id="inferred-section" style="margin-top:14px">
+    <summary style="cursor:pointer;user-select:none;list-style:none;display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--surface);border:1px solid var(--border);border-radius:6px;font-size:11px;font-weight:700;color:var(--orange);letter-spacing:.06em;text-transform:uppercase" onclick="this.parentElement.open ? this.querySelector('.arr').textContent='▶' : this.querySelector('.arr').textContent='▼'">
+      <span class="arr">▶</span>
+      Internal · Inferred by handler — not callable by Claude
+      <span style="margin-left:auto;font-weight:400;color:var(--muted);text-transform:none;letter-spacing:0">git add · git diff --cached · git restore --staged · ADO Pushes API</span>
+    </summary>
+    <table class="tools" style="margin-top:6px;border:1px solid #21262d;border-radius:6px;overflow:hidden">
+      <thead>
+        <tr>
+          <th style="width:190px">Operation</th>
+          <th>Fires in phases</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="tname" style="color:var(--orange)">git add</td>
+          <td><span class="phase-pill w">REPRODUCING</span><span class="phase-pill w">REMEDIATING</span></td>
+          <td style="color:var(--muted);font-size:11px">Side-effect of <code>apply_patch</code> / <code>replace_in_file</code> after <code>fs.writeFileSync</code> (<code>apply-patch.ts:90</code>). Stages the file so the output scanner and diff capture can run. If staging fails, disk is restored and the tool returns an error. Claude passes only <code>{path, content}</code>.</td>
+        </tr>
+        <tr>
+          <td class="tname" style="color:var(--orange)">git diff --cached</td>
+          <td><span class="phase-pill w">REPRODUCING</span><span class="phase-pill w">REMEDIATING</span></td>
+          <td style="color:var(--muted);font-size:11px">Run immediately after <code>git add</code> (<code>--unified=5</code>). Output stored in <code>PatchRecord.unifiedDiff</code> at apply time. The Critic always reads this snapshot — never a re-computed diff — so it reflects the exact state even if the file is patched again in a later retry.</td>
+        </tr>
+        <tr>
+          <td class="tname" style="color:var(--orange)">git restore --staged</td>
+          <td><span class="phase-pill w">REPRODUCING</span><span class="phase-pill w">REMEDIATING</span></td>
+          <td style="color:var(--muted);font-size:11px">Rollback path only. Called when the output scanner rejects the staged diff — unstages the file and overwrites disk with <code>originalContent</code>. Never fires on a clean scan. Claude cannot trigger or suppress it.</td>
+        </tr>
+        <tr>
+          <td class="tname" style="color:var(--orange)">ADO Pushes API</td>
+          <td><span class="phase-pill w">CREATING_PR</span></td>
+          <td style="color:var(--muted);font-size:11px"><code>POST /_apis/git/repositories/{repo}/pushes</code> — called by the orchestrator in <code>pushPatchesToBranch</code> after the patch hash is verified. Sends <code>patchedContent</code> as <code>rawtext</code>; ADO creates the commit server-side. Replaces <code>git commit</code> + <code>git push</code> entirely — no git credentials needed on the agent.</td>
+        </tr>
+      </tbody>
+    </table>
+  </details>
+</div>
+
+<!-- ══════════════════════════ TAB: GUARDS ══════════════════════════ -->
+<div class="panel" id="tab-guards">
+  <h2>Security Guards</h2>
+  <p>Guards scan tool <em>inputs</em> before execution. A block is a hard failure — no redact-and-continue. The error includes <code>matchedText</code> (≤80 chars) visible in pipeline logs.</p>
+
+  <div class="guard">
+    <div class="gname">regexGuard <span class="gs on">always on</span></div>
+    <p style="margin:4px 0 8px">Returns <code>safe: false</code> with <code>matchedText</code> snippet on first match.</p>
+    <ul class="pats">
+      <li>ignore-instructions</li><li>disregard</li><li>forget-instructions</li>
+      <li>override-safety</li><li>do-not-follow</li><li>persona-switch</li>
+      <li>act-as</li><li>pretend-persona</li><li>roleplay-framing</li>
+      <li>new-role</li><li>session-persona</li><li>DAN-jailbreak</li>
+      <li>jailbreak-keyword</li><li>system-tag</li><li>system-bracket</li>
+      <li>markdown-header-injection</li><li>llama-inst-tokens</li>
+      <li>special-model-tokens</li><li>claude-turn-markers</li>
+      <li>extract-system-prompt</li><li>prompt-extraction</li>
+      <li>repeat-above</li><li>respond-only-in</li>
+      <li>execute-command</li><li>run-command</li>
+      <li>shell-subshell</li><li>backtick-execution</li>
+      <li>developer-mode</li><li>unrestricted-mode</li>
+      <li>no-restrictions</li><li>safety-bypass</li>
+    </ul>
+    <p class="warn">⚠ <code>backtick-execution</code> (<code>/`[^`]{5,}`/</code>) is intentionally broad — work items with inline code like <code>`StackOverflowException`</code> will be blocked. Known limitation.</p>
+  </div>
+  <div class="guard">
+    <div class="gname">base64Guard <span class="gs on">always on</span></div>
+    <p>Detects Base64-encoded payloads that could smuggle injection patterns past the regex guard.</p>
+  </div>
+  <div class="guard">
+    <div class="gname">llmGuard <span class="gs opt">optional</span></div>
+    <p>Secondary LLM evaluator. Active when <code>llmClient</code> is in <code>GuardOptions</code>.</p>
+  </div>
+  <div class="guard">
+    <div class="gname">azurePromptShield <span class="gs opt">optional</span></div>
+    <p>Calls Azure AI Content Safety prompt shield. Requires <code>AZURE_CONTENT_SAFETY_ENDPOINT</code> + <code>AZURE_CONTENT_SAFETY_KEY</code>.</p>
+  </div>
+  <p><strong>Length guard removed.</strong> The 8 000-char limit blocked legitimate large work items.</p>
+
+  <h3>Output scanner</h3>
+  <p>Runs on <code>git diff --cached</code> after every <code>apply_patch</code> / <code>replace_in_file</code>. On failure the file is unstaged and restored — patch rolled back.</p>
+</div>
+
+<!-- ══════════════════════════ TAB: CRITIC ══════════════════════════ -->
+<div class="panel" id="tab-critic">
+  <h2>Critic Phase</h2>
+  <p>Independent LLM call (no tools). Receives fix plan + unified diff hunks captured at apply time via <code>git diff --cached --unified=5</code> — up to 8 000 chars per file, full coverage regardless of where in the file the change appears. A <strong>reject always blocks PR</strong> — no bypass limit.</p>
+  <div class="two">
+    <div>
+      <h3>DO evaluate</h3>
+      <ul class="rule-list">
+        <li>Does the fix address the root cause in the plan?</li>
+        <li>Are there logic errors, bypasses, or unintended side effects?</li>
+        <li>Does the change match acceptance criteria in the work item?</li>
+        <li>If a version number was replaced — does the old value still appear in patched content?</li>
+        <li><em>(Bug fixes only)</em> Is a regression test present and does it cover the specific bug?</li>
+      </ul>
+    </div>
+    <div>
+      <h3>DO NOT reject based on</h3>
+      <ul class="rule-list">
+        <li class="no">Whether a CVE exists in any external database (no internet access)</li>
+        <li class="no">Whether a package version exists on NuGet / npm / PyPI</li>
+        <li class="no">Whether a version bump is a breaking change</li>
+        <li class="no">Any external fact not derivable from the provided text</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════ TAB: PR DESCRIPTION ══════════════════════════ -->
+<div class="panel" id="tab-pr">
+  <h2>PR Description — AI Generation</h2>
+  <p>The <strong>+ PR button</strong> generates an AI-refined description from commits and changed files.</p>
+  <ol class="steps">
+    <li>Fetch branch commits and changed files from <code>diffs/commits</code> API in parallel.</li>
+    <li>Filter commits (merge commits optional per settings).</li>
+    <li>Template generator builds structured draft.</li>
+    <li>AI refinement receives draft + commit messages + changed file list — uses file paths to make bullets specific.</li>
+    <li>Refined Markdown set as PR description on creation.</li>
+  </ol>
+  <h3>Logging</h3>
+  <div>
+    <span class="logb">[tool-error]</span> immediate stderr on tool failure<br>
+    <span class="logb">[plan]</span> planText preview after PLANNING<br>
+    <span class="logb">[remediate]</span> 0 patches applied warning<br>
+    <span class="logb">[proving]</span> non-fatal proving failure<br>
+    <span class="logb">[reproducing]</span> pre-fix test run result<br>
+    <span class="logb">[critic]</span> full reject feedback
+  </div>
+</div>
+
+<script>
+// ── Tab switching ─────────────────────────────────────────────────────────
+function showTab(id, el) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  el.classList.add('active');
+}
+
+// ── Diagram animation ─────────────────────────────────────────────────────
+// SVG elements use SVGAnimatedString for className — must use setAttribute.
+function sc(id, cls) {
+  const el = document.getElementById(id);
+  if (el) el.setAttribute('class', cls);
+}
+
+let currentFlow = 'security';
+
+const PATHS = {
+  security: {
+    // No node highlighting — nodes always stay neutral
+    dim:        ['n-repr'],
+    mainEdges:  ['e-idle-ls','e-ls-inv','e-inv-plan','e-plan-rem','e-rem-prov','e-prov-val','e-val-critic','e-critic-pr','e-pr-done'],
+    dimEdges:   ['e-inv-repr','e-repr-plan','e-rem-val','e-repr-fail','e-repr-retry'],
+    retryEdges: ['e-val-rem-retry','e-critic-rem-retry'],
+    failEdges:  ['e-inv-fail','e-rem-fail','e-val-fail','e-pr-fail'],
+  },
+  bug: {
+    dim:        ['n-prov'],
+    mainEdges:  ['e-idle-ls','e-ls-inv','e-inv-repr','e-repr-plan','e-plan-rem','e-rem-val','e-val-critic','e-critic-pr','e-pr-done'],
+    dimEdges:   ['e-inv-plan','e-rem-prov','e-prov-val'],
+    retryEdges: ['e-val-rem-retry','e-critic-rem-retry','e-repr-retry'],
+    failEdges:  ['e-inv-fail','e-repr-fail','e-rem-fail','e-val-fail','e-pr-fail'],
+  },
+};
+
+// All node IDs — always reset to neutral
+const ALL_NODES = ['n-idle','n-ls','n-inv','n-repr','n-plan','n-rem','n-prov','n-val','n-critic','n-pr','n-done','n-fail'];
+const ALL_EDGES = ['e-idle-ls','e-ls-inv','e-inv-plan','e-inv-repr','e-repr-plan','e-plan-rem',
+  'e-rem-prov','e-rem-val','e-prov-val','e-val-critic','e-critic-pr','e-pr-done',
+  'e-inv-fail','e-repr-fail','e-rem-fail','e-val-fail','e-pr-fail',
+  'e-val-rem-retry','e-critic-rem-retry','e-repr-retry'];
+
+function render() {
+  const p = PATHS[currentFlow];
+
+  // All nodes neutral (no glow — flow is shown by edges only)
+  ALL_NODES.forEach(id => sc(id, 'nd'));
+  p.dim.forEach(id => sc(id, 'nd dim'));
+
+  // Active path edges — bright blue
+  p.mainEdges.forEach(id => sc(id, 'eg hl-shared'));
+
+  // Retry edges — always visible
+  p.retryEdges.forEach(id => sc(id, 'eg hl-retry'));
+
+  // Failure edges — faint red
+  p.failEdges.forEach(id => sc(id, 'eg hl-fail'));
+
+  // Off-path branch edges — dim
+  p.dimEdges.forEach(id => sc(id, 'eg dim'));
+
+  // Hide/show the REPRODUCING retry label with the edge
+  const reprLbl = document.getElementById('e-repr-retry-lbl');
+  if (reprLbl) reprLbl.style.opacity = currentFlow === 'bug' ? '1' : '0';
+}
+
+function setFlow(type) {
+  currentFlow = type;
+  const isSec = type === 'security';
+  document.getElementById('btn-sec').className = 'toggle-btn' + (isSec ? ' active-sec' : '');
+  document.getElementById('btn-bug').className = 'toggle-btn' + (!isSec ? ' active-bug' : '');
+  render();
+}
+
+setFlow('security');
+
+// ── Node info panel (hover preview + click to pin) ───────────────────────
+const NODE_INFO = {
+  'n-idle': {
+    name: 'IDLE',
+    color: '#58a6ff',
+    desc: 'Start state. No tools available. Transitions immediately to LOADING_SKILL.',
+    tools: [],
+  },
+  'n-ls': {
+    name: 'LOADING_SKILL',
+    color: '#58a6ff',
+    desc: 'Reads <code>skills/work-item-fix-{type}/SKILL.md</code> and injects it as the system prompt for all subsequent agent phases. No tools available.',
+    tools: [],
+  },
+  'n-inv': {
+    name: 'INVESTIGATING',
+    color: '#58a6ff',
+    desc: 'Fetch the work item, explore the repo, identify root cause and exact files/lines. Goal: smallest possible change. <em>Budget: 50 iterations.</em>',
+    tools: [['r','get_work_item'],['r','read_file'],['r','list_files'],['r','search_code'],['r','find_references']],
+  },
+  'n-repr': {
+    name: 'REPRODUCING',
+    color: '#d29922',
+    badge: 'bug only',
+    desc: 'Receives full INVESTIGATING context — no re-fetch needed. Finds nearest test file, inserts a single failing test. Pre-fix run checks the test <strong>must fail</strong>; retries once with feedback if it passes. Continues regardless. <em>Budget: 20 iter / attempt.</em>',
+    tools: [['r','read_file'],['r','list_files'],['r','search_code'],['r','find_references'],['w','replace_in_file'],['w','apply_patch']],
+  },
+  'n-plan': {
+    name: 'PLANNING',
+    color: '#58a6ff',
+    desc: 'Pure LLM synthesis — no tools. Compresses INVESTIGATING output into a compact, self-contained fix plan. Always draws from <code>investigationResult</code>.',
+    tools: [],
+  },
+  'n-rem': {
+    name: 'REMEDIATING',
+    color: '#3fb950',
+    desc: 'Apply patches exactly as planned. Only exact lines needed — no reformatting or cleanup. Re-entered on validation failure or critic reject. Tool errors injected into retry context.',
+    tools: [['r','get_work_item'],['r','read_file'],['r','list_files'],['r','search_code'],['r','find_references'],['w','replace_in_file'],['w','apply_patch']],
+  },
+  'n-prov': {
+    name: 'PROVING',
+    color: '#bc8cff',
+    badge: 'security only',
+    desc: 'Read-only dry-run. Agent reads patched files and confirms the attack vector is closed — quoting specific lines. Write tools are blocked. Failure is non-fatal. <em>Budget: 20 iterations.</em>',
+    tools: [['r','get_work_item'],['r','read_file'],['r','list_files'],['r','search_code'],['r','find_references']],
+  },
+  'n-val': {
+    name: 'VALIDATING',
+    color: '#58a6ff',
+    desc: '<code>FixValidator</code> runs independently — never accessible to Claude. Checks: (1) patch applied, (2) non-empty files, (3) JSON/XML parseable, (4) output scan passes, (5) patch scope clean, (6) <code>TEST_COMMAND</code> exits 0 if set.',
+    tools: [],
+  },
+  'n-critic': {
+    name: 'CRITIC',
+    color: '#bc8cff',
+    desc: 'Independent LLM call — no tools. Receives fix plan + unified diffs (<code>git diff --cached --unified=5</code>) + acceptance criteria from the work item. A <strong>reject always blocks PR</strong>. Up to 2 parse-retry attempts before hard reject.',
+    tools: [],
+  },
+  'n-pr': {
+    name: 'CREATING_PR',
+    color: '#58a6ff',
+    desc: 'Blocked if patch hash changed since validation. Pushes to <code>ai-fix/wi-&lt;id&gt;-&lt;ts&gt;</code>, creates the PR, and links the work item.',
+    tools: [['ado','create_pull_request'],['ado','link_work_item']],
+  },
+  'n-done': {
+    name: 'COMPLETE',
+    color: '#3fb950',
+    desc: 'Terminal success. PR created, work item linked, rich ADO comment posted with plan summary and PR link.',
+    tools: [],
+  },
+  'n-fail': {
+    name: 'FAILED / BUDGET_EXCEEDED',
+    color: '#f85149',
+    desc: 'Terminal error state. Report JSON + Markdown published as pipeline artifact. Reached when validation retries are exhausted, critic rejects after max attempts, or an unrecoverable error occurs.',
+    tools: [],
+  },
+};
+
+const PILL_COLORS = { r:'#1a2535:#39d0d8', w:'#1a2f1a:#3fb950', ado:'#21252e:#bc8cff' };
+
+function makePill(type, name) {
+  const [bg, fg] = PILL_COLORS[type].split(':');
+  return `<span style="display:inline-block;border-radius:3px;padding:1px 7px;font-size:11px;font-family:monospace;background:${bg};color:${fg}">${name}</span>`;
+}
+
+const NODE_PHASE = {
+  'n-idle':   'IDLE',
+  'n-ls':     'LOADING_SKILL',
+  'n-inv':    'INVESTIGATING',
+  'n-repr':   'REPRODUCING',
+  'n-plan':   'PLANNING',
+  'n-rem':    'REMEDIATING',
+  'n-prov':   'PROVING',
+  'n-val':    'VALIDATING',
+  'n-critic': 'CRITIC',
+  'n-pr':     'CREATING_PR',
+  'n-done':   'COMPLETE',
+  'n-fail':   'FAILED',
+};
+
+let pinnedNode = null;
+
+function renderNodeInfo(id, pinned) {
+  const el = document.getElementById('node-info');
+  if (!id) {
+    el.innerHTML = pinnedNode
+      ? ''
+      : '<span class="ni-hint">Hover or click a state →</span>';
+    el.style.borderColor = '#30363d';
+    el.style.color = '#30363d';
+    el.classList.remove('pinned');
+    return;
+  }
+
+  const color = (NODE_INFO[id] ?? {}).color ?? '#58a6ff';
+  const phaseName = NODE_PHASE[id];
+  const card = phaseName ? document.querySelector('.pc[data-phase="' + phaseName + '"]') : null;
+
+  el.style.borderColor = color;
+  el.style.color = color;
+  el.classList.toggle('pinned', pinned);
+
+  if (!card) return;
+
+  const cardClone = card.cloneNode(true);
+  cardClone.style.cssText = 'border:none;background:transparent;padding:0;margin:0';
+
+  const pinBar = document.createElement('div');
+  pinBar.style.cssText = 'text-align:right;margin-bottom:4px';
+  pinBar.innerHTML = pinned
+    ? '<span class="ni-pin active">📌 pinned · click to unpin</span>'
+    : '<span class="ni-pin">click to pin</span>';
+
+  el.innerHTML = '';
+  el.appendChild(pinBar);
+  el.appendChild(cardClone);
+}
+
+// elementFromPoint approach: works regardless of SVG event propagation quirks.
+// Track last hovered node to avoid redundant renders on every pixel of movement.
+let lastHovered = null;
+
+document.addEventListener('mousemove', (e) => {
+  if (pinnedNode) return;
+  const under = document.elementFromPoint(e.clientX, e.clientY);
+  const found = ALL_NODES.find(id => {
+    const g = document.getElementById(id);
+    return g && (g === under || g.contains(under));
+  }) ?? null;
+  if (found !== lastHovered) {
+    lastHovered = found;
+    renderNodeInfo(found, false);
+  }
+});
+
+// Click to pin/unpin.
+ALL_NODES.forEach(id => {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.addEventListener('click', () => {
+    if (pinnedNode === id) {
+      pinnedNode = null;
+      lastHovered = null;
+      renderNodeInfo(null, false);
+    } else {
+      pinnedNode = id;
+      renderNodeInfo(id, true);
+    }
+  });
+});
+</script>
+</body>
+</html>
